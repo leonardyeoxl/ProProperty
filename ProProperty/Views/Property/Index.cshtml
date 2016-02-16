@@ -1,49 +1,34 @@
 ﻿
 @{
-    Layout = null;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row">
+    <img src="~/Image/header.png"/>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Please put register here</h1>
+        </div>
+        <div class="col-md-8">
+            <script src="http://maps.googleapis.com/maps/api/js">
+            </script>
 
-<!DOCTYPE html>
+            <script>
+                function InitializeMap() {
+                    var latlng = new google.maps.LatLng(1.337025, 103.7865492);
+                    var myOptions = {
+                        zoom: 10,
+                        center: latlng,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <script src="http://maps.googleapis.com/maps/api/js">
-    </script>
-    <script>
-function InitializeMap()
-{
-    var latlng = new google.maps.LatLng(1.337025, 103.7865492);
-    var myOptions = {
-        zoom: 8,
-        center: latlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+                    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    var marker = new google.maps.Marker
-        (
-        {
-            position: new google.maps.LatLng(-34.397, 150.644),
-            map: map,
-            title: 'Click me'
-        }
-    );
-    var marker2 = new google.maps.Marker
-    (
-    {
-        position: new google.maps.LatLng(-34.387, 150.644),
-        map: map,
-        title: 'Click me!'
-    }
-);
-}
-window.onload = InitializeMap;
-    </script>
-    <div id="map_canvas" style="width:900px; height:500px"></div>
 
-</body>
-</html>
+                }
+                window.onload = InitializeMap;
+            </script>
+            <div id="map_canvas" style="width:900px; height:500px"></div>
+        </div>
+    </div>
