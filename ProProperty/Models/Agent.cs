@@ -7,8 +7,9 @@ namespace ProProperty.Models
 {
     public class Agent
     {
+        int agent_id;
         String name;
         int contactNumber;
-
+        String email;
     }
 }
