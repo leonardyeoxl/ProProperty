@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <script src="http://maps.googleapis.com/maps/api/js">
+    </script>
+    <script>
+function InitializeMap()
+{
+    var latlng = new google.maps.LatLng(1.337025, 103.7865492);
+    var myOptions = {
+        zoom: 8,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    var marker = new google.maps.Marker
+        (
+        {
+            position: new google.maps.LatLng(-34.397, 150.644),
+            map: map,
+            title: 'Click me'
+        }
+    );
+    var marker2 = new google.maps.Marker
+    (
+    {
+        position: new google.maps.LatLng(-34.387, 150.644),
+        map: map,
+        title: 'Click me!'
+    }
+);
+}
+window.onload = InitializeMap;
+    </script>
+    <div id="map_canvas" style="width:900px; height:500px"></div>
+
+</body>
+</html>
