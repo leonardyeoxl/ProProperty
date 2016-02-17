@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ProProperty.Models.Property>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +8,38 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            <h1>Please put register here</h1>
+            <h1>Property Search</h1>
+                <div class="row">
+                    <span class="col-md-6">Price</span>
+                    <span class="col-md-6">@Html.DropDownList("priceRange_DDL")</span>
+                    
+                </div>
+                <div class="row">
+                    <span class="col-md-6">Property Type</span>
+                    <span class="col-md-6">@Html.DropDownList("propertyType_DDL")</span>
+                    
+                </div>
+                <div class="row">
+                    <span class="col-md-6">Room</span>
+                    <span class="col-md-6">@Html.DropDownList("roomType_DDL")</span>
+                </div>
+                <div class="row">
+                    <span class="col-md-6">District</span>
+                    <span class="col-md-6">@Html.DropDownList("district_DDL")</span>
+                </div><br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        @{
+                            foreach(String item in ViewBag.PremiseType)
+                            {
+                                @Html.CheckBox("cb_" + item, false, new { value = item });<span>&nbsp;</span>
+                               @Html.Label("cb_" + item,item)<br/>
+                            }
+                        }
+                    </div>
+                </div><br/>
+            <button type="submit" class="btn btn-success btn-md">Go</button>
+
         </div>
         <div class="col-md-8">
             <script src="http://maps.googleapis.com/maps/api/js">
