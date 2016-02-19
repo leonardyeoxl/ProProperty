@@ -7,9 +7,9 @@ namespace ProProperty.Models
 {
     public class Agent
     {
-        int agent_id;
-        String name;
-        int contactNumber;
-        String email;
+        public int agent_id { get; set; }
+        public String name { get; set; }
+        public int contactNumber { get; set; }
+        public String email { get; set; }
     }
 }
