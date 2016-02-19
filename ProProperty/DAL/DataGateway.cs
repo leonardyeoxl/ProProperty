@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
+
 namespace ProProperty.DAL
 {
     public class DataGateway<T> : IDataGateway<T> where T : class
@@ -15,24 +16,21 @@ namespace ProProperty.DAL
         {
             this.data = db.Set<T>();
         }
-
-        //returns property when user selects the options
-        IEnumerable<T> getPropertyBasedOnOptions()
-        {
-            //get the options
-            //do algorithm based db
-            //return the array of 
-            throw new NotImplementedException();
-        }
-
-        //returns premise when user clicks on the property
-        IEnumerable<T> IDataGateway<T>.getPremisesFromProperty(T obj)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         IEnumerable<T> IDataGateway<T>.getPropertyBasedOnOptions()
         {
+            //get the options
+            //do algo based db
+            //return the list of properties
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<T> IDataGateway<T>.getPremisesFromProperty(T obj)
+        {
+            //get the property object
+            //do algo to get the list of premises that are near the property
+            //return the list of premises
             throw new NotImplementedException();
         }
     }
