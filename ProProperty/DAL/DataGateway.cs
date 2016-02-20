@@ -23,7 +23,8 @@ namespace ProProperty.DAL
             //get the options
             //do algo based db
             //return the list of properties
-            throw new NotImplementedException();
+            return data;
+            //throw new NotImplementedException();
         }
 
         IEnumerable<T> IDataGateway<T>.getPremisesFromProperty(T obj)
