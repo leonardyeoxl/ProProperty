@@ -63,3 +63,28 @@
             <div id="map_canvas" style="width:900px; height:500px"></div>
         </div>
     </div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.block)
+        </th>
+        
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.block)
+            </td>
+            
+        </tr>
+    }
+</table>

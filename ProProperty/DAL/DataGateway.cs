@@ -17,8 +17,7 @@ namespace ProProperty.DAL
             this.data = db.Set<T>();
         }
         
-
-        IEnumerable<T> IDataGateway<T>.getPropertyBasedOnOptions()
+        public IEnumerable<T> getPropertyBasedOnOptions()
         {
             //get the options
             //do algo based db
@@ -27,12 +26,19 @@ namespace ProProperty.DAL
             //throw new NotImplementedException();
         }
 
-        IEnumerable<T> IDataGateway<T>.getPremisesFromProperty(T obj)
+        public IEnumerable<T> getPremisesFromProperty(T obj)
         {
             //get the property object
             //do algo to get the list of premises that are near the property
             //return the list of premises
             throw new NotImplementedException();
         }
+
+        public T SelectById(int? id)
+        {
+            T obj = data.Find(id);
+            return obj;
+        }
+
     }
 }

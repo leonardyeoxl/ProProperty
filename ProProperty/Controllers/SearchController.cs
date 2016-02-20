@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProProperty.DAL;
+using ProProperty.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,9 @@ namespace ProProperty.Controllers
 {
     public class SearchController : Controller
     {
+        private DataGateway<Property> dataGatewayForProperty = new DataGateway<Property>();
+        private DataGateway<PropertyWithPremises> dataGatewayForPremise = new DataGateway<PropertyWithPremises>();
+
         // GET: Search
         public ActionResult Index()
         {

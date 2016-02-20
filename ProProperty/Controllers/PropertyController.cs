@@ -13,6 +13,8 @@ namespace ProProperty.Controllers
     {
         private DataGateway<Property> dataGateway = new DataGateway<Property>();
 
+        static List<Property> model = new List<Property>();
+
         // GET: Property
         public ActionResult Index()
         {
@@ -50,17 +52,23 @@ namespace ProProperty.Controllers
                 premiseType.Add(premiseType_Name[i]);
             }
 
+            var allProperties = dataGateway.getPropertyBasedOnOptions();
+            
 
             ViewBag.PremiseType = premiseType;
             //sample data for testing 
             var property1 = new Property();
-            property1.property_id = 1;
+            property1.propertyID = 1;
             property1.address = "ang mo kio ave 10";
-            property1.latitude = 1.3699034m;
-            property1.longtitude = 103.8454906m;
-            property1.type = "HDB";
+            property1.Latitude = 1.3699034m;
+            property1.Longitude = 103.8454906m;
+            property1.propertyType = "hdb";
 
-            return View();
+            model.Add(property1);
+
+            //Property property = dataGateway.SelectById(1);
+
+            return View(allProperties);
         }
 
         // GET: Property/Details/5
