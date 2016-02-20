@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProProperty.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -46,7 +47,16 @@ namespace ProProperty.Controllers
             }
 
             ViewBag.PremiseType = premiseType;
-            
+            //sample data for testing 
+            var property1 = new Property();
+            property1.property_id = 1;
+            property1.address = "ang mo kio ave 10";
+            property1.latitude = 1.3699034m;
+            property1.longtitude = 103.8454906m;
+            property1.type = "HDB";
+
+
+
             return View();
         }
 
