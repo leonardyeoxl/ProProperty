@@ -3,19 +3,63 @@ using ProProperty.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace ProProperty.Controllers
 {
+    public class JsonResult
+    {
+        public string help { get; set; }
+        public string success { get; set; }
+        public Result result { get; set; }
+    }
+
+    public class Result
+    {
+        public string resource_id { get; set; }
+        public List<Field> fields { get; set; }
+        public List<Record> records { get; set; }
+        public Link _links { get; set; }
+        public int limit { get; set; }
+        public int total { get; set; }
+    }
+
+    public class Record
+    {
+        public string town { get; set; }
+        public string max_selling_price { get; set; }
+        public string financial_year { get; set; }
+        public int _id { get; set; }
+        public string max_selling_price_ahg_shg { get; set; }
+        public string room_type { get; set; }
+        public string min_selling_price { get; set; }
+        public string min_selling_price_ahg_shg { get; set; }
+    }
+
+    public class Field
+    {
+        public string type { get; set; }
+        public string id { get; set; }
+    }
+
+    public class Link
+    {
+        public string start { get; set; }
+        public string next { get; set; }
+    }
+
     public class SearchController : Controller
     {
         private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
         private DataGateway<Premise> premisesDataGateway = new DataGateway<Premise>();
         private TownDatagateway townDataGateway = new TownDatagateway();
+        private DataGateway<Hdb_price_range> hdbPriceRangeDataGateway = new DataGateway<Hdb_price_range>();
         String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
 
-        static Dictionary<String,Boolean> premisesCheckBox = new Dictionary<string, bool>();
+        static Dictionary<String, Boolean> premisesCheckBox = new Dictionary<string, bool>();
         private Boolean anyPremisesChecked = false;
 
         // GET: Property
@@ -60,15 +104,15 @@ namespace ProProperty.Controllers
             premisesCheckBox.Add(premiseType_Name[9], premisesPetrolStation);
             premisesCheckBox.Add(premiseType_Name[10], premisesCarpark);
 
-            for(int i = 0; i < premisesCheckBox.Count; i++)
+            for (int i = 0; i < premisesCheckBox.Count; i++)
             {
-                if(premisesCheckBox[premiseType_Name[i]])
+                if (premisesCheckBox[premiseType_Name[i]])
                 {
                     anyPremisesChecked = true;
                     break;
                 }
             }
-            
+
             Town town = townDataGateway.SelectByTownName(districtForm);
 
             int min = 0, max = 0;
@@ -123,7 +167,7 @@ namespace ProProperty.Controllers
 
             foreach (Property p in allProperties)
             {
-                if(anyPremisesChecked)
+                if (anyPremisesChecked)
                 {
                     PropertyWithPremises pwp = new PropertyWithPremises() { property = p, listOfPremise = findPremises(p) };
                     if (pwp.listOfPremise.Count > 0)
@@ -136,6 +180,68 @@ namespace ProProperty.Controllers
             }
 
             return View("Index", allProperties);
+        }
+
+        [HttpPost]
+        public ActionResult Sync()
+        {
+            Config();
+            getHdbPriceRange();
+            return View("Index");
+        }
+
+        public void getHdbPriceRange()
+        {
+            string postData = "";
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://data.gov.sg/api/action/datastore_search?resource_id=d23b9636-5812-4b33-951e-b209de710dd5");
+            //request.Headers.Add("AccountKey", ACCOUNT_KEY);
+            //request.Headers.Add("UniqueUserID", UNIQUE_USER_ID);
+            //request.Headers.Add("accept", "application/json");
+            request.Accept = "application/json";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = postData.Length;
+            //request.Host = "http://datamall.mytransport.sg";
+            request.Method = "GET";
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            // Get the stream associated with the response.
+            Stream receiveStream = response.GetResponseStream();
+
+            // Pipes the stream to a higher level stream reader with the required encoding format. 
+            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
+
+            System.Diagnostics.Debug.WriteLine("Response stream received. : HDB PRICE RANGE SET DATA " + DateTime.Now.ToString("hh: mm:ss tt"));
+
+            hdbPriceRangeDataGateway.DeleteAllHdbPriceRange();
+
+            String jsonResponse = readStream.ReadToEnd();
+            JsonResult jsonResult = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<JsonResult>(jsonResponse);
+            foreach (Record i in jsonResult.result.records)
+            {
+                System.Diagnostics.Debug.WriteLine(i._id);
+                System.Diagnostics.Debug.WriteLine(i.town);
+                System.Diagnostics.Debug.WriteLine(i.room_type);
+                System.Diagnostics.Debug.WriteLine(i.min_selling_price_ahg_shg);
+                System.Diagnostics.Debug.WriteLine(i.min_selling_price);
+
+                Hdb_price_range hdbRange = new Hdb_price_range();
+                //hdbRange._id = i._id;
+                hdbRange.town = i.town;
+                hdbRange.room_type = i.room_type;
+                hdbRange.min_selling_price_less_ahg_shg = i.min_selling_price_ahg_shg;
+                hdbRange.min_selling_price = i.min_selling_price;
+                hdbRange.max_selling_price_less_ahg_shg = i.max_selling_price_ahg_shg;
+                hdbRange.max_selling_price = i.max_selling_price;
+                hdbRange.financial_year = i.financial_year;
+
+                hdbPriceRangeDataGateway.Insert(hdbRange);
+
+
+            }
+            response.Close();
+            readStream.Close();
         }
 
         public void Config()

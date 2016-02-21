@@ -46,5 +46,14 @@ namespace ProProperty.DAL
 
         }
 
+        public void DeleteAllHdbPriceRange()
+        {
+            db.Database.ExecuteSqlCommand("TRUNCATE TABLE [Hdb_price_range]");
+        }
+
+        public T SelectById(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
