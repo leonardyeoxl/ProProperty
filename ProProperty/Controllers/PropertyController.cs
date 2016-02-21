@@ -77,9 +77,34 @@ namespace ProProperty.Controllers
                 min = 5000000;
                 max = 10000000;
             }
-            
+
+            double minValue = 0;
+            double maxValue = 0;
+            double squareFoot = 10.7639;
+
+            if (roomTypeForm == "2")
+            {
+                minValue = squareFoot * 45;
+                maxValue = squareFoot * 45;
+            }
+            else if (roomTypeForm == "3")
+            {
+                minValue = squareFoot * 60;
+                maxValue = squareFoot * 65;
+            }
+            else if (roomTypeForm == "4")
+            {
+                minValue = squareFoot * 80;
+                maxValue = squareFoot * 100;
+            }
+            else if (roomTypeForm == "5")
+            {
+                minValue = squareFoot * 110;
+                maxValue = squareFoot * 120;
+            }
+
             var allProperties = propertyDataGateway.SelectAll();
-            allProperties = allProperties.Where(property => property.HDBTown == town.town_id && (property.valuation >= min && property.valuation <= max));
+            allProperties = allProperties.Where(property => property.HDBTown == town.town_id && (property.valuation >= min && property.valuation <= max) && (property.built_size_in_sqft >= Convert.ToDecimal(minValue) && property.built_size_in_sqft <= Convert.ToDecimal(maxValue)));
             
             return View("Index",allProperties);
         }
@@ -98,7 +123,6 @@ namespace ProProperty.Controllers
             propertyType.Add(new SelectListItem() { Text = "Select Type of House" });
             propertyType.Add(new SelectListItem() { Text = "HDB" });
             propertyType.Add(new SelectListItem() { Text = "Condo" });
-            propertyType.Add(new SelectListItem() { Text = "Landed Property" });
 
             ViewBag.propertyType_DDL = propertyType;
 
@@ -107,6 +131,7 @@ namespace ProProperty.Controllers
             roomType.Add(new SelectListItem() { Text = "3" });
             roomType.Add(new SelectListItem() { Text = "4" });
             roomType.Add(new SelectListItem() { Text = "5" });
+            roomType.Add(new SelectListItem() { Text = "Executive Apartment" });
 
             ViewBag.roomType_DDL = roomType;
 
