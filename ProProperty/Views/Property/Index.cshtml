@@ -6,18 +6,23 @@
 <div class="row">
     <img src="~/Image/header.png"/>
     </div>
+
     <div class="row">
+
         <div class="col-md-4">
+            @using (Html.BeginForm("Index", "Property", FormMethod.Get))
+            {
             <h1>Property Search</h1>
+
                 <div class="row">
                     <span class="col-md-6">Price</span>
                     <span class="col-md-6">@Html.DropDownList("priceRange_DDL")</span>
-                    
+
                 </div>
                 <div class="row">
                     <span class="col-md-6">Property Type</span>
                     <span class="col-md-6">@Html.DropDownList("propertyType_DDL")</span>
-                    
+
                 </div>
                 <div class="row">
                     <span class="col-md-6">Room</span>
@@ -26,21 +31,22 @@
                 <div class="row">
                     <span class="col-md-6">District</span>
                     <span class="col-md-6">@Html.DropDownList("district_DDL")</span>
-                </div><br/>
+                </div><br />
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @{
-                            foreach(String item in ViewBag.PremiseType)
+                            foreach (String item in ViewBag.PremiseType)
                             {
-                                @Html.CheckBox("cb_" + item, false, new { value = item });<span>&nbsp;</span>
-                               @Html.Label("cb_" + item,item)<br/>
+                                @Html.CheckBox("checkbox_Premises" + item);<span>&nbsp;</span>
+                                @Html.Label("checkbox_Premises" + item, item)<br />
                             }
                         }
                     </div>
-                </div><br/>
-            <button type="submit" class="btn btn-success btn-md">Go</button>
+                </div><br />
+                <button type="submit" class="btn btn-success btn-md">Go</button>
+                            }
 
-        </div>
+</div>
         <div class="col-md-8">
             <script src="http://maps.googleapis.com/maps/api/js">
             </script>
@@ -63,6 +69,7 @@
             <div id="map_canvas" style="width:900px; height:500px"></div>
         </div>
     </div>
+
 
 <table class="table">
     <tr>
@@ -87,4 +94,4 @@
             
         </tr>
     }
-</table>
+</table> 

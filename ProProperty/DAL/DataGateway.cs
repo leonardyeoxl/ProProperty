@@ -17,7 +17,7 @@ namespace ProProperty.DAL
             this.data = db.Set<T>();
         }
         
-        public IEnumerable<T> getPropertyBasedOnOptions()
+        public IEnumerable<T> getAllProperties()
         {
             //get the options
             //do algo based db

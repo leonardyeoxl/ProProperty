@@ -15,18 +15,24 @@ namespace ProProperty.Controllers
 
         static List<Property> model = new List<Property>();
 
+        static List<bool> premisesCheckBox = new List<bool>();
+
         // GET: Property
-        public ActionResult Index()
+        public ActionResult Index(FormCollection formCollection)
         {
             List<SelectListItem> priceRange = new List<SelectListItem>();
             priceRange.Add(new SelectListItem() { Text = "Select Max Price"});
-            priceRange.Add(new SelectListItem() { Text = "[--- Price Range here --]" });
+            priceRange.Add(new SelectListItem() { Text = "500k - 1m" });
+            priceRange.Add(new SelectListItem() { Text = "1m - 5m" });
+            priceRange.Add(new SelectListItem() { Text = "5m >" });
 
             ViewBag.priceRange_DDL = priceRange;
 
             List<SelectListItem> propertyType = new List<SelectListItem>();
-            propertyType.Add(new SelectListItem() { Text = "Type of House" });
-            propertyType.Add(new SelectListItem() { Text = "[--- House type here --]" });
+            propertyType.Add(new SelectListItem() { Text = "Select Type of House" });
+            propertyType.Add(new SelectListItem() { Text = "HDB" });
+            propertyType.Add(new SelectListItem() { Text = "Condo" });
+            propertyType.Add(new SelectListItem() { Text = "Landed Property" });
 
             ViewBag.propertyType_DDL = propertyType;
 
@@ -39,8 +45,8 @@ namespace ProProperty.Controllers
             ViewBag.roomType_DDL = roomType;
 
             List<SelectListItem> districtArea = new List<SelectListItem>();
-            districtArea.Add(new SelectListItem() { Text = "Area" });
-            districtArea.Add(new SelectListItem() { Text = "[-- District Choices --]" });
+            districtArea.Add(new SelectListItem() { Text = "Select Area" });
+            districtArea.Add(new SelectListItem() { Text = "Yishun" });
 
             ViewBag.district_DDL = districtArea;
 
@@ -52,21 +58,88 @@ namespace ProProperty.Controllers
                 premiseType.Add(premiseType_Name[i]);
             }
 
-            var allProperties = dataGateway.getPropertyBasedOnOptions();
+            ViewBag.PremiseType = premiseType;
+
+            var allProperties = dataGateway.getAllProperties();
+            
+                string priceRangeForm = formCollection["priceRange_DDL"];
+                string propertyTypeForm = formCollection["propertyType_DDL"];
+                string roomTypeForm = formCollection["roomType_DDL"];
+                string districtForm = formCollection["district_DDL"];
+
+            if(formCollection["checkbox_PremisesSchool"] == "true")
+            {
+                bool premisesSchool = Convert.ToBoolean(formCollection["checkbox_PremisesSchool"].Split(',')[0]);
+                bool premisesShoppingMall = Convert.ToBoolean(formCollection["checkbox_PremisesShopping Mall"].Split(',')[0]);
+                bool premisesCommunityClub = Convert.ToBoolean(formCollection["checkbox_PremisesCommunity Club"].Split(',')[0]);
+                bool premisesFitnessCentre = Convert.ToBoolean(formCollection["checkbox_PremisesFitness Centre"].Split(',')[0]);
+                bool premisesPark = Convert.ToBoolean(formCollection["checkbox_PremisesPark"].Split(',')[0]);
+                bool premisesClinic = Convert.ToBoolean(formCollection["checkbox_PremisesClinic"].Split(',')[0]);
+                bool premisesMRTStation = Convert.ToBoolean(formCollection["checkbox_PremisesMRT Station"].Split(',')[0]);
+                bool premisesBusStop = Convert.ToBoolean(formCollection["checkbox_PremisesBus Stop"].Split(',')[0]);
+                bool premisesHighway = Convert.ToBoolean(formCollection["checkbox_PremisesHighway"].Split(',')[0]);
+                bool premisesPetrolStation = Convert.ToBoolean(formCollection["checkbox_PremisesPetrol Station"].Split(',')[0]);
+                bool premisesCarpark = Convert.ToBoolean(formCollection["checkbox_PremisesCarpark"].Split(',')[0]);
+
+                premisesCheckBox.Add(premisesSchool);
+                premisesCheckBox.Add(premisesShoppingMall);
+                premisesCheckBox.Add(premisesCommunityClub);
+                premisesCheckBox.Add(premisesFitnessCentre);
+                premisesCheckBox.Add(premisesPark);
+                premisesCheckBox.Add(premisesClinic);
+                premisesCheckBox.Add(premisesMRTStation);
+                premisesCheckBox.Add(premisesBusStop);
+                premisesCheckBox.Add(premisesHighway);
+                premisesCheckBox.Add(premisesPetrolStation);
+                premisesCheckBox.Add(premisesCarpark);
+
+                //var allProperties = dataGateway.getAllProperties();
+
+                allProperties = allProperties.Where(property => property.HDBTown == 1);
+            }
+                
+
+            return View(allProperties);
             
 
-            ViewBag.PremiseType = premiseType;
-            //sample data for testing 
-            var property1 = new Property();
-            property1.propertyID = 1;
-            property1.address = "ang mo kio ave 10";
-            property1.Latitude = 1.3699034m;
-            property1.Longitude = 103.8454906m;
-            property1.propertyType = "hdb";
+            
+        }
 
-            model.Add(property1);
+        [HttpPost]
+        public ActionResult search(FormCollection formCollection)
+        {
+            string priceRangeForm = formCollection["priceRange_DDL"];
+            string propertyTypeForm = formCollection["propertyType_DDL"];
+            string roomTypeForm = formCollection["roomType_DDL"];
+            string districtForm = formCollection["district_DDL"];
+            
+            bool premisesSchool = Convert.ToBoolean(formCollection["checkbox_PremisesSchool"].Split(',')[0]);
+            bool premisesShoppingMall = Convert.ToBoolean(formCollection["checkbox_PremisesShopping Mall"].Split(',')[0]);
+            bool premisesCommunityClub = Convert.ToBoolean(formCollection["checkbox_PremisesCommunity Club"].Split(',')[0]);
+            bool premisesFitnessCentre = Convert.ToBoolean(formCollection["checkbox_PremisesFitness Centre"].Split(',')[0]);
+            bool premisesPark = Convert.ToBoolean(formCollection["checkbox_PremisesPark"].Split(',')[0]);
+            bool premisesClinic = Convert.ToBoolean(formCollection["checkbox_PremisesClinic"].Split(',')[0]);
+            bool premisesMRTStation = Convert.ToBoolean(formCollection["checkbox_PremisesMRT Station"].Split(',')[0]);
+            bool premisesBusStop = Convert.ToBoolean(formCollection["checkbox_PremisesBus Stop"].Split(',')[0]);
+            bool premisesHighway = Convert.ToBoolean(formCollection["checkbox_PremisesHighway"].Split(',')[0]);
+            bool premisesPetrolStation = Convert.ToBoolean(formCollection["checkbox_PremisesPetrol Station"].Split(',')[0]);
+            bool premisesCarpark = Convert.ToBoolean(formCollection["checkbox_PremisesCarpark"].Split(',')[0]);
 
-            //Property property = dataGateway.SelectById(1);
+            premisesCheckBox.Add(premisesSchool);
+            premisesCheckBox.Add(premisesShoppingMall);
+            premisesCheckBox.Add(premisesCommunityClub);
+            premisesCheckBox.Add(premisesFitnessCentre);
+            premisesCheckBox.Add(premisesPark);
+            premisesCheckBox.Add(premisesClinic);
+            premisesCheckBox.Add(premisesMRTStation);
+            premisesCheckBox.Add(premisesBusStop);
+            premisesCheckBox.Add(premisesHighway);
+            premisesCheckBox.Add(premisesPetrolStation);
+            premisesCheckBox.Add(premisesCarpark);
+
+            var allProperties = dataGateway.getAllProperties();
+
+            allProperties = allProperties.Where(property => property.HDBTown == 1);
 
             return View(allProperties);
         }
