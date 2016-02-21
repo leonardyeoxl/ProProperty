@@ -204,8 +204,16 @@ namespace ProProperty.Controllers
 
         public List<Premise> findPremises(Property property)
         {
-
-            return null;
+            List<Premise> allPremises = premisesDataGateway.SelectAll().ToList();
+            List<Premise> filteredPremises = new List<Premise>();
+            foreach (var premise in allPremises)
+            {
+                if(distanceAlgo(property, premise) <= 1000)
+                {
+                    filteredPremises.Add(premise);
+                }
+            }
+            return filteredPremises;
         }
 
         // GET: Search/Details/5
