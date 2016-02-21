@@ -10,7 +10,7 @@
     <div class="row">
 
         <div class="col-md-4">
-            @using (Html.BeginForm("Index", "Property", FormMethod.Get))
+            @using (Html.BeginForm("SearchProperty", "Property", FormMethod.Post))
             {
             <h1>Property Search</h1>
 
@@ -44,7 +44,7 @@
                     </div>
                 </div><br />
                 <button type="submit" class="btn btn-success btn-md">Go</button>
-                            }
+              }
 
 </div>
         <div class="col-md-8">
@@ -74,7 +74,7 @@
                         infowindow.open(map, marker);
                     });
                 }
-                function createMarker1(id,address, lat, lng, type) {
+                function createMarker1(id, address, lat, lng, type) {
                     console.log(id + lat);
                     console.log(lng);
                     console.log(type);
@@ -83,7 +83,7 @@
                     var marker = new google.maps.Marker
                         (
                             {
-                                position: new google.maps.LatLng(lat,lng),
+                                position: new google.maps.LatLng(lat, lng),
                                 map: map,
                                 icon: image,
                                 title: address
@@ -93,8 +93,7 @@
                     var infowindow = new google.maps.InfoWindow({
                         content: address
                     });
-                    google.maps.event.addListener(marker, 'click', function ()
-                    {
+                    google.maps.event.addListener(marker, 'click', function () {
                         infowindow.open(map, marker);
                     });
                 }
@@ -109,41 +108,43 @@
                         return '/Image/icon/landed.png';
                     }
                 }
-                function returnPremises(type){
-                    if(type=="dining"){
+                function returnPremises(type) {
+                    if (type == "dining") {
                         return 1;
                     }
-                    if(type=="train"){
+                    if (type == "train") {
                         return 1;
                     }
-                    if(type=="school"){
+                    if (type == "school") {
                         return 1;
                     }
-                    if(type=="park"){
+                    if (type == "park") {
                         return 1;
                     }
-                    if(type=="highway"){
+                    if (type == "highway") {
                         return 1;
                     }
-                    if(type="gym"){
+                    if (type = "gym") {
                         return 1;
                     }
-                    if(type=="clinic.png"){
+                    if (type == "clinic.png") {
                         return 1;
                     }
                 }
                 function InitializeMap() {
 
-                    var latlng = new google.maps.LatLng(1.337025, 103.7865492);
+                    var latlng = new google.maps.LatLng(1.373334, 103.835518);
                     var myOptions = {
-                        zoom: 10,
+                        zoom: 11,
                         center: latlng,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     };
                     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
                     //createMarker();
-                    @foreach (var item in Model)
+                    @if (Model != null)
                     {
+                        foreach (var item in Model)
+                        {
                                 @*@Html.DisplayFor(modelItem => item.property_id)
                                 @Html.DisplayFor(modelItem => item.address)
                                 @Html.DisplayFor(modelItem => item.latitude)
@@ -151,7 +152,9 @@
                                 @Html.DisplayFor(modelItem => item.type)*@
                                 <text>createMarker1(@Html.DisplayFor(modelItem => item.propertyID), "@Html.DisplayFor(modelItem => item.address)", @Html.DisplayFor(modelItem => item.Latitude), @Html.DisplayFor(modelItem => item.Longitude),"@Html.DisplayFor(modelItem => item.propertyType)");</text>
                                 @*<text>createMarker();</text>*@
+                        }
                     }
+
 
                 }
                 window.onload = InitializeMap;
@@ -162,27 +165,3 @@
     </div>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.block)
-        </th>
-        
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.block)
-            </td>
-            
-        </tr>
-    }
-</table> 
