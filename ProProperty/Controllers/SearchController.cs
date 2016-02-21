@@ -13,8 +13,10 @@ namespace ProProperty.Controllers
         private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
         private DataGateway<Premise> premisesDataGateway = new DataGateway<Premise>();
         private TownDatagateway townDataGateway = new TownDatagateway();
+        String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
 
-        static List<bool> premisesCheckBox = new List<bool>();
+        static Dictionary<String,Boolean> premisesCheckBox = new Dictionary<string, bool>();
+        private Boolean anyPremisesChecked = false;
 
         // GET: Property
         public ActionResult Index()
@@ -46,18 +48,27 @@ namespace ProProperty.Controllers
             bool premisesPetrolStation = Convert.ToBoolean(formCollection["checkbox_PremisesPetrol Station"].Split(',')[0]);
             bool premisesCarpark = Convert.ToBoolean(formCollection["checkbox_PremisesCarpark"].Split(',')[0]);
 
-            premisesCheckBox.Add(premisesSchool);
-            premisesCheckBox.Add(premisesShoppingMall);
-            premisesCheckBox.Add(premisesCommunityClub);
-            premisesCheckBox.Add(premisesFitnessCentre);
-            premisesCheckBox.Add(premisesPark);
-            premisesCheckBox.Add(premisesClinic);
-            premisesCheckBox.Add(premisesMRTStation);
-            premisesCheckBox.Add(premisesBusStop);
-            premisesCheckBox.Add(premisesHighway);
-            premisesCheckBox.Add(premisesPetrolStation);
-            premisesCheckBox.Add(premisesCarpark);
+            premisesCheckBox.Add(premiseType_Name[0], premisesSchool);
+            premisesCheckBox.Add(premiseType_Name[1], premisesShoppingMall);
+            premisesCheckBox.Add(premiseType_Name[2], premisesCommunityClub);
+            premisesCheckBox.Add(premiseType_Name[3], premisesFitnessCentre);
+            premisesCheckBox.Add(premiseType_Name[4], premisesPark);
+            premisesCheckBox.Add(premiseType_Name[5], premisesClinic);
+            premisesCheckBox.Add(premiseType_Name[6], premisesMRTStation);
+            premisesCheckBox.Add(premiseType_Name[7], premisesBusStop);
+            premisesCheckBox.Add(premiseType_Name[8], premisesHighway);
+            premisesCheckBox.Add(premiseType_Name[9], premisesPetrolStation);
+            premisesCheckBox.Add(premiseType_Name[10], premisesCarpark);
 
+            for(int i = 0; i < premisesCheckBox.Count; i++)
+            {
+                if(premisesCheckBox[premiseType_Name[i]])
+                {
+                    anyPremisesChecked = true;
+                    break;
+                }
+            }
+            
             Town town = townDataGateway.SelectByTownName(districtForm);
 
             int min = 0, max = 0;
@@ -110,6 +121,20 @@ namespace ProProperty.Controllers
                 (property.built_size_in_sqft >= Convert.ToDecimal(minValue) &&
                 property.built_size_in_sqft <= Convert.ToDecimal(maxValue)));
 
+            foreach (Property p in allProperties)
+            {
+                if(anyPremisesChecked)
+                {
+                    PropertyWithPremises pwp = new PropertyWithPremises() { property = p, listOfPremise = findPremises(p) };
+                    if (pwp.listOfPremise.Count > 0)
+                    {
+                        PropertyController.addProperty(pwp);
+                    }
+                    continue;
+                }
+                PropertyController.addProperty(new PropertyWithPremises() { property = p });
+            }
+
             return View("Index", allProperties);
         }
 
@@ -146,8 +171,6 @@ namespace ProProperty.Controllers
 
             ViewBag.district_DDL = districtArea;
 
-            String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
-
             List<String> premiseType = new List<String>();
             for (int i = 0; i < premiseType_Name.Length; i++)
             {
@@ -177,6 +200,12 @@ namespace ProProperty.Controllers
             calculation = R * c;
 
             return calculation;
+        }
+
+        public List<Premise> findPremises(Property property)
+        {
+
+            return null;
         }
 
         // GET: Search/Details/5

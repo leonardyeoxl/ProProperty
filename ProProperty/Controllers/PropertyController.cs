@@ -294,12 +294,12 @@ namespace ProProperty.Controllers
         }
 
         // Controller public methods
-        public void addProperty(PropertyWithPremises property)
+        public static void addProperty(PropertyWithPremises property)
         {
             propertyList.Add(property);
         }
 
-        public IEnumerable<PropertyWithPremises> getAllProperties()
+        public static IEnumerable<PropertyWithPremises> getAllProperties()
         {
             return propertyList;
         }
