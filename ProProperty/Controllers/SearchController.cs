@@ -11,7 +11,8 @@ namespace ProProperty.Controllers
     public class SearchController : Controller
     {
         private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
-        private DataGateway<Town> townDataGateway = new DataGateway<Town>();
+        private DataGateway<Premise> premisesDataGateway = new DataGateway<Premise>();
+        private TownDatagateway townDataGateway = new TownDatagateway();
 
         static List<bool> premisesCheckBox = new List<bool>();
 
@@ -57,7 +58,7 @@ namespace ProProperty.Controllers
             premisesCheckBox.Add(premisesPetrolStation);
             premisesCheckBox.Add(premisesCarpark);
 
-            Town town = townDataGateway.SelectById(districtForm);
+            Town town = townDataGateway.SelectByTownName(districtForm);
 
             int min = 0, max = 0;
 
@@ -103,7 +104,11 @@ namespace ProProperty.Controllers
             }
 
             var allProperties = propertyDataGateway.SelectAll();
-            allProperties = allProperties.Where(property => property.HDBTown == town.town_id && (property.valuation >= min && property.valuation <= max) && (property.built_size_in_sqft >= Convert.ToDecimal(minValue) && property.built_size_in_sqft <= Convert.ToDecimal(maxValue)));
+            allProperties = allProperties.Where(
+                property => property.HDBTown == town.town_id && 
+                (property.valuation >= min && property.valuation <= max) && 
+                (property.built_size_in_sqft >= Convert.ToDecimal(minValue) && 
+                property.built_size_in_sqft <= Convert.ToDecimal(maxValue)));
 
             return View("Index", allProperties);
         }

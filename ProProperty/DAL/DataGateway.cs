@@ -34,7 +34,7 @@ namespace ProProperty.DAL
             throw new NotImplementedException();
         }
 
-        public T SelectById(string id)
+        public T SelectById(int? id)
         {
             T obj = data.Find(id);
             return obj;
