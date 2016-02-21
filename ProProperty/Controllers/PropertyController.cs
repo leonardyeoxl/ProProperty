@@ -128,6 +128,28 @@ namespace ProProperty.Controllers
             ViewBag.PremiseType = premiseType;
         }
 
+        /*distance algo for doing ranging*/
+        public double distanceAlgo(Property property, Premise premise)
+        {
+            double calculation = 0;
+            int R = 6371000;
+
+            double latitude1 = Convert.ToDouble(property.Latitude);
+            double latitude2 = Convert.ToDouble(premise.latitude);
+            double longitude1 = Convert.ToDouble(property.Longitude);
+            double longitude2 = Convert.ToDouble(premise.longitude);
+
+            double totalLatitude = latitude2 - latitude1;
+            double totalLongitude = longitude2 - longitude1;
+
+            double a = Math.Sin(totalLatitude / 2) * Math.Sin(totalLatitude / 2) + Math.Cos(latitude1) * Math.Cos(latitude2) * Math.Sin(totalLongitude/2) * Math.Sin(totalLongitude / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1- a));
+
+            calculation = R * c;
+            
+            return calculation;
+        }
+
         // GET: Property/Details/5
         public ActionResult Details(int id)
         {
