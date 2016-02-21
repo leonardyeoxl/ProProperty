@@ -9,8 +9,9 @@ namespace ProProperty.DAL
 {
     interface IDataGateway<T> where T : class
     {
-        IEnumerable<T> getAllProperties(); //returns property when user selects the options
+        IEnumerable<T> SelectAll(); //returns property when user selects the options
         IEnumerable<T> getPremisesFromProperty(T obj);   //returns premise when user clicks on the property
-        
+        T SelectById(string id);
+
     }
 }

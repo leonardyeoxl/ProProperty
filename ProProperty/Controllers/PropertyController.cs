@@ -11,7 +11,8 @@ namespace ProProperty.Controllers
 {
     public class PropertyController : Controller
     {
-        private DataGateway<Property> dataGateway = new DataGateway<Property>();
+        private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
+        private DataGateway<Town> townDataGateway = new DataGateway<Town>();
 
         static List<Property> model = new List<Property>();
 
@@ -20,45 +21,7 @@ namespace ProProperty.Controllers
         // GET: Property
         public ActionResult Index()
         {
-            List<SelectListItem> priceRange = new List<SelectListItem>();
-            priceRange.Add(new SelectListItem() { Text = "Select Max Price"});
-            priceRange.Add(new SelectListItem() { Text = "500k - 1m" });
-            priceRange.Add(new SelectListItem() { Text = "1m - 5m" });
-            priceRange.Add(new SelectListItem() { Text = "5m >" });
-
-            ViewBag.priceRange_DDL = priceRange;
-
-            List<SelectListItem> propertyType = new List<SelectListItem>();
-            propertyType.Add(new SelectListItem() { Text = "Select Type of House" });
-            propertyType.Add(new SelectListItem() { Text = "HDB" });
-            propertyType.Add(new SelectListItem() { Text = "Condo" });
-            propertyType.Add(new SelectListItem() { Text = "Landed Property" });
-
-            ViewBag.propertyType_DDL = propertyType;
-
-            List<SelectListItem> roomType = new List<SelectListItem>();
-            roomType.Add(new SelectListItem() { Text = "2" });
-            roomType.Add(new SelectListItem() { Text = "3" });
-            roomType.Add(new SelectListItem() { Text = "4" });
-            roomType.Add(new SelectListItem() { Text = "5" });
-
-            ViewBag.roomType_DDL = roomType;
-
-            List<SelectListItem> districtArea = new List<SelectListItem>();
-            districtArea.Add(new SelectListItem() { Text = "Select Area" });
-            districtArea.Add(new SelectListItem() { Text = "Yishun" });
-
-            ViewBag.district_DDL = districtArea;
-
-            String[] premiseType_Name = {"School", "Shopping Mall", "Community Club", "Fitness Centre", "Park","Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark"};
-
-            List<String> premiseType = new List<String>();
-            for(int i=0;i<premiseType_Name.Length;i++)
-            {
-                premiseType.Add(premiseType_Name[i]);
-            }
-
-            ViewBag.PremiseType = premiseType;
+            Config();
 
             return View();
         }
@@ -66,45 +29,7 @@ namespace ProProperty.Controllers
         [HttpPost]
         public ActionResult SearchProperty(FormCollection formCollection)
         {
-            List<SelectListItem> priceRange = new List<SelectListItem>();
-            priceRange.Add(new SelectListItem() { Text = "Select Max Price" });
-            priceRange.Add(new SelectListItem() { Text = "500k - 1m" });
-            priceRange.Add(new SelectListItem() { Text = "1m - 5m" });
-            priceRange.Add(new SelectListItem() { Text = "5m >" });
-
-            ViewBag.priceRange_DDL = priceRange;
-
-            List<SelectListItem> propertyType = new List<SelectListItem>();
-            propertyType.Add(new SelectListItem() { Text = "Select Type of House" });
-            propertyType.Add(new SelectListItem() { Text = "HDB" });
-            propertyType.Add(new SelectListItem() { Text = "Condo" });
-            propertyType.Add(new SelectListItem() { Text = "Landed Property" });
-
-            ViewBag.propertyType_DDL = propertyType;
-
-            List<SelectListItem> roomType = new List<SelectListItem>();
-            roomType.Add(new SelectListItem() { Text = "2" });
-            roomType.Add(new SelectListItem() { Text = "3" });
-            roomType.Add(new SelectListItem() { Text = "4" });
-            roomType.Add(new SelectListItem() { Text = "5" });
-
-            ViewBag.roomType_DDL = roomType;
-
-            List<SelectListItem> districtArea = new List<SelectListItem>();
-            districtArea.Add(new SelectListItem() { Text = "Select Area" });
-            districtArea.Add(new SelectListItem() { Text = "Yishun" });
-
-            ViewBag.district_DDL = districtArea;
-
-            String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
-
-            List<String> premiseType = new List<String>();
-            for (int i = 0; i < premiseType_Name.Length; i++)
-            {
-                premiseType.Add(premiseType_Name[i]);
-            }
-
-            ViewBag.PremiseType = premiseType;
+            Config();
 
             string priceRangeForm = formCollection["priceRange_DDL"];
             string propertyTypeForm = formCollection["propertyType_DDL"];
@@ -135,11 +60,57 @@ namespace ProProperty.Controllers
             premisesCheckBox.Add(premisesPetrolStation);
             premisesCheckBox.Add(premisesCarpark);
 
-            var allProperties = dataGateway.getAllProperties();
+            Town town  = townDataGateway.SelectById(districtForm);
 
-            allProperties = allProperties.Where(property => property.HDBTown == 1);
+
+            var allProperties = propertyDataGateway.SelectAll();
+            allProperties = allProperties.Where(property => property.HDBTown == town.town_id);
             
             return View("Index",allProperties);
+        }
+
+        public void Config()
+        {
+            List<SelectListItem> priceRange = new List<SelectListItem>();
+            priceRange.Add(new SelectListItem() { Text = "Select Max Price" });
+            priceRange.Add(new SelectListItem() { Text = "500k - 1m" });
+            priceRange.Add(new SelectListItem() { Text = "1m - 5m" });
+            priceRange.Add(new SelectListItem() { Text = "5m >" });
+
+            ViewBag.priceRange_DDL = priceRange;
+
+            List<SelectListItem> propertyType = new List<SelectListItem>();
+            propertyType.Add(new SelectListItem() { Text = "Select Type of House" });
+            propertyType.Add(new SelectListItem() { Text = "HDB" });
+            propertyType.Add(new SelectListItem() { Text = "Condo" });
+            propertyType.Add(new SelectListItem() { Text = "Landed Property" });
+
+            ViewBag.propertyType_DDL = propertyType;
+
+            List<SelectListItem> roomType = new List<SelectListItem>();
+            roomType.Add(new SelectListItem() { Text = "2" });
+            roomType.Add(new SelectListItem() { Text = "3" });
+            roomType.Add(new SelectListItem() { Text = "4" });
+            roomType.Add(new SelectListItem() { Text = "5" });
+
+            ViewBag.roomType_DDL = roomType;
+
+            List<SelectListItem> districtArea = new List<SelectListItem>();
+            districtArea.Add(new SelectListItem() { Text = "Select Area" });
+            districtArea.Add(new SelectListItem() { Text = "Yishun" });
+            districtArea.Add(new SelectListItem() { Text = "Ang Mo Kio" });
+
+            ViewBag.district_DDL = districtArea;
+
+            String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
+
+            List<String> premiseType = new List<String>();
+            for (int i = 0; i < premiseType_Name.Length; i++)
+            {
+                premiseType.Add(premiseType_Name[i]);
+            }
+
+            ViewBag.PremiseType = premiseType;
         }
 
         // GET: Property/Details/5

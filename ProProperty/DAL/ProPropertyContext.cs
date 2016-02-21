@@ -19,5 +19,6 @@ namespace ProProperty.DAL
         //and create a new database which contains a Tours table(based on Tours class)
         public DbSet<Property> Properties { get; set; }
         public DbSet<Premise> Premises { get; set; }
+        public DbSet<Town> Town { get; set; }
     }
 }

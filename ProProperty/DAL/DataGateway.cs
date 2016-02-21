@@ -17,7 +17,7 @@ namespace ProProperty.DAL
             this.data = db.Set<T>();
         }
         
-        public IEnumerable<T> getAllProperties()
+        public IEnumerable<T> SelectAll()
         {
             //get the options
             //do algo based db
@@ -34,7 +34,7 @@ namespace ProProperty.DAL
             throw new NotImplementedException();
         }
 
-        public T SelectById(int? id)
+        public T SelectById(string id)
         {
             T obj = data.Find(id);
             return obj;
