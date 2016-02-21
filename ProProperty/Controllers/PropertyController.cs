@@ -13,9 +13,7 @@ namespace ProProperty.Controllers
     {
         private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
         private DataGateway<Town> townDataGateway = new DataGateway<Town>();
-
-        static List<Property> model = new List<Property>();
-
+        
         static List<bool> premisesCheckBox = new List<bool>();
 
         // GET: Property
