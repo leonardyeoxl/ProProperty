@@ -62,9 +62,26 @@ namespace ProProperty.Controllers
 
             Town town  = townDataGateway.SelectById(districtForm);
 
+            int min = 0, max = 0;
 
+            if (priceRangeForm == "500k - 1m")
+            {
+                min = 500000;
+                max = 1000000;
+            }
+            else if (priceRangeForm == "1m - 5m")
+            {
+                min = 1000000;
+                max = 5000000;
+            }
+            else
+            {
+                min = 5000000;
+                max = 10000000;
+            }
+            
             var allProperties = propertyDataGateway.SelectAll();
-            allProperties = allProperties.Where(property => property.HDBTown == town.town_id);
+            allProperties = allProperties.Where(property => property.HDBTown == town.town_id && (property.valuation >= min && property.valuation <= max));
             
             return View("Index",allProperties);
         }
