@@ -45,8 +45,12 @@
                 </div><br />
                 <button type="submit" class="btn btn-success btn-md">Go</button>
               }
-
-</div>
+            <br />
+            @using (Html.BeginForm("Sync", "Property", FormMethod.Post))
+            {
+            <button type="submit" class="btn btn-success btn-md">Sync</button>
+            }
+        </div>
         <div class="col-md-8">
             <script src="http://maps.googleapis.com/maps/api/js">
             </script>
