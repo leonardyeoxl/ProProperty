@@ -46,19 +46,110 @@
             </script>
 
             <script>
+                var map;
+                function createMarker() {
+                    var name = "hdb";
+                    var image = returnIcon(name);
+                    var marker = new google.maps.Marker
+                        (
+                            {
+                                position: new google.maps.LatLng(1.3699034, 103.8454906),
+                                map: map,
+                                icon: image,
+                                title: '@Html.DisplayNameFor(model => model.property_id)'
+                            }
+                        );
+                    //for clicking on the marker
+                    var infowindow = new google.maps.InfoWindow({
+                        content: '@Html.DisplayNameFor(model => model.address)'
+                    });
+                    google.maps.event.addListener(marker, 'click', function () {
+
+                        infowindow.open(map, marker);
+                    });
+                }
+                function createMarker1(id,address, lat, lng, type) {
+                    console.log(id + lat);
+                    console.log(lng);
+                    console.log(type);
+                    var image = returnIcon(type);
+                    console.log(image);
+                    var marker = new google.maps.Marker
+                        (
+                            {
+                                position: new google.maps.LatLng(lat,lng),
+                                map: map,
+                                icon: image,
+                                title: address
+                            }
+                        );
+                    //for clicking on the marker
+                    var infowindow = new google.maps.InfoWindow({
+                        content: address
+                    });
+                    google.maps.event.addListener(marker, 'click', function ()
+                    {
+                        infowindow.open(map, marker);
+                    });
+                }
+                function returnIcon(type) {
+                    if (type == "hdb") {
+                        return '/Image/icon/hdb.png';
+                    }
+                    if (type == "private") {
+                        return '/Image/icon/private.png';
+                    }
+                    if (type == "landed") {
+                        return '/Image/icon/landed.png';
+                    }
+                }
+                function returnPremises(type){
+                    if(type=="dining"){
+                        return 1;
+                    }
+                    if(type=="train"){
+                        return 1;
+                    }
+                    if(type=="school"){
+                        return 1;
+                    }
+                    if(type=="park"){
+                        return 1;
+                    }
+                    if(type=="highway"){
+                        return 1;
+                    }
+                    if(type="gym"){
+                        return 1;
+                    }
+                    if(type=="clinic.png"){
+                        return 1;
+                    }
+                }
                 function InitializeMap() {
+
                     var latlng = new google.maps.LatLng(1.337025, 103.7865492);
                     var myOptions = {
                         zoom: 10,
                         center: latlng,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     };
-
-                    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
+                    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                    //createMarker();
+                    @foreach (var item in Model)
+                    {
+                                @*@Html.DisplayFor(modelItem => item.property_id)
+                                @Html.DisplayFor(modelItem => item.address)
+                                @Html.DisplayFor(modelItem => item.latitude)
+                                de=@Html.DisplayFor(modelItem => item.longtitude)
+                                @Html.DisplayFor(modelItem => item.type)*@
+                                <text>createMarker1(@Html.DisplayFor(modelItem => item.propertyID), "@Html.DisplayFor(modelItem => item.address)", @Html.DisplayFor(modelItem => item.Latitude), @Html.DisplayFor(modelItem => item.Longitude),"@Html.DisplayFor(modelItem => item.propertyType)");</text>
+                                @*<text>createMarker();</text>*@
+                    }
 
                 }
                 window.onload = InitializeMap;
+
             </script>
             <div id="map_canvas" style="width:900px; height:500px"></div>
         </div>
