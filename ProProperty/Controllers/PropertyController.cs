@@ -61,15 +61,10 @@ namespace ProProperty.Controllers
     {
         private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
         private DataGateway<Town> townDataGateway = new DataGateway<Town>();
-        private DataGateway<Hdb_price_range> hdbPriceRangeDataGateway = new DataGateway<Hdb_price_range>();
-
-        static List<bool> premisesCheckBox = new List<bool>();
-
+        
         // GET: Property
         public ActionResult Index()
         {
-            Config();
-
             return View();
         }
 
@@ -158,66 +153,6 @@ namespace ProProperty.Controllers
             return View("Index",allProperties);
         }
 
-        [HttpPost]
-        public ActionResult Sync()
-        {
-            Config();
-            getHdbPriceRange();
-            return View("Index");
-        }
-
-        public void getHdbPriceRange()
-        {
-            string postData = "";
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://data.gov.sg/api/action/datastore_search?resource_id=d23b9636-5812-4b33-951e-b209de710dd5");
-            //request.Headers.Add("AccountKey", ACCOUNT_KEY);
-            //request.Headers.Add("UniqueUserID", UNIQUE_USER_ID);
-            //request.Headers.Add("accept", "application/json");
-            request.Accept = "application/json";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = postData.Length;
-            //request.Host = "http://datamall.mytransport.sg";
-            request.Method = "GET";
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            // Get the stream associated with the response.
-            Stream receiveStream = response.GetResponseStream();
-
-            // Pipes the stream to a higher level stream reader with the required encoding format. 
-            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
-
-            System.Diagnostics.Debug.WriteLine("Response stream received. : HDB PRICE RANGE SET DATA " + DateTime.Now.ToString("hh: mm:ss tt"));
-
-            String jsonResponse = readStream.ReadToEnd();
-            JsonResult jsonResult = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<JsonResult>(jsonResponse);
-            foreach (Record i in jsonResult.result.records)
-            {
-                System.Diagnostics.Debug.WriteLine(i._id);
-                System.Diagnostics.Debug.WriteLine(i.town);
-                System.Diagnostics.Debug.WriteLine(i.room_type);
-                System.Diagnostics.Debug.WriteLine(i.min_selling_price_ahg_shg);
-                System.Diagnostics.Debug.WriteLine(i.min_selling_price);
-
-                Hdb_price_range hdbRange = new Hdb_price_range();
-                //hdbRange._id = i._id;
-                hdbRange.town = i.town;
-                hdbRange.room_type = i.room_type;
-                hdbRange.min_selling_price_less_ahg_shg = i.min_selling_price_ahg_shg;
-                hdbRange.min_selling_price = i.min_selling_price;
-                hdbRange.max_selling_price_less_ahg_shg = i.max_selling_price_ahg_shg;
-                hdbRange.max_selling_price = i.max_selling_price;
-                hdbRange.financial_year = i.financial_year;
-
-                hdbPriceRangeDataGateway.Insert(hdbRange);
-
-
-            }
-            response.Close();
-            readStream.Close();
-        }
-
         public void Config()
         {
             List<SelectListItem> priceRange = new List<SelectListItem>();
@@ -285,9 +220,11 @@ namespace ProProperty.Controllers
         }
 
         // GET: Property/Details/5
-        public ActionResult Details(int id)
+        public ActionResult PropertyDetails(int id)
         {
-            return View();
+            PropertyWithPremises model = new PropertyWithPremises();
+            model.property = propertyDataGateway.SelectById(id);
+            return View(model);
         }
 
         // GET: Property/Create
@@ -354,6 +291,17 @@ namespace ProProperty.Controllers
             {
                 return View();
             }
+        }
+
+        // Controller public methods
+        public void addProperty(PropertyWithPremises property)
+        {
+            propertyList.Add(property);
+        }
+
+        public IEnumerable<PropertyWithPremises> getAllProperties()
+        {
+            return propertyList;
         }
     }
 }

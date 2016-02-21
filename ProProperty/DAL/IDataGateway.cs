@@ -11,7 +11,6 @@ namespace ProProperty.DAL
     {
         IEnumerable<T> SelectAll(); //returns property when user selects the options
         IEnumerable<T> getPremisesFromProperty(T obj);   //returns premise when user clicks on the property
-        void Insert(T obj);
         T SelectById(string id);
 
     }

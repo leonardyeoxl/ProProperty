@@ -16,7 +16,7 @@ namespace ProProperty
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Property", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Search", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

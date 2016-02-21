@@ -10,7 +10,7 @@
     <div class="row">
 
         <div class="col-md-4">
-            @using (Html.BeginForm("SearchProperty", "Property", FormMethod.Post))
+            @using (Html.BeginForm("SearchProperty", "Search", FormMethod.Post))
             {
             <h1>Property Search</h1>
 
@@ -78,7 +78,7 @@
                         infowindow.open(map, marker);
                     });
                 }
-                function createMarker1(id, address, lat, lng, type) {
+                function createMarker1(id, address, lat, lng, type, link) {
                     console.log(id + lat);
                     console.log(lng);
                     console.log(type);
@@ -95,7 +95,7 @@
                         );
                     //for clicking on the marker
                     var infowindow = new google.maps.InfoWindow({
-                        content: address
+                        content: address + '</br><a href="' + link + '"> View property </a>'
                     });
                     google.maps.event.addListener(marker, 'click', function () {
                         infowindow.open(map, marker);
@@ -154,7 +154,7 @@
                                 @Html.DisplayFor(modelItem => item.latitude)
                                 de=@Html.DisplayFor(modelItem => item.longtitude)
                                 @Html.DisplayFor(modelItem => item.type)*@
-                                <text>createMarker1(@Html.DisplayFor(modelItem => item.propertyID), "@Html.DisplayFor(modelItem => item.address)", @Html.DisplayFor(modelItem => item.Latitude), @Html.DisplayFor(modelItem => item.Longitude),"@Html.DisplayFor(modelItem => item.propertyType)");</text>
+                                <text>createMarker1(@Html.DisplayFor(modelItem => item.propertyID), "@Html.DisplayFor(modelItem => item.address)", @Html.DisplayFor(modelItem => item.Latitude), @Html.DisplayFor(modelItem => item.Longitude),"@Html.DisplayFor(modelItem => item.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.propertyID } )");</text>
                                 @*<text>createMarker();</text>*@
                         }
                     }

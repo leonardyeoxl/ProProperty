@@ -171,6 +171,7 @@
     <Compile Include="DAL\DataGateway.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
     <Compile Include="DAL\ProPropertyContext.cs" />
+    <Compile Include="DAL\TownDatagateway.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,11 +227,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Property\Index.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Property\PropertyDetails.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Search\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
