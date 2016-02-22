@@ -24,9 +24,15 @@ namespace ProProperty.Controllers
         // GET: Property/Details/5
         public ActionResult PropertyDetails(int id)
         {
-            PropertyWithPremises model = new PropertyWithPremises();
-            model.property = propertyDataGateway.SelectById(id);
-            return View(model);
+            foreach(PropertyWithPremises p in propertyList)
+            {
+                if (p.property.propertyID == id)
+                {
+                    return View(p);
+                }
+            }
+
+            return RedirectToAction("Index", "Search");
         }
 
         // GET: Property/Create
@@ -99,6 +105,11 @@ namespace ProProperty.Controllers
         public static void addProperty(PropertyWithPremises property)
         {
             propertyList.Add(property);
+        }
+
+        public static void clearListProperty()
+        {
+            propertyList.Clear();
         }
 
         public static IEnumerable<PropertyWithPremises> getAllProperties()

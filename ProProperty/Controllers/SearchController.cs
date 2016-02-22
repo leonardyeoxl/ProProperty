@@ -59,7 +59,7 @@ namespace ProProperty.Controllers
         private DataGateway<Hdb_price_range> hdbPriceRangeDataGateway = new DataGateway<Hdb_price_range>();
         String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
 
-        static Dictionary<String, Boolean> premisesCheckBox = new Dictionary<string, bool>();
+        static List<PremiseTypeCB> premisesCheckBox = null;
         private Boolean anyPremisesChecked = false;
 
         // GET: Property
@@ -73,8 +73,6 @@ namespace ProProperty.Controllers
         [HttpPost]
         public ActionResult SearchProperty(FormCollection formCollection)
         {
-            Config();
-
             string priceRangeForm = formCollection["priceRange_DDL"];
             string propertyTypeForm = formCollection["propertyType_DDL"];
             string roomTypeForm = formCollection["roomType_DDL"];
@@ -92,21 +90,21 @@ namespace ProProperty.Controllers
             bool premisesPetrolStation = Convert.ToBoolean(formCollection["checkbox_PremisesPetrol Station"].Split(',')[0]);
             bool premisesCarpark = Convert.ToBoolean(formCollection["checkbox_PremisesCarpark"].Split(',')[0]);
 
-            premisesCheckBox.Add(premiseType_Name[0], premisesSchool);
-            premisesCheckBox.Add(premiseType_Name[1], premisesShoppingMall);
-            premisesCheckBox.Add(premiseType_Name[2], premisesCommunityClub);
-            premisesCheckBox.Add(premiseType_Name[3], premisesFitnessCentre);
-            premisesCheckBox.Add(premiseType_Name[4], premisesPark);
-            premisesCheckBox.Add(premiseType_Name[5], premisesClinic);
-            premisesCheckBox.Add(premiseType_Name[6], premisesMRTStation);
-            premisesCheckBox.Add(premiseType_Name[7], premisesBusStop);
-            premisesCheckBox.Add(premiseType_Name[8], premisesHighway);
-            premisesCheckBox.Add(premiseType_Name[9], premisesPetrolStation);
-            premisesCheckBox.Add(premiseType_Name[10], premisesCarpark);
+            premisesCheckBox[0].isChecked = premisesSchool;
+            premisesCheckBox[1].isChecked = premisesShoppingMall;
+            premisesCheckBox[2].isChecked = premisesCommunityClub;
+            premisesCheckBox[3].isChecked = premisesFitnessCentre;
+            premisesCheckBox[4].isChecked = premisesPark;
+            premisesCheckBox[5].isChecked = premisesClinic;
+            premisesCheckBox[6].isChecked = premisesMRTStation;
+            premisesCheckBox[7].isChecked = premisesBusStop;
+            premisesCheckBox[8].isChecked = premisesHighway;
+            premisesCheckBox[9].isChecked = premisesPetrolStation;
+            premisesCheckBox[10].isChecked = premisesCarpark;
 
             for (int i = 0; i < premisesCheckBox.Count; i++)
             {
-                if (premisesCheckBox[premiseType_Name[i]])
+                if (premisesCheckBox[i].isChecked)
                 {
                     anyPremisesChecked = true;
                     break;
@@ -117,7 +115,12 @@ namespace ProProperty.Controllers
 
             int min = 0, max = 0;
 
-            if (priceRangeForm == "500k - 1m")
+            if( priceRangeForm == "< 500k")
+            {
+                min = 0;
+                max = 500000;
+            }
+            else if (priceRangeForm == "500k - 1m")
             {
                 min = 500000;
                 max = 1000000;
@@ -139,32 +142,35 @@ namespace ProProperty.Controllers
 
             if (roomTypeForm == "2")
             {
-                minValue = squareFoot * 45;
-                maxValue = squareFoot * 45;
+                minValue = Math.Round(squareFoot * 45);
+                maxValue = Math.Round(squareFoot * 45);
             }
             else if (roomTypeForm == "3")
             {
-                minValue = squareFoot * 60;
-                maxValue = squareFoot * 65;
+                minValue = Math.Round(squareFoot * 60);
+                maxValue = Math.Round(squareFoot * 65);
             }
             else if (roomTypeForm == "4")
             {
-                minValue = squareFoot * 80;
-                maxValue = squareFoot * 100;
+                minValue = Math.Round(squareFoot * 80);
+                maxValue = Math.Round(squareFoot * 100);
             }
             else if (roomTypeForm == "5")
             {
-                minValue = squareFoot * 110;
-                maxValue = squareFoot * 120;
+                minValue = Math.Round(squareFoot * 110);
+                maxValue = Math.Round(squareFoot * 120);
             }
 
+            PropertyController.clearListProperty();
             var allProperties = propertyDataGateway.SelectAll();
-            allProperties = allProperties.Where(
-                property => property.HDBTown == town.town_id &&
-                (property.valuation >= min && property.valuation <= max) &&
-                (property.built_size_in_sqft >= Convert.ToDecimal(minValue) &&
-                property.built_size_in_sqft <= Convert.ToDecimal(maxValue)));
-
+            try {
+                allProperties = allProperties.Where(
+                    property => property.HDBTown == town.town_id &&
+                    (property.valuation >= min && property.valuation <= max) &&
+                    (property.built_size_in_sqft >= Convert.ToDecimal(minValue) &&
+                    property.built_size_in_sqft <= Convert.ToDecimal(maxValue)));
+            }
+            catch { return RedirectToAction("Index"); }
             foreach (Property p in allProperties)
             {
                 if (anyPremisesChecked)
@@ -179,7 +185,8 @@ namespace ProProperty.Controllers
                 PropertyController.addProperty(new PropertyWithPremises() { property = p });
             }
 
-            return View("Index", allProperties);
+            Config();
+            return View("Index", PropertyController.getAllProperties());
         }
 
         [HttpPost]
@@ -248,6 +255,7 @@ namespace ProProperty.Controllers
         {
             List<SelectListItem> priceRange = new List<SelectListItem>();
             priceRange.Add(new SelectListItem() { Text = "Select Max Price" });
+            priceRange.Add(new SelectListItem() { Text = "< 500k" });
             priceRange.Add(new SelectListItem() { Text = "500k - 1m" });
             priceRange.Add(new SelectListItem() { Text = "1m - 5m" });
             priceRange.Add(new SelectListItem() { Text = "5m >" });
@@ -277,44 +285,58 @@ namespace ProProperty.Controllers
 
             ViewBag.district_DDL = districtArea;
 
-            List<String> premiseType = new List<String>();
-            for (int i = 0; i < premiseType_Name.Length; i++)
+            if (premisesCheckBox == null)
             {
-                premiseType.Add(premiseType_Name[i]);
+                premisesCheckBox = new List<PremiseTypeCB>();
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[0], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[1], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[2], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[3], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[4], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[5], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[6], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[7], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[8], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[9], isChecked = false });
+                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[10], isChecked = false });
             }
 
-            ViewBag.PremiseType = premiseType;
+            ViewBag.PremiseType = premisesCheckBox;
         }
 
         /*distance algo for doing ranging*/
         public double distanceAlgo(Property property, Premise premise)
         {
             double calculation = 0;
-            int R = 6371000;
-
+            int R = 6371;
+            
             double latitude1 = Convert.ToDouble(property.Latitude);
-            double latitude2 = Convert.ToDouble(premise.latitude);
+            double latitude2 = Convert.ToDouble(premise.premises_lat);
             double longitude1 = Convert.ToDouble(property.Longitude);
-            double longitude2 = Convert.ToDouble(premise.longitude);
+            double longitude2 = Convert.ToDouble(premise.premises_long);
 
-            double totalLatitude = latitude2 - latitude1;
-            double totalLongitude = longitude2 - longitude1;
-
-            double a = Math.Sin(totalLatitude / 2) * Math.Sin(totalLatitude / 2) + Math.Cos(latitude1) * Math.Cos(latitude2) * Math.Sin(totalLongitude / 2) * Math.Sin(totalLongitude / 2);
-            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-            calculation = R * c;
-
+            calculation = R * Math.Acos(Math.Cos(ToRad(latitude1)) * Math.Cos(ToRad(latitude2)) * Math.Cos(ToRad(longitude2) - ToRad(longitude1)) + Math.Sin(ToRad(latitude1)) * Math.Sin(ToRad(latitude2)));
             return calculation;
+        }
+
+        public double ToRad(double degrees)
+        {
+            return degrees * (Math.PI / 180);
         }
 
         public List<Premise> findPremises(Property property)
         {
-            List<Premise> allPremises = premisesDataGateway.SelectAll().ToList();
+            List<Premise> allPremises = new List<Premise>();
+            try {
+                allPremises = premisesDataGateway.SelectAll().ToList();
+            }catch(Exception ex)
+            {
+                string mes = ex.InnerException.ToString();
+            }
             List<Premise> filteredPremises = new List<Premise>();
             foreach (var premise in allPremises)
             {
-                if(distanceAlgo(property, premise) <= 1000)
+                if(distanceAlgo(property, premise) < 1.5)
                 {
                     filteredPremises.Add(premise);
                 }

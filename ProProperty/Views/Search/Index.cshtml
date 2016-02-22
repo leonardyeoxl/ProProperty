@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProProperty.Models.Property>
+﻿@model IEnumerable<ProProperty.Models.PropertyWithPremises>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -35,10 +35,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @{
-                            foreach (String item in ViewBag.PremiseType)
+                            foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
                             {
-                                @Html.CheckBox("checkbox_Premises" + item);<span>&nbsp;</span>
-                                @Html.Label("checkbox_Premises" + item, item)<br />
+                                @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked);<span>&nbsp;</span>
+                                @Html.Label("checkbox_Premises" + item.premiseType, item.premiseType)<br />
                             }
                         }
                     </div>
@@ -57,28 +57,7 @@
 
             <script>
                 var map;
-                function createMarker() {
-                    var name = "hdb";
-                    var image = returnIcon(name);
-                    var marker = new google.maps.Marker
-                        (
-                            {
-                                position: new google.maps.LatLng(1.3699034, 103.8454906),
-                                map: map,
-                                icon: image,
-                                title: '@Html.DisplayNameFor(model => model.propertyID)'
-                            }
-                        );
-                    //for clicking on the marker
-                    var infowindow = new google.maps.InfoWindow({
-                        content: '@Html.DisplayNameFor(model => model.address)'
-                    });
-                    google.maps.event.addListener(marker, 'click', function () {
-
-                        infowindow.open(map, marker);
-                    });
-                }
-                function createMarker1(id, address, lat, lng, type, link) {
+                function createMarker(id, address, lat, lng, type, link) {
                     console.log(id + lat);
                     console.log(lng);
                     console.log(type);
@@ -154,7 +133,7 @@
                                 @Html.DisplayFor(modelItem => item.latitude)
                                 de=@Html.DisplayFor(modelItem => item.longtitude)
                                 @Html.DisplayFor(modelItem => item.type)*@
-                                <text>createMarker1(@Html.DisplayFor(modelItem => item.propertyID), "@Html.DisplayFor(modelItem => item.address)", @Html.DisplayFor(modelItem => item.Latitude), @Html.DisplayFor(modelItem => item.Longitude),"@Html.DisplayFor(modelItem => item.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.propertyID } )");</text>
+                                <text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )");</text>
                                 @*<text>createMarker();</text>*@
                         }
                     }
