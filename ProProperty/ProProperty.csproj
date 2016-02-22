@@ -176,6 +176,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Agent.cs" />
+    <Compile Include="Models\Hdb_price_range.cs" />
     <Compile Include="Models\Premise.cs" />
     <Compile Include="Models\Premises_type.cs" />
     <Compile Include="Models\Property.cs" />
@@ -185,10 +186,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\ProPropertyDB.mdf" />
-    <Content Include="App_Data\ProPropertyDB_log.ldf">
-      <DependentUpon>ProPropertyDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -229,7 +226,9 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Property\PropertyDetails.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

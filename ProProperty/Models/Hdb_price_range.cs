@@ -13,7 +13,7 @@ namespace ProProperty.Models
     {
         [HiddenInput(DisplayValue = false)]
         [Key]
-        public int _id { get; set; }
+        public int hdb_id { get; set; }
         public string financial_year { get; set; }
         public string town { get; set; }
         public string room_type { get; set; }
