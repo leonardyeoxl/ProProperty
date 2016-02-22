@@ -94,27 +94,33 @@
                     return '/Image/icon/landed.png';
                 }
             }
-            function returnPremises(type) {
-                if (type == "dining") {
-                    return 1;
+            function returnPremises(type){
+                if(type==1){
+                    return '/Image/icon/clinic.png';
                 }
-                if (type == "train") {
-                    return 1;
+                if(type==2){
+                    return '/Image/icon/dining.png';
                 }
-                if (type == "school") {
-                    return 1;
+                if(type==3){
+                    return '/Image/icon/gym.png';
                 }
-                if (type == "park") {
-                    return 1;
+                if(type==4){
+                    return '/Image/icon/highway.png';
                 }
-                if (type == "highway") {
-                    return 1;
+                if(type==5){
+                    return '/Image/icon/landed.png';
                 }
-                if (type = "gym") {
-                    return 1;
+                if(type==6){
+                    return '/Image/icon/park.png';
                 }
-                if (type == "clinic.png") {
-                    return 1;
+                if(type==7){
+                    return '/Image/icon/parking.png';
+                }
+                if(type==8){
+                    return '/Image/icon/school.png';
+                }
+                if(type==9){
+                    return '/Image/icon/train.png';
                 }
             }
             function InitializeMap() {
@@ -133,7 +139,7 @@
                         //console.log("got model");
                         foreach (var item in Model.listOfPremise)
                         {
-                                <text>createPremisesMarker(@Html.DisplayFor(modeitem => item.premises_id), "@Html.DisplayFor(model => item.premises_address)", @Html.DisplayFor(model => item.premises_lat), @Html.DisplayFor(model => item.premises_long), "@Html.DisplayFor(model => model.property.propertyType)");</text>
+                                <text>createPremisesMarker(@Html.DisplayFor(modeitem => item.premises_id), "@Html.DisplayFor(model => item.premises_address)", @Html.DisplayFor(model => item.premises_lat), @Html.DisplayFor(model => item.premises_long), "@Html.DisplayFor(model => item.premises_type_id)");</text>
                         }
                     }
 

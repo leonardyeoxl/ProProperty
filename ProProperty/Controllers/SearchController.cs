@@ -234,7 +234,7 @@ namespace ProProperty.Controllers
                 System.Diagnostics.Debug.WriteLine(i.min_selling_price);
 
                 Hdb_price_range hdbRange = new Hdb_price_range();
-                //hdbRange._id = i._id;
+                hdbRange.hdb_id = i._id;
                 hdbRange.town = i.town;
                 hdbRange.room_type = i.room_type;
                 hdbRange.min_selling_price_less_ahg_shg = i.min_selling_price_ahg_shg;
@@ -244,8 +244,7 @@ namespace ProProperty.Controllers
                 hdbRange.financial_year = i.financial_year;
 
                 hdbPriceRangeDataGateway.Insert(hdbRange);
-
-
+                
             }
             response.Close();
             readStream.Close();
