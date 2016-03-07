@@ -166,6 +166,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AveragePricingController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DAL\DataGateway.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Models\PropertyWithPremises.cs" />
     <Compile Include="Models\Town.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HdbPriceRangeGateway.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +196,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\header.png" />
+    <Content Include="Image\icon\clinic.png" />
+    <Content Include="Image\icon\hdb.png" />
+    <Content Include="Image\icon\landed.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\proproperty.pubxml" />
@@ -229,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AveragePricing\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
