@@ -25,14 +25,6 @@ namespace ProProperty.DAL
             return data;
         }
 
-        public IEnumerable<T> getPremisesFromProperty(T obj)
-        {
-            //get the property object
-            //do algo to get the list of premises that are near the property
-            //return the list of premises
-            throw new NotImplementedException();
-        }
-
         public T SelectById(int? id)
         {
             T obj = data.Find(id);
@@ -51,9 +43,6 @@ namespace ProProperty.DAL
             db.Database.ExecuteSqlCommand("TRUNCATE TABLE [Hdb_price_range]");
         }
 
-        public T SelectById(string id)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

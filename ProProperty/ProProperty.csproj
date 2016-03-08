@@ -170,7 +170,9 @@
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DAL\DataGateway.cs" />
+    <Compile Include="DAL\HdbPriceRangeGateway.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
+    <Compile Include="DAL\IHdbPriceRangeGateway.cs" />
     <Compile Include="DAL\ProPropertyContext.cs" />
     <Compile Include="DAL\TownDatagateway.cs" />
     <Compile Include="Global.asax.cs">
@@ -185,7 +187,7 @@
     <Compile Include="Models\PropertyWithPremises.cs" />
     <Compile Include="Models\Town.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\HdbPriceRangeGateway.cs" />
+    <Compile Include="Services\HdbPriceRangeService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

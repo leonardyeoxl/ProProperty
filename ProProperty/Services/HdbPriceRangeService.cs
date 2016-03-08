@@ -10,7 +10,7 @@ using System.Text;
 
 namespace ProProperty.Services
 {
-    public class HdbPriceRangeGateway
+    public class HdbPriceRangeService
     {
 
         private const string URL = "https://data.gov.sg/api/action/datastore_search?resource_id=d23b9636-5812-4b33-951e-b209de710dd5";
@@ -39,19 +39,11 @@ namespace ProProperty.Services
             StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
 
             System.Diagnostics.Debug.WriteLine("Response stream received. : HDB PRICE RANGE SET DATA " + DateTime.Now.ToString("hh: mm:ss tt"));
-
-            //hdbPriceRangeDataGateway.DeleteAllHdbPriceRange();
-
+            
             String jsonResponse = readStream.ReadToEnd();
             JsonResult jsonResult = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<JsonResult>(jsonResponse);
             foreach (Record i in jsonResult.result.records)
             {
-                System.Diagnostics.Debug.WriteLine(i._id);
-                System.Diagnostics.Debug.WriteLine(i.town);
-                System.Diagnostics.Debug.WriteLine(i.room_type);
-                System.Diagnostics.Debug.WriteLine(i.min_selling_price_ahg_shg);
-                System.Diagnostics.Debug.WriteLine(i.min_selling_price);
-
                 Hdb_price_range hdbRange = new Hdb_price_range();
                 hdbRange.hdb_id = i._id;
                 hdbRange.town = i.town;
@@ -62,7 +54,6 @@ namespace ProProperty.Services
                 hdbRange.max_selling_price = i.max_selling_price;
                 hdbRange.financial_year = i.financial_year;
 
-                //hdbPriceRangeDataGateway.Insert(hdbRange);
                 priceRangeList.Add(hdbRange);
 
             }

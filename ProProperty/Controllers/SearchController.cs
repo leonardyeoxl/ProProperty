@@ -19,7 +19,7 @@ namespace ProProperty.Controllers
         private TownDatagateway townDataGateway = new TownDatagateway();
         //private DataGateway<Hdb_price_range> hdbPriceRangeDataGateway = new DataGateway<Hdb_price_range>();
         private DataGateway<Premises_type> PremisesTypeDataGateway = new DataGateway<Premises_type>();
-        String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
+        //String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
 
         static List<PremiseTypeCB> premisesCheckBox = null;
         private Boolean anyPremisesChecked = false;
@@ -150,16 +150,7 @@ namespace ProProperty.Controllers
             Config();
             return View("Index", PropertyController.getAllProperties());
         }
-
-        [HttpPost]
-        public ActionResult Sync()
-        {
-            Config();
-            return View("Index");
-        }
-
         
-
         public void Config()
         {
 

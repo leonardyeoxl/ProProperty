@@ -11,21 +11,54 @@ namespace ProProperty.Controllers
 {
     public class AveragePricingController : Controller
     {
-        internal DataGateway<Hdb_price_range> hdbPriceRangeDataGateway = new DataGateway<Hdb_price_range>();
-        internal HdbPriceRangeGateway HdbPriceRange_Gateway;
-        internal AveragePricingController()
+        public DataGateway<Hdb_price_range> dataGateway = new DataGateway<Hdb_price_range>();
+        public HdbPriceRangeGateway hdbPriceRangeDataGateway = new HdbPriceRangeGateway();
+        public HdbPriceRangeService HdbPriceRange_Gateway;
+        public AveragePricingController()
         {
-            HdbPriceRange_Gateway = new HdbPriceRangeGateway(); //create a new QuoteOfTheDayGateway object.
+            HdbPriceRange_Gateway = new HdbPriceRangeService(); 
         }
 
         // GET: AveragePricing
-        public ActionResult Index()
+        public ActionResult Index(String district, String room)
         {
-            hdbPriceRangeDataGateway.DeleteAllHdbPriceRange();
-            List<Hdb_price_range> priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
+            Config();
 
+            dataGateway.DeleteAllHdbPriceRange();
+            List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
+            priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
+            for (int i=0; i< priceRangeList.Count; i++)
+            {
+                dataGateway.Insert(priceRangeList[i]);
+            }
 
-            return View();
+            if (district != null || room != null)
+            {
+                return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
+            }
+            else
+            {
+                return View(dataGateway.SelectAll()); 
+            }
+
+        }
+
+        public void Config()
+        {
+            List<SelectListItem> roomType = new List<SelectListItem>();
+            roomType.Add(new SelectListItem() { Text = "2-room" });
+            roomType.Add(new SelectListItem() { Text = "3-room" });
+            roomType.Add(new SelectListItem() { Text = "4-room" });
+            roomType.Add(new SelectListItem() { Text = "5-room" });
+
+            ViewBag.roomType_DDL = roomType;
+
+            List<SelectListItem> districtArea = new List<SelectListItem>();
+            districtArea.Add(new SelectListItem() { Text = "Select Area" });
+            districtArea.Add(new SelectListItem() { Text = "Punggol" });
+            districtArea.Add(new SelectListItem() { Text = "Ang Mo Kio" });
+
+            ViewBag.district_DDL = districtArea;
         }
 
         // GET: AveragePricing/Details/5
