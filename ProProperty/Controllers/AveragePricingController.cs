@@ -1,4 +1,6 @@
-﻿using ProProperty.Services;
+﻿using ProProperty.DAL;
+using ProProperty.Models;
+using ProProperty.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace ProProperty.Controllers
 {
     public class AveragePricingController : Controller
     {
-
+        internal DataGateway<Hdb_price_range> hdbPriceRangeDataGateway = new DataGateway<Hdb_price_range>();
         internal HdbPriceRangeGateway HdbPriceRange_Gateway;
         internal AveragePricingController()
         {
@@ -19,6 +21,10 @@ namespace ProProperty.Controllers
         // GET: AveragePricing
         public ActionResult Index()
         {
+            hdbPriceRangeDataGateway.DeleteAllHdbPriceRange();
+            List<Hdb_price_range> priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
+
+
             return View();
         }
 

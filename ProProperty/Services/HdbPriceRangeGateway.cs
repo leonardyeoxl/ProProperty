@@ -15,8 +15,10 @@ namespace ProProperty.Services
 
         private const string URL = "https://data.gov.sg/api/action/datastore_search?resource_id=d23b9636-5812-4b33-951e-b209de710dd5";
 
-        public void getHdbPriceRange()
+        public List<Hdb_price_range> getHdbPriceRange()
         {
+            List <Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
+
             string postData = "";
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
 
@@ -61,10 +63,13 @@ namespace ProProperty.Services
                 hdbRange.financial_year = i.financial_year;
 
                 //hdbPriceRangeDataGateway.Insert(hdbRange);
+                priceRangeList.Add(hdbRange);
 
             }
             response.Close();
             readStream.Close();
+
+            return priceRangeList;
         }
     }
 
