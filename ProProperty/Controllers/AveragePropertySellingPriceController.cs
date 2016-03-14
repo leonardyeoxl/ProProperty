@@ -24,6 +24,8 @@ namespace ProProperty.Controllers
         {
             Config();
 
+            doSynchronization();
+
             return View(dataGateway.SelectAll()); 
 
         }
@@ -33,12 +35,16 @@ namespace ProProperty.Controllers
         {
             Config();
 
+            doSynchronization();
+
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
+            
+            return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
+        }
 
-            //district = "Punggol";
-            //room = "3-room";
-
+        public void doSynchronization()
+        {
             dataGateway.DeleteAllHdbPriceRange();
             List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
             priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
@@ -46,8 +52,6 @@ namespace ProProperty.Controllers
             {
                 dataGateway.Insert(priceRangeList[i]);
             }
-
-            return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
         }
 
         public void Config()
