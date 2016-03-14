@@ -11,7 +11,7 @@ namespace ProProperty.Controllers
 {
     public class AveragePropertySellingPriceController : Controller
     {
-        public DataGateway<Hdb_price_range> dataGateway = new DataGateway<Hdb_price_range>();
+        public DataGateway<Hdb_price_range> commonDataGateway = new DataGateway<Hdb_price_range>();
         public HdbPriceRangeGateway hdbPriceRangeDataGateway = new HdbPriceRangeGateway();
         public HdbPriceRangeService HdbPriceRange_Gateway;
         public AveragePropertySellingPriceController()
@@ -26,7 +26,7 @@ namespace ProProperty.Controllers
 
             doSynchronization();
 
-            return View(dataGateway.SelectAll()); 
+            return View(commonDataGateway.SelectAll()); 
 
         }
 
@@ -45,12 +45,12 @@ namespace ProProperty.Controllers
 
         public void doSynchronization()
         {
-            dataGateway.DeleteAllHdbPriceRange();
+            commonDataGateway.DeleteAllHdbPriceRange();
             List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
             priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
             for (int i = 0; i < priceRangeList.Count; i++)
             {
-                dataGateway.Insert(priceRangeList[i]);
+                commonDataGateway.Insert(priceRangeList[i]);
             }
         }
 
