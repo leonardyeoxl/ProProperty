@@ -20,9 +20,21 @@ namespace ProProperty.Controllers
         }
 
         // GET: AveragePricing
-        public ActionResult Index(String district, String room)
+        public ActionResult Index()
         {
             Config();
+
+            return View(dataGateway.SelectAll()); 
+
+        }
+
+        [HttpPost]
+        public ActionResult Index(FormCollection formCollection)
+        {
+            Config();
+
+            string district = formCollection["district_DDL"];
+            string room = formCollection["roomType_DDL"];
 
             //district = "Punggol";
             //room = "3-room";
@@ -30,20 +42,12 @@ namespace ProProperty.Controllers
             dataGateway.DeleteAllHdbPriceRange();
             List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
             priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
-            for (int i=0; i< priceRangeList.Count; i++)
+            for (int i = 0; i < priceRangeList.Count; i++)
             {
                 dataGateway.Insert(priceRangeList[i]);
             }
 
-            if (district != null || room != null)
-            {
-                return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
-            }
-            else
-            {
-                return View(dataGateway.SelectAll()); 
-            }
-
+            return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
         }
 
         public void Config()

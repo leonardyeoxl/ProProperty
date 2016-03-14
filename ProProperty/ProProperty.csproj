@@ -233,10 +233,10 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Property\PropertyDetails.cshtml" />
+    <Content Include="Views\AveragePricing\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AveragePricing\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
