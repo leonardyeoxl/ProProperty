@@ -11,7 +11,6 @@ namespace ProProperty.Models
     [Table("Hdb_price_range")]
     public class Hdb_price_range
     {
-        [HiddenInput(DisplayValue = false)]
         [Key]
         public int hdb_id { get; set; }
         public string financial_year { get; set; }

@@ -9,7 +9,7 @@ namespace ProProperty.DAL
         //base class constructor takes a database connection string
         //its going to config that connection dynamically for us and 
         //create a database called "ExploreCaliforniaDB" when we run the app
-        public ProPropertyContext() : base("ProPropertyDB")
+        public ProPropertyContext() : base("ict2106_t12_testDB")
         {
 
         }

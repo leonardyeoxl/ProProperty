@@ -24,6 +24,9 @@ namespace ProProperty.Controllers
         {
             Config();
 
+            //district = "Punggol";
+            //room = "3-room";
+
             dataGateway.DeleteAllHdbPriceRange();
             List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
             priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
