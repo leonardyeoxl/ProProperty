@@ -9,12 +9,12 @@ using System.Web.Mvc;
 
 namespace ProProperty.Controllers
 {
-    public class AveragePricingController : Controller
+    public class AveragePropertySellingPriceController : Controller
     {
         public DataGateway<Hdb_price_range> dataGateway = new DataGateway<Hdb_price_range>();
         public HdbPriceRangeGateway hdbPriceRangeDataGateway = new HdbPriceRangeGateway();
         public HdbPriceRangeService HdbPriceRange_Gateway;
-        public AveragePricingController()
+        public AveragePropertySellingPriceController()
         {
             HdbPriceRange_Gateway = new HdbPriceRangeService(); 
         }

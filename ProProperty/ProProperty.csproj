@@ -166,7 +166,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AveragePricingController.cs" />
+    <Compile Include="Controllers\AveragePropertySellingPriceController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DAL\DataGateway.cs" />
