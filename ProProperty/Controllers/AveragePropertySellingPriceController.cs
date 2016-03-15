@@ -35,7 +35,7 @@ namespace ProProperty.Controllers
         {
             Config();
 
-            doSynchronization();
+            //doSynchronization();
 
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
