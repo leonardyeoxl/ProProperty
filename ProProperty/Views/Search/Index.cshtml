@@ -126,6 +126,8 @@
                     {
                         foreach (var item in Model)
                         {
+                            var location = Html.Raw(Json.Encode(item.property));
+                            System.Diagnostics.Debug.WriteLine(location);
                                 @*@Html.DisplayFor(modelItem => item.property_id)
                                 @Html.DisplayFor(modelItem => item.address)
                                 @Html.DisplayFor(modelItem => item.latitude)

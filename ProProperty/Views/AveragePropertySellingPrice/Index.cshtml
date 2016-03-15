@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "Index";
 }
+<!---include for javascript-->
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script type="text/javascript" src="~/Scripts/googleApi.js"></script>
 
+getHello
 <h1>Average Property Pricing</h1>
 
 <div class="row">
@@ -25,62 +29,67 @@
         }
     </div>
 </div>
-    <table class="table">
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.financial_year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.town)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.room_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.min_selling_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.max_selling_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.min_selling_price_less_ahg_shg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.max_selling_price_less_ahg_shg)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.financial_year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.town)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.room_type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.min_selling_price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.max_selling_price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.min_selling_price_less_ahg_shg)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.max_selling_price_less_ahg_shg)
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.financial_year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.town)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.room_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.min_selling_price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.max_selling_price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.min_selling_price_less_ahg_shg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.max_selling_price_less_ahg_shg)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.hdb_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.hdb_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.hdb_id })
+            </td>
         </tr>
+    }
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.financial_year)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.town)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.room_type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.min_selling_price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.max_selling_price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.min_selling_price_less_ahg_shg)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.max_selling_price_less_ahg_shg)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.hdb_id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.hdb_id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.hdb_id })
-                </td>
-            </tr>
-        }
+</table>
+    <img src="MyChart.cshtml" />
+     or <img src='@Url.Action("Controler","ActionNameOfChartRenderingView")' />
 
-    </table>
+<img src="@Url.Action("EfficiencyChart", "AveragePropertySellingPrice")" />
+

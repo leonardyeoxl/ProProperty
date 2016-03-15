@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace ProProperty.Controllers
@@ -25,7 +26,6 @@ namespace ProProperty.Controllers
             Config();
 
             doSynchronization();
-
             return View(commonDataGateway.SelectAll()); 
 
         }
@@ -142,6 +142,25 @@ namespace ProProperty.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult EfficiencyChart()
+        {
+
+            var data = commonDataGateway.SelectAll();
+
+            var myChart = new Chart(width: 1000, height: 600)
+            .AddTitle("Employee's Efficiency")
+            //.DataBindTable(dataSource: data, xField: "financial_year")
+            .AddSeries(
+                chartType: "Line",
+                name: "Employee",
+                xValue: new[] { "2", "6", "4", "5", "3" },
+                yValues: new[] { "10", "6", "4", "5", "3" })
+            .Write();
+            
+            myChart.Save("~/Content/chart"+"hello", "jpeg");
+            // Return the contents of the Stream to the client
+            return base.File("~/Content/chart"+ "hello", "jpeg");
         }
     }
 }
