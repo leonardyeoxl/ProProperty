@@ -145,8 +145,14 @@ namespace ProProperty.Controllers
         }
         public ActionResult EfficiencyChart()
         {
+            //string query = "SELECT EnrollmentDate, COUNT(*) AS StudentCount "
+            //+ "FROM Person "
+            //+ "WHERE Discriminator = 'Student' "
+            //+ "GROUP BY EnrollmentDate";
+            //IEnumerable<Hdb_price_range> data = Database.SqlQuery<>(query);
 
-            var data = commonDataGateway.SelectAll();
+
+            //var data = commonDataGateway.SelectAll();
 
             var myChart = new Chart(width: 1000, height: 600)
             .AddTitle("Employee's Efficiency")
