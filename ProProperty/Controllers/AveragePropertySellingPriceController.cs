@@ -153,6 +153,8 @@ namespace ProProperty.Controllers
 
 
             //var data = commonDataGateway.SelectAll();
+            var data = commonDataGateway.SelectAll();
+            data.Select(s => s.financial_year).ToArray();
 
             var myChart = new Chart(width: 1000, height: 600)
             .AddTitle("Employee's Efficiency")
@@ -160,8 +162,8 @@ namespace ProProperty.Controllers
             .AddSeries(
                 chartType: "Line",
                 name: "Employee",
-                xValue: new[] { "2", "6", "4", "5", "3" },
-                yValues: new[] { "10", "6", "4", "5", "3" })
+                xValue: data.Select(s => s.financial_year).ToArray(),
+                yValues: data.Select(s => s.max_selling_price).ToArray())
             .Write();
             
             myChart.Save("~/Content/chart"+"hello", "jpeg");
