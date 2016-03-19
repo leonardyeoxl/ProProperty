@@ -39,30 +39,32 @@ namespace ProProperty.Controllers
             string propertyTypeForm = formCollection["propertyType_DDL"];
             string roomTypeForm = formCollection["roomType_DDL"];
             string districtForm = formCollection["district_DDL"];
+            
+                
 
-            bool premisesSchool = Convert.ToBoolean(formCollection["checkbox_PremisesSchool"].Split(',')[0]);
-            bool premisesShoppingMall = Convert.ToBoolean(formCollection["checkbox_PremisesShopping Mall"].Split(',')[0]);
-            bool premisesCommunityClub = Convert.ToBoolean(formCollection["checkbox_PremisesCommunity Club"].Split(',')[0]);
-            bool premisesFitnessCentre = Convert.ToBoolean(formCollection["checkbox_PremisesFitness Centre"].Split(',')[0]);
-            bool premisesPark = Convert.ToBoolean(formCollection["checkbox_PremisesPark"].Split(',')[0]);
-            bool premisesClinic = Convert.ToBoolean(formCollection["checkbox_PremisesClinic"].Split(',')[0]);
-            bool premisesMRTStation = Convert.ToBoolean(formCollection["checkbox_PremisesMRT Station"].Split(',')[0]);
-            bool premisesBusStop = Convert.ToBoolean(formCollection["checkbox_PremisesBus Stop"].Split(',')[0]);
-            bool premisesHighway = Convert.ToBoolean(formCollection["checkbox_PremisesHighway"].Split(',')[0]);
-            bool premisesPetrolStation = Convert.ToBoolean(formCollection["checkbox_PremisesPetrol Station"].Split(',')[0]);
-            bool premisesCarpark = Convert.ToBoolean(formCollection["checkbox_PremisesCarpark"].Split(',')[0]);
+            bool premisesSchool = Convert.ToBoolean(formCollection["checkbox_PremisesSchools"].Split(',')[0]);
+            bool premisesShoppingMall = Convert.ToBoolean(formCollection["checkbox_PremisesShopping Malls"].Split(',')[0]);
+            bool premisesCommunityClub = Convert.ToBoolean(formCollection["checkbox_PremisesCommunity Clubs"].Split(',')[0]);
+            bool premisesFitnessCentre = Convert.ToBoolean(formCollection["checkbox_PremisesSport Facilities"].Split(',')[0]);
+            bool premisesPark = Convert.ToBoolean(formCollection["checkbox_PremisesParks"].Split(',')[0]);
+            bool premisesClinic = Convert.ToBoolean(formCollection["checkbox_PremisesClinics"].Split(',')[0]);
+            bool premisesMRTStation = Convert.ToBoolean(formCollection["checkbox_PremisesMRT Stations"].Split(',')[0]);
+            bool premisesBusStop = Convert.ToBoolean(formCollection["checkbox_PremisesBus Stops"].Split(',')[0]);
+            //bool premisesHighway = Convert.ToBoolean(formCollection["checkbox_PremisesHighways"].Split(',')[0]);
+            //bool premisesPetrolStation = Convert.ToBoolean(formCollection["checkbox_PremisesPetrol Stations"].Split(',')[0]);
+            bool premisesCarpark = Convert.ToBoolean(formCollection["checkbox_PremisesHDB Carparks"].Split(',')[0]);
+            bool premisesFoodCourts = Convert.ToBoolean(formCollection["checkbox_PremisesFood Courts"].Split(',')[0]);
 
-            premisesCheckBox[0].isChecked = premisesSchool;
-            premisesCheckBox[1].isChecked = premisesShoppingMall;
-            premisesCheckBox[2].isChecked = premisesCommunityClub;
-            premisesCheckBox[3].isChecked = premisesFitnessCentre;
-            premisesCheckBox[4].isChecked = premisesPark;
-            premisesCheckBox[5].isChecked = premisesClinic;
-            premisesCheckBox[6].isChecked = premisesMRTStation;
-            premisesCheckBox[7].isChecked = premisesBusStop;
-            premisesCheckBox[8].isChecked = premisesHighway;
-            premisesCheckBox[9].isChecked = premisesPetrolStation;
-            premisesCheckBox[10].isChecked = premisesCarpark;
+            premisesCheckBox[0].isChecked = premisesShoppingMall;
+            premisesCheckBox[1].isChecked = premisesFoodCourts;
+            premisesCheckBox[2].isChecked = premisesMRTStation;
+            premisesCheckBox[3].isChecked = premisesBusStop;
+            premisesCheckBox[4].isChecked = premisesCarpark;
+            premisesCheckBox[5].isChecked = premisesPark;
+            premisesCheckBox[6].isChecked = premisesFitnessCentre;
+            premisesCheckBox[7].isChecked = premisesCommunityClub;
+            premisesCheckBox[8].isChecked = premisesSchool;
+            premisesCheckBox[9].isChecked = premisesFoodCourts;
 
             for (int i = 0; i < premisesCheckBox.Count; i++)
             {
