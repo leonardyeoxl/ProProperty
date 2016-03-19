@@ -9,6 +9,22 @@
 <script type="Scripts/googleApi.js">
     testHello;
 </script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('div.col-md-3.dropdown button').on('click', function (event) {
+            $(this).parent().toggleClass('open');
+        });
+    
+        $('body').on('click', function (e) {
+            if (!$('div.col-md-3.dropdown').is(e.target) 
+                && $('div.col-md-3.dropdown').has(e.target).length === 0 
+                && $('.open').has(e.target).length === 0
+            ) {
+                $('div.col-md-3.dropdown').removeClass('open');
+            }
+        });//End of body.onClick function body
+    });//End of document.ready function body
+</script>
 <p id="demo"></p>
     <div class="row">
 
@@ -23,18 +39,17 @@
                     <span class="col-md-2">@Html.DropDownList("roomType_DDL")</span>
                     <span class="col-md-2">@Html.DropDownList("district_DDL")</span>
                     <div class="col-md-3 dropdown">
-                        <button id="dLabel" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Others
-                            <span class="caret" />
+                        <button class="dropdown-toggle" type="button">
+                            Others<span class="caret" />
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <ul class="dropdown-menu">
                             @{
                                 foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
                                 {
                                     <li>
-                                        <a href="#">
+                                        <a href="#" class="small" data-value="@item.premiseType" tabindex="-1">
                                             @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked)
-                                            @Html.Label("checkbox_Premises" + item.premiseType, item.premiseType)
+                                            @item.premiseType
                                         </a>
                                     </li>
                                 }
