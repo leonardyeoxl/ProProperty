@@ -15,35 +15,54 @@
         <div class="col-md-4">
             @using (Html.BeginForm("SearchProperty", "Search", FormMethod.Post))
             {
-            <h1>Property Search</h1>
+                <h1>Property Search</h1>
 
                 <div class="row">
-                    <span class="col-md-6">Price</span>
-                    <span class="col-md-6">@Html.DropDownList("priceRange_DDL")</span>
-
+                    <span class="col-md-3">@Html.DropDownList("priceRange_DDL")</span>
+                    <span class="col-md-2">@Html.DropDownList("propertyType_DDL")</span>
+                    <span class="col-md-2">@Html.DropDownList("roomType_DDL")</span>
+                    <span class="col-md-2">@Html.DropDownList("district_DDL")</span>
+                    <div class="col-md-3 dropdown">
+                        <button id="dLabel" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Others
+                            <span class="caret" />
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            @{
+                                foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
+                                {
+                                    <li>
+                                        <a href="#">
+                                            @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked)
+                                            @Html.Label("checkbox_Premises" + item.premiseType, item.premiseType)
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
                 </div>
                 <div class="row">
                     <span class="col-md-6">Property Type</span>
-                    <span class="col-md-6">@Html.DropDownList("propertyType_DDL")</span>
 
                 </div>
                 <div class="row">
                     <span class="col-md-6">Room</span>
-                    <span class="col-md-6">@Html.DropDownList("roomType_DDL")</span>
+
                 </div>
                 <div class="row">
                     <span class="col-md-6">District</span>
-                    <span class="col-md-6">@Html.DropDownList("district_DDL")</span>
+
                 </div><br />
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @{
+                        @*@{
                             foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
                             {
                                 @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked);<span>&nbsp;</span>
                                 @Html.Label("checkbox_Premises" + item.premiseType, item.premiseType)<br />
                             }
-                        }
+                        }*@
                     </div>
                 </div><br />
                 <button type="submit" class="btn btn-success btn-md">Go</button>
