@@ -3,7 +3,11 @@
     ViewBag.Title = "PropertyDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    table td {
+        border-top: none !important;
+    }
+</style>
 <div class="row">
     <img src="~/Image/header.png" />
 </div>
@@ -150,4 +154,42 @@
         </script>
         <div id="map_canvas" style="width:900px; height:500px"></div>
     </div>
+</div>
+<div class="row">
+    <h3>Legend</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Premises</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="~/Image/icon/private.png" /> Private</td>
+                <td><img src="~/Image/icon/clinic.png" /> Clinic</td>
+                <td><img src="~/Image/icon/dining.png" /> Dining</td>
+                <td><img src="~/Image/icon/school.png" /> School</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><img src="~/Image/icon/hdb.png"> HDB</td>
+                <td><img src="~/Image/icon/gym.png" /> Gym</td>
+                <td><img src="~/Image/icon/highway.png" /> Highway</td>
+                <td><img src="~/Image/icon/supermarket.jpg" /> Supermarket</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><img src="~/Image/icon/landed.png"> Landed</td>
+                <td><img src="~/Image/icon/park.png" /> Park</td>
+                <td><img src="~/Image/icon/parking.png" /> Parking</td>
+                <td><img src="~/Image/icon/train.png" /> Train</td>
+                <td><img src="~/Image/icon/bus.png" /> Bus</td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
