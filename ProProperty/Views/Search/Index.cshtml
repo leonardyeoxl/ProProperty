@@ -4,182 +4,194 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
-    <img src="~/Image/header.png"/>
-    </div>
+    <img src="~/Image/header.png" />
+</div>
 <script type="Scripts/googleApi.js">
     testHello;
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $('div.col-md-3.dropdown button').on('click', function (event) {
+        $('div.col-md-1.dropdown button').on('click', function (event) {
             $(this).parent().toggleClass('open');
         });
-    
+
         $('body').on('click', function (e) {
-            if (!$('div.col-md-3.dropdown').is(e.target) 
-                && $('div.col-md-3.dropdown').has(e.target).length === 0 
+            if (!$('div.col-md-1.dropdown').is(e.target)
+                && $('div.col-md-1.dropdown').has(e.target).length === 0
                 && $('.open').has(e.target).length === 0
             ) {
-                $('div.col-md-3.dropdown').removeClass('open');
+                $('div.col-md-1.dropdown').removeClass('open');
             }
         });//End of body.onClick function body
     });//End of document.ready function body
 </script>
-<p id="demo"></p>
-    <div class="row">
+<div class="row">
 
-        <div class="col-md-4">
-            @using (Html.BeginForm("SearchProperty", "Search", FormMethod.Post))
-            {
-                <h1>Property Search</h1>
+    @using (Html.BeginForm("SearchProperty", "Search", FormMethod.Post))
+    {
 
-                <div class="row">
-                    <span class="col-md-3">@Html.DropDownList("priceRange_DDL")</span>
-                    <span class="col-md-2">@Html.DropDownList("propertyType_DDL")</span>
-                    <span class="col-md-2">@Html.DropDownList("roomType_DDL")</span>
-                    <span class="col-md-2">@Html.DropDownList("district_DDL")</span>
-                    <div class="col-md-3 dropdown">
-                        <button class="dropdown-toggle" type="button">
-                            Others<span class="caret" />
-                        </button>
-                        <ul class="dropdown-menu">
-                            @{
-                                foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
-                                {
-                                    <li>
-                                        <a href="#" class="small" data-value="@item.premiseType" tabindex="-1">
-                                            @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked)
-                                            @item.premiseType
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <span class="col-md-6">Property Type</span>
-
-                </div>
-                <div class="row">
-                    <span class="col-md-6">Room</span>
-
-                </div>
-                <div class="row">
-                    <span class="col-md-6">District</span>
-
-                </div><br />
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        @*@{
-                            foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
-                            {
-                                @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked);<span>&nbsp;</span>
-                                @Html.Label("checkbox_Premises" + item.premiseType, item.premiseType)<br />
-                            }
-                        }*@
-                    </div>
-                </div><br />
-                <button type="submit" class="btn btn-success btn-md">Go</button>
-              }
-        </div>
-        <div class="col-md-8">
-            <script src="http://maps.googleapis.com/maps/api/js">
-            </script>
-
-            <script>
-                var map;
-                function createMarker(id, address, lat, lng, type, link) {
-                    console.log(id + lat);
-                    console.log(lng);
-                    console.log(type);
-                    var image = returnIcon(type);
-                    console.log(image);
-                    var marker = new google.maps.Marker
-                        (
-                            {
-                                position: new google.maps.LatLng(lat, lng),
-                                map: map,
-                                icon: image,
-                                title: address
-                            }
-                        );
-                    //for clicking on the marker
-                    var infowindow = new google.maps.InfoWindow({
-                        content: address + '</br><a href="' + link + '"> View property </a>'
-                    });
-                    google.maps.event.addListener(marker, 'click', function () {
-                        infowindow.open(map, marker);
-                    });
-                }
-                function returnIcon(type) {
-                    if (type == "hdb") {
-                        return '/Image/icon/hdb.png';
-                    }
-                    if (type == "private") {
-                        return '/Image/icon/private.png';
-                    }
-                    if (type == "landed") {
-                        return '/Image/icon/landed.png';
-                    }
-                }
-                function returnPremises(type) {
-                    if (type == "dining") {
-                        return 1;
-                    }
-                    if (type == "train") {
-                        return 1;
-                    }
-                    if (type == "school") {
-                        return 1;
-                    }
-                    if (type == "park") {
-                        return 1;
-                    }
-                    if (type == "highway") {
-                        return 1;
-                    }
-                    if (type = "gym") {
-                        return 1;
-                    }
-                    if (type == "clinic.png") {
-                        return 1;
-                    }
-                }
-                function InitializeMap() {
-
-                    var latlng = new google.maps.LatLng(1.373334, 103.835518);
-                    var myOptions = {
-                        zoom: 11,
-                        center: latlng,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
-                    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-                    //createMarker();
-                    @if (Model != null)
-                    {
-                        foreach (var item in Model)
+        <div class="row">
+            <div class="col-md-3">@Html.DropDownList("priceRange_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-3">@Html.DropDownList("propertyType_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-3">@Html.DropDownList("roomType_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-2">@Html.DropDownList("district_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-1 dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button">
+                    Others<span class="caret" />
+                </button>
+                <ul class="dropdown-menu">
+                    @{
+                        foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
                         {
-                            var location = Html.Raw(Json.Encode(item.property));
-                            System.Diagnostics.Debug.WriteLine(location);
-                                @*@Html.DisplayFor(modelItem => item.property_id)
-                                @Html.DisplayFor(modelItem => item.address)
-                                @Html.DisplayFor(modelItem => item.latitude)
-                                de=@Html.DisplayFor(modelItem => item.longtitude)
-                                @Html.DisplayFor(modelItem => item.type)*@
-                                <text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )");</text>
-                                @*<text>createMarker();</text>*@
+                            <li>
+                                <a href="#" data-value="@item.premiseType">
+                                    @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked)
+                                    @item.premiseType
+                                </a>
+                            </li>
                         }
                     }
+                </ul>
+            </div>
 
+        </div><br />
+        <button type="submit" class="btn btn-success btn-md">Go</button>
+    }
+</div>
 
-                }
-                window.onload = InitializeMap;
+<div class="row">
+    <script src="http://maps.googleapis.com/maps/api/js">
+    </script>
 
-            </script>
+    <script>
+        var map;
+        function createMarker(id, address, lat, lng, type, link) {
+            console.log(id + lat);
+            console.log(lng);
+            console.log(type);
+            var image = returnIcon(type);
+            console.log(image);
+            var marker = new google.maps.Marker
+                (
+                    {
+                        position: new google.maps.LatLng(lat, lng),
+                        map: map,
+                        icon: image,
+                        title: address
+                    }
+                );
+            //for clicking on the marker
+            var infowindow = new google.maps.InfoWindow({
+                content: address + '</br><a href="' + link + '"> View property </a>'
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+        }
+        function returnIcon(type) {
+            if (type == "hdb") {
+                return '/Image/icon/hdb.png';
+            }
+            if (type == "private") {
+                return '/Image/icon/private.png';
+            }
+            if (type == "landed") {
+                return '/Image/icon/landed.png';
+            }
+        }
+        function returnPremises(type) {
+            if (type == "dining") {
+                return 1;
+            }
+            if (type == "train") {
+                return 1;
+            }
+            if (type == "school") {
+                return 1;
+            }
+            if (type == "park") {
+                return 1;
+            }
+            if (type == "highway") {
+                return 1;
+            }
+            if (type = "gym") {
+                return 1;
+            }
+            if (type == "clinic.png") {
+                return 1;
+            }
+        }
+        function InitializeMap() {
 
-            <div id="map_canvas" style="width:900px; height:500px"></div>
-        </div>
-    </div>
+            var latlng = new google.maps.LatLng(1.373334, 103.835518);
+            var myOptions = {
+                zoom: 11,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+            //createMarker();
+            @if (Model != null)
+             {
+                foreach (var item in Model)
+                {
+                    var location = Html.Raw(Json.Encode(item.property));
+                    System.Diagnostics.Debug.WriteLine(location);
+                    @*
+                        @Html.DisplayFor(modelItem => item.property_id)
+                        @Html.DisplayFor(modelItem => item.address)
+                        @Html.DisplayFor(modelItem => item.latitude)
+                        de=@Html.DisplayFor(modelItem => item.longtitude)
+                        @Html.DisplayFor(modelItem => item.type)*@
+                
+                      <text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )");</text>
+                      @*<text>createMarker();</text>*@
+                 }
+             }
+        }
+        window.onload = InitializeMap;
+    </script>
+
+    <div id="map_canvas" class="col-md-8" style="width:600px; height:500px"></div>
+    <div class="col-md-4">[========== Place the Found Property Results here ===========]</div>
+</div>
+<div class="row">
+    <h3>Legend</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Premises</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="~/Image/icon/private.png" /> Private</td>
+                <td><img src="~/Image/icon/clinic.png" /> Clinic</td>
+                <td><img src="~/Image/icon/dining.png" /> Dining</td>
+                <td><img src="~/Image/icon/school.png" /> School</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><img src="~/Image/icon/hdb.png"> HDB</td>
+                <td><img src="~/Image/icon/gym.png" /> Gym</td>
+                <td><img src="~/Image/icon/highway.png" /> Highway</td>
+                <td><img src="~/Image/icon/supermarket.jpg" /> Supermarket</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><img src="~/Image/icon/landed.png"> Landed</td>
+                <td><img src="~/Image/icon/park.png" /> Park</td>
+                <td><img src="~/Image/icon/parking.png" /> Parking</td>
+                <td><img src="~/Image/icon/train.png" /> Train</td>
+                <td><img src="~/Image/icon/bus.png" /> Bus</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 

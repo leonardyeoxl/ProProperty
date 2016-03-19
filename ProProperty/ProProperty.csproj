@@ -199,8 +199,15 @@
     <Content Include="Content\Site.css" />
     <Content Include="Image\header.png" />
     <Content Include="Image\icon\clinic.png" />
+    <Content Include="Image\icon\dining.png" />
+    <Content Include="Image\icon\gym.png" />
     <Content Include="Image\icon\hdb.png" />
+    <Content Include="Image\icon\highway.png" />
     <Content Include="Image\icon\landed.png" />
+    <Content Include="Image\icon\park.png" />
+    <Content Include="Image\icon\parking.png" />
+    <Content Include="Image\icon\school.png" />
+    <Content Include="Image\icon\train.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\proproperty.pubxml" />
