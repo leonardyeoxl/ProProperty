@@ -13,16 +13,27 @@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
+                    <span  class="glyphicon glyphicon-home" aria-hidden="true" style="color:white"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ProProperty", "Index", "Search", null, new { @class = "navbar-brand" })
-            </div>
+                <button class="btn navbar-btn navbar-inverse">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true" style="color:white"></span>
+                    @Html.ActionLink("ProProperty", "Index", "Search", null, new { @style = "color:white;" })
+                    </button>
+</div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Search", "Index", "Search")</li>
-                    <li>@Html.ActionLink("Avg pricing in district", "Index", "AveragePropertySellingPrice")</li>
+                    <li><button class="btn navbar-btn navbar-inverse">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true" style="color:white"></span>
+                        @Html.ActionLink("Search", "Index", "Search", null,new { @style = "color:white;" })
+                        </button>
+                    </li>
+                    <li><button class="btn navbar-btn navbar-inverse">
+                        <span class="glyphicon glyphicon-usd" aria-hidden="true" style="color:white"></span>
+                        @Html.ActionLink("Average pricing in district", "Index", "AveragePropertySellingPrice",null, new { @style = "color:white;" })
+                    </button>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
