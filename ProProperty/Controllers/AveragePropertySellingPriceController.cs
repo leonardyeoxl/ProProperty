@@ -39,7 +39,7 @@ namespace ProProperty.Controllers
 
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
-            
+            //EfficiencyChart(formCollection);
             return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
         }
 
@@ -143,25 +143,28 @@ namespace ProProperty.Controllers
                 return View();
             }
         }
-        public ActionResult EfficiencyChart()
+        public ActionResult EfficiencyChart(FormCollection collection)
         {
+
             //string query = "SELECT EnrollmentDate, COUNT(*) AS StudentCount "
             //+ "FROM Person "
             //+ "WHERE Discriminator = 'Student' "
             //+ "GROUP BY EnrollmentDate";
             //IEnumerable<Hdb_price_range> data = Database.SqlQuery<>(query);
-
+            string district = collection["district_DDL"];
+            string room = collection["roomType_DDL"];
 
             //var data = commonDataGateway.SelectAll();
             var data = commonDataGateway.SelectAll();
             data.Select(s => s.financial_year).ToArray();
 
             var myChart = new Chart(width: 1000, height: 600)
-            .AddTitle("Employee's Efficiency")
+            .AddTitle(district)
             //.DataBindTable(dataSource: data, xField: "financial_year")
+            .AddLegend()
             .AddSeries(
                 chartType: "Line",
-                name: "Employee",
+                name: "Average Price in Singapore",
                 xValue: data.Select(s => s.financial_year).ToArray(),
                 yValues: data.Select(s => s.max_selling_price).ToArray())
             .Write();
