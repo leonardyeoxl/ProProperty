@@ -168,9 +168,14 @@ namespace ProProperty.Controllers
             .AddLegend()
             .AddSeries(
                 chartType: "Line",
-                name: "Average Price in Singapore",
+                name: "Max Selling Price",
                 xValue: data.Select(s => s.financial_year).ToArray(),
                 yValues: data.Select(s => s.max_selling_price).ToArray())
+            .AddSeries(
+                chartType: "Line",
+                name: "Min Selling Price",
+                xValue: data.Select(s => s.financial_year).ToArray(),
+                yValues: data.Select(s => s.min_selling_price).ToArray())
             .Write();
             
             myChart.Save("~/Content/chart"+"hello", "jpeg");
