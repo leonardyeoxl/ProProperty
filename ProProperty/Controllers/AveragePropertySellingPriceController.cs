@@ -39,7 +39,7 @@ namespace ProProperty.Controllers
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
             //EfficiencyChart(formCollection);
-            return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
+            return View();
         }
 
         public void doSynchronization()
