@@ -143,6 +143,8 @@ namespace ProProperty.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
         public ActionResult EfficiencyChart(FormCollection collection)
         {
 
@@ -155,8 +157,10 @@ namespace ProProperty.Controllers
             string room = collection["roomType_DDL"];
 
             //var data = commonDataGateway.SelectAll();
-            var data = commonDataGateway.SelectAll();
-            data.Select(s => s.financial_year).ToArray();
+            //var data = commonDataGateway.SelectAll();
+            //data.Select(s => s.financial_year).ToArray();
+
+            var data = hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room);
 
             var myChart = new Chart(width: 1000, height: 600)
             .AddTitle(district)
