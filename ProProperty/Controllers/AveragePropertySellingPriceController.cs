@@ -40,7 +40,37 @@ namespace ProProperty.Controllers
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
             //EfficiencyChart(formCollection);
-            return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
+            //return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
+
+            var data = hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room);
+
+            var myChart = new Chart(width: 1000, height: 600)
+            .AddTitle(district)
+            //.DataBindTable(dataSource: data, xField: "financial_year")
+            .AddLegend()
+            .AddSeries(
+                chartType: "Line",
+                name: "Max Selling Price",
+                xValue: data.Select(s => s.financial_year).ToArray(),
+                yValues: data.Select(s => s.max_selling_price).ToArray())
+            .AddSeries(
+                chartType: "Line",
+                name: "Min Selling Price",
+                xValue: data.Select(s => s.financial_year).ToArray(),
+                yValues: data.Select(s => s.min_selling_price).ToArray())
+            .Write();
+
+            myChart.Save("~/Content/chart" + "hello", "png");
+
+            string path = Server.MapPath("~/Content/charthello");
+            byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+            //return File(imageByteData, "image/png");
+
+            ViewBag.ImageData = File(imageByteData, "image/png");
+
+
+            //return RedirectToAction("EfficiencyChart", new { town = district, roomType = room });
+            return View();
         }
 
         public void doSynchronization()
@@ -144,8 +174,8 @@ namespace ProProperty.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult EfficiencyChart(FormCollection collection)
+        //[HttpPost]
+        public ActionResult EfficiencyChart(String town, String roomType)
         {
 
             //string query = "SELECT EnrollmentDate, COUNT(*) AS StudentCount "
@@ -153,8 +183,11 @@ namespace ProProperty.Controllers
             //+ "WHERE Discriminator = 'Student' "
             //+ "GROUP BY EnrollmentDate";
             //IEnumerable<Hdb_price_range> data = Database.SqlQuery<>(query);
-            string district = collection["district_DDL"];
-            string room = collection["roomType_DDL"];
+            //string district = collection["district_DDL"];
+            //string room = collection["roomType_DDL"];
+
+            string district = town;
+            string room = roomType;
 
             //var data = commonDataGateway.SelectAll();
             //var data = commonDataGateway.SelectAll();
@@ -180,7 +213,7 @@ namespace ProProperty.Controllers
             
             myChart.Save("~/Content/chart"+"hello", "jpeg");
             // Return the contents of the Stream to the client
-            return base.File("~/Content/chart"+ "hello", "jpeg");
+            return View(base.File("~/Content/chart"+ "hello", "jpeg"));
         }
     }
 }
