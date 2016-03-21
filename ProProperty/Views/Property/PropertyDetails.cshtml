@@ -24,6 +24,25 @@
             <span class="col-md-6">@Html.DisplayNameFor(model => model.property.block)</span>
             <span class="col-md-6">@Html.DisplayFor(model=>model.property.block)</span>
         </div>
+        <h1>Premise</h1>
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-md-6">Premise</th>
+                        <th class="col-md-6">Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.listOfPremise)
+                    {
+                        <tr>
+                            <td class="col-md-6">&#8226 @Html.DisplayFor(model => item.premises_name)</td>
+                            <td class="col-md-6">@Html.DisplayFor(model => item.premises_address)</td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
     </div>
     <div class="col-md-8">
         <script src="http://maps.googleapis.com/maps/api/js">
@@ -100,31 +119,34 @@
             }
             function returnPremises(type){
                 if(type==1){
-                    return '/Image/icon/clinic.png';
+                    return '/Image/icon/supermarket.jpg';
                 }
                 if(type==2){
                     return '/Image/icon/dining.png';
                 }
                 if(type==3){
-                    return '/Image/icon/gym.png';
+                    return '/Image/icon/train.png';
                 }
                 if(type==4){
-                    return '/Image/icon/highway.png';
-                }
+                    return '/Image/icon/bus.png';
+                }  
                 if(type==5){
-                    return '/Image/icon/landed.png';
-                }
-                if(type==6){
-                    return '/Image/icon/park.png';
-                }
-                if(type==7){
                     return '/Image/icon/parking.png';
                 }
+                if(type==6){
+                    return '/Image/icon/clinic.png';
+                }
+                if(type==7){
+                    return '/Image/icon/park.png';
+                }
                 if(type==8){
-                    return '/Image/icon/school.png';
+                    return '/Image/icon/train.png';
                 }
                 if(type==9){
-                    return '/Image/icon/train.png';
+                    return '/Image/icon/cc.png';
+                }
+                if(type==10){
+                    return '/Image/icon/school.png';
                 }
             }
             function InitializeMap() {
