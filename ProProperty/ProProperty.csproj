@@ -173,8 +173,11 @@
     <Compile Include="DAL\HdbPriceRangeGateway.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
     <Compile Include="DAL\IHdbPriceRangeGateway.cs" />
+    <Compile Include="DAL\PremiseGateway.cs" />
+    <Compile Include="DAL\PremiseTypeGateway.cs" />
+    <Compile Include="DAL\PropertyGateway.cs" />
     <Compile Include="DAL\ProPropertyContext.cs" />
-    <Compile Include="DAL\TownDatagateway.cs" />
+    <Compile Include="DAL\TownGateway.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -182,7 +185,6 @@
     <Compile Include="Models\Hdb_price_range.cs" />
     <Compile Include="Models\Premise.cs" />
     <Compile Include="Models\Premises_type.cs" />
-    <Compile Include="Models\PremiseTypeCB.cs" />
     <Compile Include="Models\Property.cs" />
     <Compile Include="Models\PropertyWithPremises.cs" />
     <Compile Include="Models\Town.cs" />

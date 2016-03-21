@@ -14,5 +14,7 @@ namespace ProProperty.Models
         public int premises_type_id { get; set; }
         public string premises_type_name { get; set; }
 
+        [NotMapped]
+        public Boolean isChecked { get; set; }
     }
 }

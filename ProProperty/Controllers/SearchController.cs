@@ -4,31 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.IO;
-using System.Net;
-using System.Text;
 
 namespace ProProperty.Controllers
 {
-    
-
     public class SearchController : Controller
     {
-        private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
-        private DataGateway<Premise> premisesDataGateway = new DataGateway<Premise>();
-        private TownDatagateway townDataGateway = new TownDatagateway();
-        //private DataGateway<Hdb_price_range> hdbPriceRangeDataGateway = new DataGateway<Hdb_price_range>();
-        private DataGateway<Premises_type> PremisesTypeDataGateway = new DataGateway<Premises_type>();
-        //String[] premiseType_Name = { "School", "Shopping Mall", "Community Club", "Fitness Centre", "Park", "Clinic", "MRT Station", "Bus Stop", "Highway", "Petrol Station", "Carpark" };
+        private PropertyGateway propertyGateway = new PropertyGateway();
+        private PremiseGateway premisesGateway = new PremiseGateway();
+        private TownGateway townDataGateway = new TownGateway();
+        private HdbPriceRangeGateway hdbPriceRangeGateway = new HdbPriceRangeGateway();
+        private PremiseTypeGateway premiseTypeGateway = new PremiseTypeGateway();
 
-        static List<PremiseTypeCB> premisesCheckBox = null;
+        //static List<PremiseTypeCB> premisesCheckBox = null;
+        static List<Premises_type> premisesTypeList = null;
+
         private Boolean anyPremisesChecked = false;
 
         // GET: Property
         public ActionResult Index()
         {
             Config();
-
             return View();
         }
 
@@ -39,8 +34,6 @@ namespace ProProperty.Controllers
             string propertyTypeForm = formCollection["propertyType_DDL"];
             string roomTypeForm = formCollection["roomType_DDL"];
             string districtForm = formCollection["district_DDL"];
-            
-                
 
             bool premisesSchool = Convert.ToBoolean(formCollection["checkbox_PremisesSchools"].Split(',')[0]);
             bool premisesShoppingMall = Convert.ToBoolean(formCollection["checkbox_PremisesShopping Malls"].Split(',')[0]);
@@ -55,20 +48,31 @@ namespace ProProperty.Controllers
             bool premisesCarpark = Convert.ToBoolean(formCollection["checkbox_PremisesHDB Carparks"].Split(',')[0]);
             bool premisesFoodCourts = Convert.ToBoolean(formCollection["checkbox_PremisesFood Courts"].Split(',')[0]);
 
-            premisesCheckBox[0].isChecked = premisesShoppingMall;
-            premisesCheckBox[1].isChecked = premisesFoodCourts;
-            premisesCheckBox[2].isChecked = premisesMRTStation;
-            premisesCheckBox[3].isChecked = premisesBusStop;
-            premisesCheckBox[4].isChecked = premisesCarpark;
-            premisesCheckBox[5].isChecked = premisesPark;
-            premisesCheckBox[6].isChecked = premisesFitnessCentre;
-            premisesCheckBox[7].isChecked = premisesCommunityClub;
-            premisesCheckBox[8].isChecked = premisesSchool;
-            premisesCheckBox[9].isChecked = premisesFoodCourts;
+            //premisesCheckBox[0].isChecked = premisesShoppingMall;
+            //premisesCheckBox[1].isChecked = premisesFoodCourts;
+            //premisesCheckBox[2].isChecked = premisesMRTStation;
+            //premisesCheckBox[3].isChecked = premisesBusStop;
+            //premisesCheckBox[4].isChecked = premisesCarpark;
+            //premisesCheckBox[5].isChecked = premisesPark;
+            //premisesCheckBox[6].isChecked = premisesFitnessCentre;
+            //premisesCheckBox[7].isChecked = premisesCommunityClub;
+            //premisesCheckBox[8].isChecked = premisesSchool;
+            //premisesCheckBox[9].isChecked = premisesFoodCourts;
 
-            for (int i = 0; i < premisesCheckBox.Count; i++)
+            premisesTypeList[0].isChecked = premisesShoppingMall;
+            premisesTypeList[1].isChecked = premisesFoodCourts;
+            premisesTypeList[2].isChecked = premisesMRTStation;
+            premisesTypeList[3].isChecked = premisesBusStop;
+            premisesTypeList[4].isChecked = premisesCarpark;
+            premisesTypeList[5].isChecked = premisesPark;
+            premisesTypeList[6].isChecked = premisesFitnessCentre;
+            premisesTypeList[7].isChecked = premisesCommunityClub;
+            premisesTypeList[8].isChecked = premisesSchool;
+            premisesTypeList[9].isChecked = premisesFoodCourts;
+
+            for (int i = 0; i < premisesTypeList.Count; i++)
             {
-                if (premisesCheckBox[i].isChecked)
+                if (premisesTypeList[i].isChecked)
                 {
                     anyPremisesChecked = true;
                     break;
@@ -126,7 +130,7 @@ namespace ProProperty.Controllers
             }
 
             PropertyController.clearListProperty();
-            var allProperties = propertyDataGateway.SelectAll();
+            var allProperties = propertyGateway.SelectAll();
             try {
                 allProperties = allProperties.Where(
                     property => property.HDBTown == town.town_id &&
@@ -156,7 +160,7 @@ namespace ProProperty.Controllers
         public void Config()
         {
 
-            List<Premises_type> premisesTypeList = PremisesTypeDataGateway.SelectAll().Cast<Premises_type>().ToList();
+            premisesTypeList = premiseTypeGateway.SelectAll().Cast<Premises_type>().ToList();
 
             List<SelectListItem> priceRange = new List<SelectListItem>();
             priceRange.Add(new SelectListItem() { Text = "Select Max Price" });
@@ -190,27 +194,16 @@ namespace ProProperty.Controllers
 
             ViewBag.district_DDL = districtArea;
 
-            if (premisesCheckBox == null)
-            {
-                premisesCheckBox = new List<PremiseTypeCB>();
-                for (int i=0; i< premisesTypeList.Count; i++)
-                {
-                    premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premisesTypeList[i].premises_type_name, isChecked = false });
-                }
-                
-                /*premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[1], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[2], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[3], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[4], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[5], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[6], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[7], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[8], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[9], isChecked = false });
-                premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premiseType_Name[10], isChecked = false });*/
-            }
+            //if (premisesCheckBox == null)
+            //{
+            //    premisesCheckBox = new List<PremiseTypeCB>();
+            //    for (int i=0; i< premisesTypeList.Count; i++)
+            //    {
+            //        premisesCheckBox.Add(new PremiseTypeCB() { premiseType = premisesTypeList[i].premises_type_name, isChecked = false });
+            //    }
+            //}
 
-            ViewBag.PremiseType = premisesCheckBox;
+            ViewBag.PremiseType = premisesTypeList;
         }
 
         /*distance algo for doing ranging*/
@@ -237,7 +230,7 @@ namespace ProProperty.Controllers
         {
             List<Premise> allPremises = new List<Premise>();
             try {
-                allPremises = premisesDataGateway.SelectAll().ToList();
+                allPremises = premisesGateway.SelectAll().ToList();
             }catch(Exception ex)
             {
                 string mes = ex.InnerException.ToString();

@@ -6,7 +6,7 @@ using ProProperty.Models;
 
 namespace ProProperty.DAL
 {
-    public class TownDatagateway : DataGateway<Town>
+    public class TownGateway : DataGateway<Town>
     {
         public Town SelectByTownName(string name)
         {
