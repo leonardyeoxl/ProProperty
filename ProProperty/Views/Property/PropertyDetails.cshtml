@@ -17,11 +17,11 @@
     <div class="col-md-4">
         <h1>Property Details</h1>
         <div class="row">
-            <span class="col-md-6">@Html.DisplayNameFor(model => model.property.propertyType)</span>
+            <span class="col-md-6">Property Type</span>
             <span class="col-md-6">@Html.DisplayFor(model=>model.property.propertyType)</span>
         </div>
         <div class="row">
-            <span class="col-md-6">@Html.DisplayNameFor(model => model.property.block)</span>
+            <span class="col-md-6">Block Number</span>
             <span class="col-md-6">@Html.DisplayFor(model=>model.property.block)</span>
         </div>
         <h1>Premise</h1>
@@ -29,20 +29,21 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="col-md-6">Premise</th>
-                        <th class="col-md-6">Address</th>
+                        <th>Premise</th>
+                        <th>Address</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.listOfPremise)
                     {
                         <tr>
-                            <td class="col-md-6">&#8226 @Html.DisplayFor(model => item.premises_name)</td>
-                            <td class="col-md-6">@Html.DisplayFor(model => item.premises_address)</td>
+                            <td>&#8226 @Html.DisplayFor(model => item.premises_name)</td>
+                            <td>@Html.DisplayFor(model => item.premises_address)</td>
                         </tr>
                     }
                 </tbody>
                 </table>
+            </div>
     </div>
     <div class="col-md-8">
         <script src="http://maps.googleapis.com/maps/api/js">

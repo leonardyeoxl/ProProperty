@@ -3,6 +3,12 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+.legendtable th,td {
+    overflow: hidden;
+    width: 200px;
+}
+</style>
 <div class="row">
     <img src="~/Image/header.png" />
 </div>
@@ -28,13 +34,13 @@
     {
 
         <div class="row">
-            <div class="col-md-3">@Html.DropDownList("priceRange_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-2">@Html.DropDownList("priceRange_DDL", null, new { @class = "form-control" })</div>
             <div class="col-md-3">@Html.DropDownList("propertyType_DDL", null, new { @class = "form-control" })</div>
-            <div class="col-md-3">@Html.DropDownList("roomType_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-1">@Html.DropDownList("roomType_DDL", null, new { @class = "form-control" })</div>
             <div class="col-md-2">@Html.DropDownList("district_DDL", null, new { @class = "form-control" })</div>
             <div class="col-md-1 dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button">
-                    Others<span class="caret" />
+                    Premises<span class="caret" />
                 </button>
                 <ul class="dropdown-menu">
                     @{
@@ -50,13 +56,42 @@
                     }
                 </ul>
             </div>
+            <div class="col-md-2"><button type="submit" class="btn btn-success btn-md">Go</button></div>
 
         </div><br />
-        <button type="submit" class="btn btn-success btn-md">Go</button>
+      
     }
 </div>
 
 <div class="row">
+
+    @if (Model != null)
+    {
+        @Html.Raw("<h2>Result</h2>")
+        @Html.Raw("<div class='col-md-4'>")
+        @Html.Raw("<table class='table table - striped data-link='row''>")
+             @Html.Raw("<thead>")
+                 @Html.Raw("<tr>Block</tr>")
+                 @Html.Raw("<tr>Unit</tr>")
+                 @Html.Raw("<tr>Address</tr>")
+                 @Html.Raw("<tr>Property Type</tr>")
+             @Html.Raw("</thead>")
+             @Html.Raw("<tbody>")
+                foreach (var item in Model)
+                {
+                var location = Html.Raw(Json.Encode(item.property));
+                <tr>
+                    <td><a href="@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID })">@Html.DisplayFor(modelItem => item.property.block)</a></td>
+                    <td>@Html.DisplayFor(modelItem => item.property.unitFloor)-@Html.DisplayFor(modelItem => item.property.unitNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.property.address)</td>
+                    <td>@Html.DisplayFor(modelItem => item.property.propertyType)</td>
+                </tr>
+                 }
+            @Html.Raw("</tbody>")
+        @Html.Raw("</table>")
+
+    @Html.Raw("</div>")
+    }
     <script src="http://maps.googleapis.com/maps/api/js">
     </script>
 
@@ -135,27 +170,24 @@
                 {
                     var location = Html.Raw(Json.Encode(item.property));
                     System.Diagnostics.Debug.WriteLine(location);
-                    @*
-                        @Html.DisplayFor(modelItem => item.property_id)
-                        @Html.DisplayFor(modelItem => item.address)
-                        @Html.DisplayFor(modelItem => item.latitude)
-                        de=@Html.DisplayFor(modelItem => item.longtitude)
-                        @Html.DisplayFor(modelItem => item.type)*@
-                
                       <text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )");</text>
-                      @*<text>createMarker();</text>*@
                  }
              }
         }
         window.onload = InitializeMap;
     </script>
-    <div class="col-md-1">&nbsp;</div>
-    <div id="map_canvas" class="col-md-10" style="height:500px;"></div>
-    <div class="col-md-1">&nbsp;</div>
+    @if (Model != null)
+    {
+        <div id="map_canvas" class="col-md-8" style="height:500px;"></div>
+    }
+    else
+    {
+        <div id="map_canvas" class="col-md-12" style="height:500px;width:1100px;"></div>
+    }
 </div>
 <div class="row">
     <h3>Legend</h3>
-    <table class="table">
+    <table class="legendtable">
         <thead>
             <tr>
                 <th>Property</th>
