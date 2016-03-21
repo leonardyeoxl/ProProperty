@@ -29,5 +29,41 @@ namespace ProProperty.Models
         public DateTime datePosted { get; set; }
         public DateTime exclusiveDate { get; set; }
         public DateTime expiryDate { get; set; }
+
+        public static double GetMinBuiltSize(string roomTypeForm)
+        {
+            double squareFoot = 10.7639;
+            switch(roomTypeForm)
+            {
+                case "2":
+                    return Math.Round(squareFoot * 45);
+                case "3":
+                    return Math.Round(squareFoot * 60);
+                case "4":
+                    return Math.Round(squareFoot * 80);
+                case "5":
+                    return Math.Round(squareFoot * 110);
+                default:
+                    return 0;
+            }
+        }
+
+        public static double GetMaxBuiltSize(string roomTypeForm)
+        {
+            double squareFoot = 10.7639;
+            switch (roomTypeForm)
+            {
+                case "2":
+                    return Math.Round(squareFoot * 45);
+                case "3":
+                    return Math.Round(squareFoot * 65);
+                case "4":
+                    return Math.Round(squareFoot * 100);
+                case "5":
+                    return Math.Round(squareFoot * 120);
+                default:
+                    return 0;
+            }
+        }
     }
 }

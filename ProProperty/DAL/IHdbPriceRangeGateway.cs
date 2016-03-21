@@ -10,5 +10,6 @@ namespace ProProperty.DAL
     interface IHdbPriceRangeGateway
     {
         List<Hdb_price_range> hdbPriceRangeQuery();
+        void DeleteAllHdbPriceRange();
     }
 }

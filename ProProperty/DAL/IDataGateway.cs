@@ -9,7 +9,6 @@ namespace ProProperty.DAL
 {
     interface IDataGateway<T> where T : class
     {
-        IEnumerable<T> SelectAll(); 
-        void DeleteAllHdbPriceRange();
+        IEnumerable<T> SelectAll();
     }
 }
