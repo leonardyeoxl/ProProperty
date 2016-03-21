@@ -32,14 +32,18 @@ namespace ProProperty.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection formCollection)
         {
-            Config();
 
             //doSynchronization();
 
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
+            ViewBag.viewTown = district;
+            ViewBag.viewRoom = room;
+
+            Config();
             //EfficiencyChart(formCollection);
             return View();
+            //return RedirectToAction("EfficiencyChart", new { town = district, roomType = room });
         }
 
         public void doSynchronization()
@@ -143,24 +147,8 @@ namespace ProProperty.Controllers
             }
         }
 
-        //[HttpPost]
-        public ActionResult EfficiencyChart(String town, String roomType)
+        public ActionResult EfficiencyChart(string district, string room)
         {
-
-            //string query = "SELECT EnrollmentDate, COUNT(*) AS StudentCount "
-            //+ "FROM Person "
-            //+ "WHERE Discriminator = 'Student' "
-            //+ "GROUP BY EnrollmentDate";
-            //IEnumerable<Hdb_price_range> data = Database.SqlQuery<>(query);
-            //string district = collection["district_DDL"];
-            //string room = collection["roomType_DDL"];
-
-            string district = town;
-            string room = roomType;
-
-            //var data = commonDataGateway.SelectAll();
-            //var data = commonDataGateway.SelectAll();
-            //data.Select(s => s.financial_year).ToArray();
 
             var data = hdbPriceRangeGateway.hdbPriceRangeQuery(district, room);
 
@@ -173,16 +161,16 @@ namespace ProProperty.Controllers
                 name: "Max Selling Price",
                 xValue: data.Select(s => s.financial_year).ToArray(),
                 yValues: data.Select(s => s.max_selling_price).ToArray())
-            .AddSeries(
+                .AddSeries(
                 chartType: "Line",
                 name: "Min Selling Price",
                 xValue: data.Select(s => s.financial_year).ToArray(),
                 yValues: data.Select(s => s.min_selling_price).ToArray())
             .Write();
-            
-            myChart.Save("~/Content/chart"+"hello", "jpeg");
+
+            myChart.Save("~/Content/chart" + district + room, "jpeg");
             // Return the contents of the Stream to the client
-            return View(base.File("~/Content/chart"+ "hello", "jpeg"));
+            return base.File("~/Content/chart" + district + room, "jpeg");
         }
     }
 }

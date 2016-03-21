@@ -120,7 +120,7 @@
                 <br />
                 <br />
                 @using (Html.BeginForm("Index", "AveragePropertySellingPrice", FormMethod.Post, new { @class = "centerForm" }))
-            {          
+                {
                     <div class="row">
                         <span class="col-md-6">Room Type</span>
                         <span class="col-md-6">@Html.DropDownList("roomType_DDL")</span>
@@ -138,11 +138,6 @@
 
         <div class="col-md-9">
 
-            <img src="@ViewBag.ImageData" />
+            <img src="@Url.Action("EfficiencyChart", "AveragePropertySellingPrice",new { district = @ViewBag.viewTown, room = @ViewBag.viewRoom })" />
         </div>
-
-    </div>
-    <!-- /.row -->
-    <!-- Related Projects Row -->
-   
-    </div>
+</div>
