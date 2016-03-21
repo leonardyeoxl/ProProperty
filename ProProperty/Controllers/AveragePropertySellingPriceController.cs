@@ -22,7 +22,7 @@ namespace ProProperty.Controllers
         // GET: AveragePricing
         public ActionResult Index()
         {
-            Config();
+            Config(null,null);
 
             doSynchronization();
             return View(hdbPriceRangeGateway.SelectAll()); 
@@ -40,7 +40,7 @@ namespace ProProperty.Controllers
             ViewBag.viewTown = district;
             ViewBag.viewRoom = room;
 
-            Config();
+            Config(district,room);
             //EfficiencyChart(formCollection);
             return View();
             //return RedirectToAction("EfficiencyChart", new { town = district, roomType = room });
@@ -57,13 +57,18 @@ namespace ProProperty.Controllers
             }
         }
 
-        public void Config()
+        public void Config(string district,string room)
         {
             List<SelectListItem> roomType = new List<SelectListItem>();
             roomType.Add(new SelectListItem() { Text = "2-room" });
             roomType.Add(new SelectListItem() { Text = "3-room" });
             roomType.Add(new SelectListItem() { Text = "4-room" });
             roomType.Add(new SelectListItem() { Text = "5-room" });
+            var selectedRoomType = roomType.FirstOrDefault(d => d.Text == room);
+            if (selectedRoomType != null)
+            {
+                selectedRoomType.Selected = true;
+            }
 
             ViewBag.roomType_DDL = roomType;
 
@@ -71,6 +76,11 @@ namespace ProProperty.Controllers
             districtArea.Add(new SelectListItem() { Text = "Select Area" });
             districtArea.Add(new SelectListItem() { Text = "Punggol" });
             districtArea.Add(new SelectListItem() { Text = "Ang Mo Kio" });
+            var selectedDistrict = districtArea.FirstOrDefault(d => d.Text == district);
+            if (selectedDistrict != null)
+            {
+                selectedDistrict.Selected = true;
+            }
 
             ViewBag.district_DDL = districtArea;
         }
