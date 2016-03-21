@@ -32,19 +32,21 @@ namespace ProProperty.Models
         public DateTime exclusiveDate { get; set; }
         public DateTime expiryDate { get; set; }
 
+        [NotMapped]
+        private static double squareFoot = 10.7639;
+
         public static double GetMinBuiltSize(string roomTypeForm)
         {
-            double squareFoot = 10.7639;
             switch(roomTypeForm)
             {
                 case "2":
-                    return Math.Round(squareFoot * 45);
+                    return squareFoot * 45;
                 case "3":
-                    return Math.Round(squareFoot * 60);
+                    return squareFoot * 60;
                 case "4":
-                    return Math.Round(squareFoot * 80);
+                    return squareFoot * 80;
                 case "5":
-                    return Math.Round(squareFoot * 110);
+                    return squareFoot * 110;
                 default:
                     return 0;
             }
@@ -52,25 +54,33 @@ namespace ProProperty.Models
 
         public static double GetMaxBuiltSize(string roomTypeForm)
         {
-            double squareFoot = 10.7639;
             switch (roomTypeForm)
             {
                 case "2":
-                    return Math.Round(squareFoot * 45);
+                    return squareFoot * 45;
                 case "3":
-                    return Math.Round(squareFoot * 65);
+                    return squareFoot * 65;
                 case "4":
-                    return Math.Round(squareFoot * 100);
+                    return squareFoot * 100;
                 case "5":
-                    return Math.Round(squareFoot * 120);
+                    return squareFoot * 120;
                 default:
                     return 0;
             }
         }
 
         //return roomtype
-        public static int GetRoomType(decimal MinBuildSize, decimal MaxBuildSize)
+        public int GetRoomType()
         {
+            int floorArea = (int) ((double)built_size_in_sqft / squareFoot);
+            if (floorArea >= 40 && floorArea <= 50)
+                return 2;
+            else if (floorArea >= 55 && floorArea <= 70)
+                return 3;
+            else if (floorArea >= 80 && floorArea <= 100)
+                return 4;
+            else if (floorArea >= 110 && floorArea <= 120)
+                return 5;
             return 0;
         }
     }
