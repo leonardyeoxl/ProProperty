@@ -12,10 +12,8 @@ namespace ProProperty.Controllers
         private PropertyGateway propertyGateway = new PropertyGateway();
         private PremiseGateway premisesGateway = new PremiseGateway();
         private TownGateway townDataGateway = new TownGateway();
-        private HdbPriceRangeGateway hdbPriceRangeGateway = new HdbPriceRangeGateway();
         private PremiseTypeGateway premiseTypeGateway = new PremiseTypeGateway();
 
-        //static List<PremiseTypeCB> premisesCheckBox = null;
         static List<PremiseType> premisesTypeList = null;
 
         private Boolean anyPremisesChecked = false;
