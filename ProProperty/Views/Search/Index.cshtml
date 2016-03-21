@@ -38,12 +38,12 @@
                 </button>
                 <ul class="dropdown-menu">
                     @{
-                        foreach (ProProperty.Models.PremiseTypeCB item in ViewBag.PremiseType)
+                        foreach (ProProperty.Models.PremiseType item in ViewBag.PremiseType)
                         {
                             <li>
-                                <a href="#" data-value="@item.premiseType">
-                                    @Html.CheckBox("checkbox_Premises" + item.premiseType, item.isChecked)
-                                    @item.premiseType
+                                <a href="#" data-value="@item.premises_type_name">
+                                    @Html.CheckBox(item.premises_type_name, item.isChecked)
+                                    @item.premises_type_name
                                 </a>
                             </li>
                         }

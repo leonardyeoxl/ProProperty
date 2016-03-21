@@ -12,12 +12,11 @@ namespace ProProperty.Controllers
 {
     public class AveragePropertySellingPriceController : Controller
     {
-        public DataGateway<Hdb_price_range> commonDataGateway = new DataGateway<Hdb_price_range>();
-        public HdbPriceRangeGateway hdbPriceRangeDataGateway = new HdbPriceRangeGateway();
-        public HdbPriceRangeService HdbPriceRange_Gateway;
+        public HdbPriceRangeGateway hdbPriceRangeGateway = new HdbPriceRangeGateway();
+        public HdbPriceRangeService HdbPriceRangeService;
         public AveragePropertySellingPriceController()
         {
-            HdbPriceRange_Gateway = new HdbPriceRangeService(); 
+            HdbPriceRangeService = new HdbPriceRangeService(); 
         }
 
         // GET: AveragePricing
@@ -26,7 +25,7 @@ namespace ProProperty.Controllers
             Config();
 
             doSynchronization();
-            return View(commonDataGateway.SelectAll()); 
+            return View(hdbPriceRangeGateway.SelectAll()); 
 
         }
 
@@ -40,17 +39,17 @@ namespace ProProperty.Controllers
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
             //EfficiencyChart(formCollection);
-            return View(hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room));
+            return View(hdbPriceRangeGateway.hdbPriceRangeQuery(district, room));
         }
 
         public void doSynchronization()
         {
-            commonDataGateway.DeleteAllHdbPriceRange();
+            hdbPriceRangeGateway.DeleteAllHdbPriceRange();
             List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
-            priceRangeList = HdbPriceRange_Gateway.getHdbPriceRange();
+            priceRangeList = HdbPriceRangeService.getHdbPriceRange();
             for (int i = 0; i < priceRangeList.Count; i++)
             {
-                commonDataGateway.Insert(priceRangeList[i]);
+                hdbPriceRangeGateway.Insert(priceRangeList[i]);
             }
         }
 
@@ -160,7 +159,7 @@ namespace ProProperty.Controllers
             //var data = commonDataGateway.SelectAll();
             //data.Select(s => s.financial_year).ToArray();
 
-            var data = hdbPriceRangeDataGateway.hdbPriceRangeQuery(district, room);
+            var data = hdbPriceRangeGateway.hdbPriceRangeQuery(district, room);
 
             var myChart = new Chart(width: 1000, height: 600)
             .AddTitle(district)

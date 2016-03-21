@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Web;
 
 
 namespace ProProperty.DAL
@@ -36,13 +31,6 @@ namespace ProProperty.DAL
             data.Add(obj);
             db.SaveChanges();
 
-        }
-
-        public void DeleteAllHdbPriceRange()
-        {
-            db.Database.ExecuteSqlCommand("TRUNCATE TABLE [Hdb_price_range]");
-        }
-
-        
+        }        
     }
 }

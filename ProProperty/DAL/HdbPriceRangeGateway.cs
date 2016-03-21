@@ -13,7 +13,10 @@ namespace ProProperty.DAL
             return data.Where(p => p.town == district && p.room_type == room).ToList();
         }
 
-
+        public void DeleteAllHdbPriceRange()
+        {
+            db.Database.ExecuteSqlCommand("TRUNCATE TABLE [Hdb_price_range]");
+        }
 
         //List<Hdb_price_range> tempList = data.Where(p => p.town == district && p.room_type == room).ToList();
 
