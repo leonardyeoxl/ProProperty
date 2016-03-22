@@ -110,10 +110,13 @@ namespace ProProperty.Controllers
 
             ViewBag.priceRange_DDL = priceRange;
 
+            List<string> propType = propertyGateway.GetPropertyTypes();
             List<SelectListItem> propertyType = new List<SelectListItem>();
             propertyType.Add(new SelectListItem() { Text = "Select Type of House" });
-            propertyType.Add(new SelectListItem() { Text = "HDB" });
-            propertyType.Add(new SelectListItem() { Text = "Condo" });
+            foreach(string type in propType)
+            {
+                propertyType.Add(new SelectListItem() { Text = type });
+            }
 
             ViewBag.propertyType_DDL = propertyType;
 
@@ -126,10 +129,13 @@ namespace ProProperty.Controllers
 
             ViewBag.roomType_DDL = roomType;
 
+            List<Town> towns = townDataGateway.SelectAll().ToList();
             List<SelectListItem> districtArea = new List<SelectListItem>();
             districtArea.Add(new SelectListItem() { Text = "Select Area" });
-            districtArea.Add(new SelectListItem() { Text = "Yishun" });
-            districtArea.Add(new SelectListItem() { Text = "Ang Mo Kio" });
+            foreach(Town t in towns)
+            {
+                districtArea.Add(new SelectListItem() { Text = t.town_name });
+            }
 
             ViewBag.district_DDL = districtArea;
             ViewBag.PremiseType = premisesTypeList;
