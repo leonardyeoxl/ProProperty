@@ -243,6 +243,7 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Property\PropertyDetails.cshtml" />
     <Content Include="Views\AveragePropertySellingPrice\Index.cshtml" />
+    <Content Include="Views\Property\PropertyInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

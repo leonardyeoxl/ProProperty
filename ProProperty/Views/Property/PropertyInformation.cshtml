@@ -1,0 +1,154 @@
+﻿@model ProProperty.Models.Property
+
+@{
+    ViewBag.Title = "PropertyInformation";
+}
+
+<h2>PropertyInformation</h2>
+
+<div>
+    <h4>Property</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.block)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.block)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unitFloor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unitFloor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unitNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unitNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.postalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.postalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HDBTown)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HDBTown)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.asking)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.asking)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.agreedPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.agreedPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valuation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valuation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.built_size_in_sqft)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.built_size_in_sqft)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.land_size_in_sqft)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.land_size_in_sqft)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.propertyType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.propertyType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.datePosted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.datePosted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.exclusiveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.exclusiveDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expiryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expiryDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.propertyID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

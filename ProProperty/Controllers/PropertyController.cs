@@ -35,6 +35,21 @@ namespace ProProperty.Controllers
             return RedirectToAction("Index", "Search");
         }
 
+        public ActionResult PropertyInformation(int id)
+        {
+            Property propertyObj = propertyDataGateway.SelectById(id);
+
+            if (propertyObj != null)
+            {
+                return View(propertyObj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Search");
+            }
+            
+        }
+
         // GET: Property/Create
         public ActionResult Create()
         {
