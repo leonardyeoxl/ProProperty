@@ -45,43 +45,36 @@ namespace ProProperty.Controllers
                 return RedirectToAction("Index");
             }
 
-            int min = 0, max = 0;
+            int minPrice = 0, maxPrice = 0;
 
             if( priceRangeForm == "< 500k")
             {
-                min = 0;
-                max = 500000;
+                minPrice = 0;
+                maxPrice = 500000;
             }
             else if (priceRangeForm == "500k - 1m")
             {
-                min = 500000;
-                max = 1000000;
+                minPrice = 500000;
+                maxPrice = 1000000;
             }
             else if (priceRangeForm == "1m - 5m")
             {
-                min = 1000000;
-                max = 5000000;
+                minPrice = 1000000;
+                maxPrice = 5000000;
             }
             else
             {
-                min = 5000000;
-                max = 10000000;
+                minPrice = 5000000;
+                maxPrice = 10000000;
             }
 
-            double minValue = Property.GetMinBuiltSize(roomTypeForm);
-            double maxValue = Property.GetMaxBuiltSize(roomTypeForm);
+            int minBuiltSize = Convert.ToInt16(Property.GetMinBuiltSize(roomTypeForm)) - 1; // Round down
+            int maxBuiltSize = Convert.ToInt16(Property.GetMaxBuiltSize(roomTypeForm)) + 1; // Round up
 
             PropertyController.clearListProperty();
 
-            //TODO throw to gateway
-            var allProperties = propertyGateway.SelectAll();
-            allProperties = allProperties.Where(
-                property => property.HDBTown == town.town_id &&
-                (property.valuation >= min && property.valuation <= max) &&
-                (property.built_size_in_sqft >= Convert.ToDecimal(minValue) &&
-                property.built_size_in_sqft <= Convert.ToDecimal(maxValue)));
-            
-            
+            List<Property> allProperties = propertyGateway.GetProperties
+                (town.town_id, minPrice, maxPrice, minBuiltSize, maxBuiltSize);
 
             foreach (Property p in allProperties)
             {

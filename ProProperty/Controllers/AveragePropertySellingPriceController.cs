@@ -50,7 +50,7 @@ namespace ProProperty.Controllers
         {
             hdbPriceRangeGateway.DeleteAllHdbPriceRange();
             List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
-            priceRangeList = HdbPriceRangeService.getHdbPriceRange();
+            priceRangeList = HdbPriceRangeService.GetHdbPriceRange();
             for (int i = 0; i < priceRangeList.Count; i++)
             {
                 hdbPriceRangeGateway.Insert(priceRangeList[i]);
@@ -85,78 +85,6 @@ namespace ProProperty.Controllers
             ViewBag.district_DDL = districtArea;
         }
 
-        // GET: AveragePricing/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: AveragePricing/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AveragePricing/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AveragePricing/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AveragePricing/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AveragePricing/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AveragePricing/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult EfficiencyChart(string district, string room)
         {
 
@@ -182,6 +110,7 @@ namespace ProProperty.Controllers
             // Return the contents of the Stream to the client
             return base.File("~/Content/chart" + district + room, "jpeg");
         }
+
         public ActionResult compareChart(string district, string room,int currentPrice)
         {
 

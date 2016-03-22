@@ -38,14 +38,13 @@ namespace ProProperty.Controllers
         public ActionResult PropertyInformation(int id)
         {
             Property propertyObj = propertyDataGateway.SelectById(id);
-            int townID = propertyObj.HDBTown;
-            Town townName = townDataGateway.SelectById(townID);
-            
+            Town townName = townDataGateway.SelectById(id);
+
+            ViewBag.Town_Name = townName; //get town name and store in ViewBag
+
+
             if (propertyObj != null)
             {
-                ViewBag.Town_Name = townName.town_name; //get town name and store in ViewBag
-                ViewBag.Property_Room_Type = propertyObj.GetRoomType().ToString() + "-room"; //get room type and store in ViewBag
-
                 return View(propertyObj);
             }
             else
@@ -53,72 +52,6 @@ namespace ProProperty.Controllers
                 return RedirectToAction("Index", "Search");
             }
             
-        }
-
-        // GET: Property/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Property/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Property/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Property/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Property/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Property/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // Controller public methods
