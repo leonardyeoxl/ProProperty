@@ -68,12 +68,8 @@
                 </table>
             </div>
             <div class="col-md-8">
-                <img src="@Url.Action("compareChart", "AveragePropertySellingPrice",new { district = @ViewBag.Town_Name, room = @ViewBag.Property_Room_Type,currentPrice="29600" })" />
+                <img src="@Url.Action("compareChart", "AveragePropertySellingPrice",new { district = @ViewBag.Town_Name, room = @ViewBag.Property_Room_Type,currentPrice=@ViewBag.CurrentPrice })" />
             </div>
         </div>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.propertyID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -45,6 +45,7 @@ namespace ProProperty.Controllers
             {
                 ViewBag.Town_Name = townName.town_name; //get town name and store in ViewBag
                 ViewBag.Property_Room_Type = propertyObj.GetRoomType().ToString() + "-room"; //get room type and store in ViewBag
+                ViewBag.CurrentPrice = propertyObj.valuation;
 
                 return View(propertyObj);
             }
