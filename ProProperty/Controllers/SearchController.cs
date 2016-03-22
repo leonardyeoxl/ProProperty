@@ -74,6 +74,8 @@ namespace ProProperty.Controllers
             double maxValue = Property.GetMaxBuiltSize(roomTypeForm);
 
             PropertyController.clearListProperty();
+
+            //TODO throw to gateway
             var allProperties = propertyGateway.SelectAll();
             allProperties = allProperties.Where(
                 property => property.HDBTown == town.town_id &&

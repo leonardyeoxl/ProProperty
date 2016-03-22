@@ -38,6 +38,12 @@ namespace ProProperty.Controllers
         public ActionResult PropertyInformation(int id)
         {
             Property propertyObj = propertyDataGateway.SelectById(id);
+            Town townName = townDataGateway.SelectById(id);
+
+            ViewBag.Town_Name = townName;
+
+            propertyObj.built_size_in_sqft;
+
 
             if (propertyObj != null)
             {
