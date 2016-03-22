@@ -43,8 +43,8 @@ namespace ProProperty.Controllers
             
             if (propertyObj != null)
             {
-                ViewBag.Town_Name = townName; //get town name and store in ViewBag
-                ViewBag.Property_Room_Type = propertyObj.GetRoomType(); //get room type and store in ViewBag
+                ViewBag.Town_Name = townName.town_name; //get town name and store in ViewBag
+                ViewBag.Property_Room_Type = propertyObj.GetRoomType()+ "-room"; //get room type and store in ViewBag
 
                 return View(propertyObj);
             }

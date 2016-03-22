@@ -182,5 +182,35 @@ namespace ProProperty.Controllers
             // Return the contents of the Stream to the client
             return base.File("~/Content/chart" + district + room, "jpeg");
         }
+        public ActionResult compareChart(string district, string room,int currentPrice)
+        {
+
+            var data = hdbPriceRangeGateway.hdbPriceRangeQuery(district, room);
+
+            var myChart = new Chart(width: 1000, height: 600, themePath: "~/Content/ChartHelper.xml")
+            .AddTitle(district)
+            //.DataBindTable(dataSource: data, xField: "financial_year")
+            .AddLegend()
+            .AddSeries(
+                chartType: "Line",
+                name: "Max Selling Price",
+                xValue: data.Select(s => s.financial_year).ToArray(),
+                yValues: data.Select(s => s.max_selling_price).ToArray())
+            .AddSeries(
+                chartType: "Line",
+                name: "Min Selling Price",
+                xValue: data.Select(s => s.financial_year).ToArray(),
+                yValues: data.Select(s => s.min_selling_price).ToArray())
+             .AddSeries(
+                chartType: "Line",
+                name: "Price",
+                xValue: data.Select(s => s.financial_year).ToArray(),
+                yValues: data.Select(s => s.min_selling_price).ToArray())
+            .Write();
+
+            myChart.Save("~/Content/chart" + district + room, "jpeg");
+            // Return the contents of the Stream to the client
+            return base.File("~/Content/chart" + district + room, "jpeg");
+        }
     }
 }

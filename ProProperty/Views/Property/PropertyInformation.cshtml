@@ -68,9 +68,7 @@
                 </table>
             </div>
             <div class="col-md-8">
-
-
-                <img src="@Url.Action("makeChart", "Property")" />
+                <img src="@Url.Action("EfficiencyChart", "AveragePropertySellingPrice",new { district = @ViewBag.Town_Name, room = @ViewBag.Property_Room_Type })" />
             </div>
         </div>
     </div>
