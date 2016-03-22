@@ -128,7 +128,7 @@ namespace ProProperty.Controllers
 
             List<SelectListItem> districtArea = new List<SelectListItem>();
             districtArea.Add(new SelectListItem() { Text = "Select Area" });
-            districtArea.Add(new SelectListItem() { Text = "Yishun" });
+            districtArea.Add(new SelectListItem() { Text = "Punggol" });
             districtArea.Add(new SelectListItem() { Text = "Ang Mo Kio" });
 
             ViewBag.district_DDL = districtArea;
