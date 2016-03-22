@@ -22,5 +22,18 @@ namespace ProProperty.DAL
 
             return types;
         }
+
+        public List<Property> GetProperties(int townId, int minPrice, int maxPrice, int minBuiltSize, int maxBuiltSize)
+        {
+            List<Property> properties;
+
+            properties = SelectAll().Where(
+                property => property.HDBTown == townId &&
+                (property.valuation >= minPrice && property.valuation <= maxPrice) &&
+                (property.built_size_in_sqft >= minBuiltSize &&
+                property.built_size_in_sqft <= maxBuiltSize)).ToList();
+
+            return properties;
+        }
     }
 }
