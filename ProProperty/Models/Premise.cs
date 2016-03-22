@@ -15,7 +15,9 @@ namespace ProProperty.Models
         public String premises_name { get; set; }
         public String premises_address { get; set; }
         public String premises_description { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00000000000}")]
         public decimal premises_lat { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00000000000}")]
         public decimal premises_long { get; set; }
         public int premises_type_id { get; set; }
         public String premises_image { get; set; }

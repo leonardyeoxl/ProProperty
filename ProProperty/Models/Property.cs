@@ -17,7 +17,9 @@ namespace ProProperty.Models
         public int unitFloor { get; set; }
         public int unitNo { get; set; }
         public int postalCode { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00000000000}")]
         public decimal Latitude { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00000000000}")]
         public decimal Longitude { get; set; }
         public int HDBTown { get; set; }
         public int asking { get; set; }
