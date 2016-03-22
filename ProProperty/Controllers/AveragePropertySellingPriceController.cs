@@ -186,7 +186,12 @@ namespace ProProperty.Controllers
         {
 
             var data = hdbPriceRangeGateway.hdbPriceRangeQuery(district, room);
-
+            var count = data.Count();
+            int[] currentPriceArray = new int[count];
+            for (int i = 0; i < count; i++)
+            {
+                currentPriceArray[i] = currentPrice;
+            }
             var myChart = new Chart(width: 1000, height: 600, themePath: "~/Content/ChartHelper.xml")
             .AddTitle(district)
             //.DataBindTable(dataSource: data, xField: "financial_year")
@@ -205,7 +210,7 @@ namespace ProProperty.Controllers
                 chartType: "Line",
                 name: "Price",
                 xValue: data.Select(s => s.financial_year).ToArray(),
-                yValues: data.Select(s => s.min_selling_price).ToArray())
+                yValues: currentPriceArray)
             .Write();
 
             myChart.Save("~/Content/chart" + district + room, "jpeg");
