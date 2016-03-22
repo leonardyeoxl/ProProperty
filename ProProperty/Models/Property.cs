@@ -67,5 +67,11 @@ namespace ProProperty.Models
                     return 0;
             }
         }
+
+        //return roomtype
+        public static int GetRoomType(decimal MinBuildSize, decimal MaxBuildSize)
+        {
+            return 0;
+        }
     }
 }

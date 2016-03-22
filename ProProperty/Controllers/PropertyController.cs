@@ -40,9 +40,7 @@ namespace ProProperty.Controllers
             Property propertyObj = propertyDataGateway.SelectById(id);
             Town townName = townDataGateway.SelectById(id);
 
-            ViewBag.Town_Name = townName;
-
-            propertyObj.built_size_in_sqft;
+            ViewBag.Town_Name = townName; //get town name and store in ViewBag
 
 
             if (propertyObj != null)
