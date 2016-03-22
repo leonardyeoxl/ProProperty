@@ -10,7 +10,6 @@ namespace ProProperty.DAL
     {
         public Town SelectByTownName(string name)
         {
-
             Town obj = data.SqlQuery("Select * FROM Town Where town_name = '" + name + "'").ToList()[0];
             return obj;
         }

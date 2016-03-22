@@ -12,6 +12,7 @@ namespace ProProperty.Models
     {
         [Key]
         public int town_id { get; set; }
+        
         public string town_name { get; set; }
     }
 }
