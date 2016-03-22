@@ -97,7 +97,7 @@
 
     <script>
         var map;
-        function createMarker(id, address, lat, lng, type, link) {
+        function createMarker(id, address, lat, lng, type, LinkPropertyDetails, LinkPropertyInformation) {
             console.log(id + lat);
             console.log(lng);
             console.log(type);
@@ -114,7 +114,7 @@
                 );
             //for clicking on the marker
             var infowindow = new google.maps.InfoWindow({
-                content: address + '</br><a href="' + link + '"> View property </a>'
+                content: address + '</br><a href="' + LinkPropertyDetails + '"> View property </a></br><a href="' + LinkPropertyInformation + '"> View Information </a>'
             });
             google.maps.event.addListener(marker, 'click', function () {
                 infowindow.open(map, marker);
@@ -170,7 +170,7 @@
                 {
                     var location = Html.Raw(Json.Encode(item.property));
                     System.Diagnostics.Debug.WriteLine(location);
-                      <text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )");</text>
+                      <text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )", "@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID } )");</text>
                  }
              }
         }
