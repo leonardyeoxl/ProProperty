@@ -13,6 +13,7 @@ namespace ProProperty.Controllers
         private PremiseGateway premisesGateway = new PremiseGateway();
         private TownGateway townDataGateway = new TownGateway();
         private PremiseTypeGateway premiseTypeGateway = new PremiseTypeGateway();
+        private AgentGateway agentGateway = new AgentGateway();
 
         static List<PremiseType> premisesTypeList = null;
 
@@ -78,7 +79,8 @@ namespace ProProperty.Controllers
 
             foreach (Property p in allProperties)
             {
-                PropertyWithPremises pwp = new PropertyWithPremises() { property = p, listOfPremise = findPremises(p) };
+                Agent agt = agentGateway.SelectById(p.agent_id);
+                PropertyWithPremises pwp = new PropertyWithPremises() { property = p, agent= agt, listOfPremise = findPremises(p) };
                 if (pwp.listOfPremise.Count > 0)
                 {
                     PropertyController.addProperty(pwp);

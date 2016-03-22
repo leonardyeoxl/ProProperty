@@ -31,6 +31,7 @@ namespace ProProperty.Models
         public DateTime datePosted { get; set; }
         public DateTime exclusiveDate { get; set; }
         public DateTime expiryDate { get; set; }
+        public int agent_id { get; set; }
 
         [NotMapped]
         private static double squareFoot = 10.7639;
