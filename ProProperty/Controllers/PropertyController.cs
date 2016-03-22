@@ -11,8 +11,8 @@ namespace ProProperty.Controllers
 {
     public class PropertyController : Controller
     {
-        private DataGateway<Property> propertyDataGateway = new DataGateway<Property>();
-        private DataGateway<Town> townDataGateway = new DataGateway<Town>();
+        private PropertyGateway propertyDataGateway = new PropertyGateway();
+        private TownGateway townDataGateway = new TownGateway();
         private static List<PropertyWithPremises> propertyList = new List<PropertyWithPremises>();
 
         // GET: Property
@@ -38,7 +38,8 @@ namespace ProProperty.Controllers
         public ActionResult PropertyInformation(int id)
         {
             Property propertyObj = propertyDataGateway.SelectById(id);
-            Town townName = townDataGateway.SelectById(id);
+            int townID = propertyObj.HDBTown;
+            Town townName = townDataGateway.SelectById(townID);
             
             if (propertyObj != null)
             {

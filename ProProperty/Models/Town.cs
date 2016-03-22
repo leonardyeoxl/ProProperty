@@ -10,9 +10,8 @@ namespace ProProperty.Models
     [Table("Town")]
     public class Town
     {
-        
-        public int town_id { get; set; }
         [Key]
+        public int town_id { get; set; }
         public string town_name { get; set; }
     }
 }

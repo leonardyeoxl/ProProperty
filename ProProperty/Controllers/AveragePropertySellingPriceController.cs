@@ -162,7 +162,7 @@ namespace ProProperty.Controllers
 
             var data = hdbPriceRangeGateway.hdbPriceRangeQuery(district, room);
 
-            var myChart = new Chart(width: 1000, height: 600)
+            var myChart = new Chart(width: 1000, height: 600, themePath: "~/Content/ChartHelper.xml")
             .AddTitle(district)
             //.DataBindTable(dataSource: data, xField: "financial_year")
             .AddLegend()
