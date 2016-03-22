@@ -39,12 +39,12 @@ namespace ProProperty.Controllers
         {
             Property propertyObj = propertyDataGateway.SelectById(id);
             Town townName = townDataGateway.SelectById(id);
-
-            ViewBag.Town_Name = townName; //get town name and store in ViewBag
-
-
+            
             if (propertyObj != null)
             {
+                ViewBag.Town_Name = townName; //get town name and store in ViewBag
+                ViewBag.Property_Room_Type = Property.GetRoomType(propertyObj.built_size_in_sqft); //get room type and store in ViewBag
+
                 return View(propertyObj);
             }
             else
