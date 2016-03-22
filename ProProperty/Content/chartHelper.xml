@@ -1,7 +1,7 @@
 ﻿<Chart BackColor="#ffffff"
    BorderStyle="None"
    Palette="None"
-   PaletteCustomColors="#FF0000; #008000">
+   PaletteCustomColors="#FF0000; #008000;#ffcc11">
   <ChartAreas>
     <ChartArea Name="Default" _Template_="All"
            BackColor="White"
