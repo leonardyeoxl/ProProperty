@@ -1,0 +1,35 @@
+﻿<Chart BackColor="#ffffff"
+   BorderStyle="None"
+   Palette="None"
+   PaletteCustomColors="#FF0000; #008000">
+  <ChartAreas>
+    <ChartArea Name="Default" _Template_="All"
+           BackColor="White"
+           ShadowColor="#aaaaaa"
+           ShadowOffset="2"
+           BorderColor="#cccccc"
+           BorderDashStyle="Solid"
+           Position="-1,0,100,75">
+      <AxisY LineColor="#cccccc" IsLabelAutoFit="false" IsMarginVisible="true">
+        <MajorGrid Interval="Auto" LineColor="#cccccc" />
+        <MajorTickMark LineColor="#aaaaaa" LineWidth="1" LineDashStyle="Solid" />
+        <LabelStyle Font="Helvetica Neue, 10 px" />
+      </AxisY>
+      <AxisX LineColor="#cccccc" IsLabelAutoFit="false" IsMarginVisible="true">
+        <MajorGrid LineColor="#cccccc" />
+        <MajorTickMark LineColor="#666666" />
+        <LabelStyle Font="Helvetica Neue, 10 px" Format="d-M-yyyy"/>
+      </AxisX>
+    </ChartArea>
+  </ChartAreas>
+  <Legends>
+    <Legend _Template_="All"
+      Alignment="Center"
+      BackColor="Transparent"
+      Docking="Bottom"
+      Font="Helvetica Neue, 12 px"
+      IsTextAutoFit ="False"
+      LegendStyle="Row">
+    </Legend>
+  </Legends>
+</Chart>

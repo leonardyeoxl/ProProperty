@@ -72,7 +72,7 @@ namespace ProProperty.Models
         //return roomtype
         public int GetRoomType()
         {
-            int floorArea = (int) ((double)built_size_in_sqft / squareFoot);
+            int floorArea = (int)((double)built_size_in_sqft / squareFoot);
             if (floorArea >= 40 && floorArea <= 50)
                 return 2;
             else if (floorArea >= 55 && floorArea <= 70)

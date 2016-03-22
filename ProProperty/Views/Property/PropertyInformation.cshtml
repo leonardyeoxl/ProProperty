@@ -3,150 +3,75 @@
 @{
     ViewBag.Title = "PropertyInformation";
 }
+<style>
+    .propertyResult th, td {
+        overflow: hidden;
+        height: 15px;
+    }
 
-<h2>PropertyInformation</h2>
+    .grey {
+        color: grey;
+        font-weight: 200;
+    }
+
+    .bold {
+        font-weight: bold;
+        font-size: large;
+    }
+</style>
+<h2>Property details</h2>
 
 <div>
-    <h4>Property</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.address)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.block)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.block)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.unitFloor)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.unitFloor)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.unitNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.unitNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.postalCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.postalCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Latitude)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Latitude)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Longitude)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Longitude)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HDBTown)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HDBTown)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.asking)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.asking)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.agreedPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.agreedPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.valuation)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.valuation)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.built_size_in_sqft)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.built_size_in_sqft)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.land_size_in_sqft)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.land_size_in_sqft)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.propertyType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.propertyType)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.datePosted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.datePosted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.exclusiveDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.exclusiveDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.expiryDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.expiryDate)
-        </dd>
-
-    </dl>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <table class="propertyResult table-condensed">
+                    <tbody>
+                        <tr>
+                            <td><div class="bold">HDB Town</div></td>
+                            <td>@Html.DisplayFor(model => model.HDBTown)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Address</div></td>
+                            <td>@Html.DisplayFor(model => model.address)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Block</div></td>
+                            <td>@Html.DisplayFor(model => model.block)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Unit</div></td>
+                            <td>#@Html.DisplayFor(model => model.unitFloor) - @Html.DisplayFor(model => model.unitNo)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Postal Code</div></td>
+                            <td>@Html.DisplayFor(model => model.postalCode)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Asking price</div></td>
+                            <td>$@Html.DisplayFor(model => model.asking)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Date posted</div></td>
+                            <td>@Html.DisplayFor(model => model.datePosted)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Built Size</div></td>
+                            <td>@Html.DisplayFor(model => model.built_size_in_sqft)</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Expiry Date</div></td>
+                            <td>@Html.DisplayFor(model => model.expiryDate)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-8">
+                <img src="@Url.Action("EfficiencyChart", "AveragePropertySellingPrice",new { district = @ViewBag.Town_Name, room = @ViewBag.Property_Room_Type })" />
+            </div>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.propertyID }) |
