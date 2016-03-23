@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProProperty.Models
 {
+    [Table("Agent")]
     public class Agent
     {
+        [Key]
         public int agent_id { get; set; }
-        public String name { get; set; }
-        public int contactNumber { get; set; }
-        public String email { get; set; }
+        public String agent_name { get; set; }
+        public int agent_contact_number { get; set; }
+        public String agent_email { get; set; }
     }
 }
