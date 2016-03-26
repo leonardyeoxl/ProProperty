@@ -26,12 +26,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
+                <h3>Property Information</h3>
+                <hr />
                 <table class="propertyResult table-condensed">
                     <tbody>
-                        <tr>
-                            <td><div class="bold">HDB Town</div></td>
-                            <td>@Html.DisplayFor(model => model.HDBTown)</td>
-                        </tr>
                         <tr>
                             <td><div class="bold">Address</div></td>
                             <td>@Html.DisplayFor(model => model.address)</td>
@@ -60,12 +58,27 @@
                             <td><div class="bold">Built Size</div></td>
                             <td>@Html.DisplayFor(model => model.built_size_in_sqft)</td>
                         </tr>
+                    </tbody>
+                </table>
+                <h3>Agent Information</h3>
+                <hr />
+                <table class="propertyResult table-condensed">
+                    <tbody>
                         <tr>
-                            <td><div class="bold">Expiry Date</div></td>
-                            <td>@Html.DisplayFor(model => model.expiryDate)</td>
+                            <td><div class="bold">Name</div></td>
+                            <td>@ViewBag.AgentName</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Contact Number</div></td>
+                            <td>@ViewBag.AgentContactNumber</td>
+                        </tr>
+                        <tr>
+                            <td><div class="bold">Email</div></td>
+                            <td>@ViewBag.AgentEmail</td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
             <div class="col-md-8">
                 <img src="@Url.Action("compareChart", "AveragePropertySellingPrice",new { district = @ViewBag.Town_Name, room = @ViewBag.Property_Room_Type,currentPrice=@ViewBag.CurrentPrice })" />

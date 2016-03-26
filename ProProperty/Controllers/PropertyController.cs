@@ -13,6 +13,7 @@ namespace ProProperty.Controllers
     {
         private PropertyGateway propertyDataGateway = new PropertyGateway();
         private TownGateway townDataGateway = new TownGateway();
+        private AgentGateway agentGateway = new AgentGateway();
         private static List<PropertyWithPremises> propertyList = new List<PropertyWithPremises>();
 
         // GET: Property
@@ -43,9 +44,14 @@ namespace ProProperty.Controllers
             
             if (propertyObj != null)
             {
+                Agent agt = agentGateway.SelectById(propertyObj.agent_id);
+                ViewBag.AgentName = agt.agent_name;
+                ViewBag.AgentContactNumber = agt.agent_contact_number;
+                ViewBag.AgentEmail = agt.agent_email;
+
                 ViewBag.Town_Name = townName.town_name; //get town name and store in ViewBag
                 ViewBag.Property_Room_Type = propertyObj.GetRoomType().ToString() + "-room"; //get room type and store in ViewBag
-                ViewBag.CurrentPrice = propertyObj.valuation;
+                ViewBag.CurrentPrice = propertyObj.asking;
 
                 return View(propertyObj);
             }
