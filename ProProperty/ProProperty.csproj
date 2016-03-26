@@ -169,6 +169,7 @@
     <Compile Include="Controllers\AveragePropertySellingPriceController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="DAL\AgentGateway.cs" />
     <Compile Include="DAL\DataGateway.cs" />
     <Compile Include="DAL\HdbPriceRangeGateway.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
