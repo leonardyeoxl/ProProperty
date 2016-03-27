@@ -61,20 +61,20 @@
                     </tbody>
                 </table>
                 <h3>Agent Information</h3>
-                <hr />
-                <table class="propertyResult table-condensed">
+                <table class="propertyResult table table-condensed" style="table-layout: fixed;">
                     <tbody>
                         <tr>
+                            <td rowspan="3"><img width="100" height="125" style="border:5px solid #000000; border-radius:25px" src="@ViewBag.AgentImage" /></td>
                             <td><div class="bold">Name</div></td>
-                            <td>@ViewBag.AgentName</td>
+                            <td style="word-wrap:break-word;">@ViewBag.AgentName</td>
                         </tr>
                         <tr>
                             <td><div class="bold">Contact Number</div></td>
-                            <td>@ViewBag.AgentContactNumber</td>
+                            <td style="word-wrap:break-word;">@ViewBag.AgentContactNumber</td>
                         </tr>
                         <tr>
                             <td><div class="bold">Email</div></td>
-                            <td>@ViewBag.AgentEmail</td>
+                            <td style="word-wrap:break-word;">@ViewBag.AgentEmail</td>
                         </tr>
                     </tbody>
                 </table>

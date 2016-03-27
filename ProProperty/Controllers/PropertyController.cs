@@ -48,6 +48,7 @@ namespace ProProperty.Controllers
                 ViewBag.AgentName = agt.agent_name;
                 ViewBag.AgentContactNumber = agt.agent_contact_number;
                 ViewBag.AgentEmail = agt.agent_email;
+                ViewBag.AgentImage = agt.agent_image;
 
                 ViewBag.Town_Name = townName.town_name; //get town name and store in ViewBag
                 ViewBag.Property_Room_Type = propertyObj.GetRoomType().ToString() + "-room"; //get room type and store in ViewBag
