@@ -1,4 +1,5 @@
 ﻿var map;
+var markers = {};
 var mapper =
 {
     init: function () {
@@ -83,6 +84,7 @@ function createPremisesMarker(id, address, lat, lng, type) {
                 title: address
             }
         );
+    markers[id + ''] = marker;
     //for clicking on the marker
     var infowindow = new google.maps.InfoWindow({
         content: address
@@ -132,5 +134,14 @@ function returnPremises(type) {
     }
     if (type == 10) {
         return '/Image/icon/school.png';
+    }
+}
+function showHidePremiseMarkers(id) {
+    var marker = markers[id + ''];
+    if (!marker.getVisible()) {
+        marker.setVisible(true);
+    }
+    else {
+        marker.setVisible(false);
     }
 }

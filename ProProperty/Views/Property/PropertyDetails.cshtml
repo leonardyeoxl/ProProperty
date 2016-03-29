@@ -25,6 +25,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th width="5%">Hide/ Show</th>
                         <th>Premise</th>
                         <th>Address</th>
                     </tr>
@@ -33,7 +34,8 @@
                     @foreach (var item in Model.listOfPremise)
                     {
                         <tr>
-                            <td>&#8226 @Html.DisplayFor(model => item.premises_name)</td>
+                            <td><input type="checkbox" onclick="showHidePremiseMarkers(@item.premises_id.ToString())" checked="checked" /></td>
+                            <td><!--&#8226 -->@Html.DisplayFor(model => item.premises_name)</td>
                             <td>@Html.DisplayFor(model => item.premises_address)</td>
                         </tr>
                     }
@@ -51,7 +53,6 @@
                 @if (Model != null)
                     {
                         <text>createPropertyMarker(@Html.DisplayFor(modeitem => Model.property.propertyID), "@Html.DisplayFor(model => model.property.address)", @Html.DisplayFor(model => model.property.Latitude), @Html.DisplayFor(model => model.property.Longitude), "@Html.DisplayFor(model => model.property.propertyType)");</text>
-                        //console.log("got model");
                         foreach (var item in Model.listOfPremise)
                         {
                                 <text>createPremisesMarker(@Html.DisplayFor(modeitem => item.premises_id), "@Html.DisplayFor(model => item.premises_address)", @Html.DisplayFor(model => item.premises_lat), @Html.DisplayFor(model => item.premises_long), "@Html.DisplayFor(model => item.premises_type_id)");</text>
@@ -59,7 +60,7 @@
                     }      
             });
         </script>
-        <div id="map_canvas" style="width:900px; height:500px"></div>
+        <div id="map_canvas" style="width:100%; height:650px"></div>
     </div>
 </div>
 <div class="row">
