@@ -1,4 +1,5 @@
 ﻿var map;
+var markers = {};
 var Story =
 {
     init: function () {
@@ -43,6 +44,8 @@ function createMarker(id, address, lat, lng, type, LinkPropertyDetails, LinkProp
                 title: address
             }
         );
+    markers[id + ''] = marker;
+
     //for clicking on the marker
     var infowindow = new google.maps.InfoWindow({
         content: address + '</br><a href="' + LinkPropertyDetails + '"> View Premises </a></br><a href="' + LinkPropertyInformation + '"> View Information </a>'
@@ -60,6 +63,18 @@ function returnIcon(type) {
     }
     if (type == "landed") {
         return '/Image/icon/landed.png';
+    }
+}
+function showHideMarker(id)
+{
+    var marker = markers[id+''];
+    if(!marker.getVisible())
+    {
+        marker.setVisible(true);
+    }
+    else
+    {
+        marker.setVisible(false);
     }
 }
 

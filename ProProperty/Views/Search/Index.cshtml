@@ -76,10 +76,10 @@
             <table class="table table-striped" data-link="row">
                  <thead>
                      <tr>
-                         <th>Block</th>
-                         <th>Unit</th>
+                         <th width="5%">Hide/ Show</th>
                          <th>Address</th>
-                         <th>Property Type</th>
+                         <th width="10%">Type</th>
+                         <th></th>
                      </tr>
                  </thead>
                  <tbody>
@@ -87,11 +87,15 @@
                     {
                     var location = Html.Raw(Json.Encode(item.property));
                     <tr>
-                        <td><a href="@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID })">@Html.DisplayFor(modelItem => item.property.block)</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.property.unitFloor)-@Html.DisplayFor(modelItem => item.property.unitNo)</td>
-                        <td>@Html.DisplayFor(modelItem => item.property.address)</td>
-                        <td>@Html.DisplayFor(modelItem => item.property.propertyType)</td>
+                        <td rowspan="2"><input type="checkbox" onclick="showHideMarker(@item.property.propertyID.ToString())" checked="checked" /></td>
+                        <td rowspan="2">
+                            Blk @Html.DisplayFor(modelItem => item.property.block) 
+                            #@Html.DisplayFor(modelItem => item.property.unitFloor)-@Html.DisplayFor(modelItem => item.property.unitNo)
+                            @Html.DisplayFor(modelItem => item.property.address)</td>
+                        <td rowspan="2">@Html.DisplayFor(modelItem => item.property.propertyType)</td>
+                        <td><a href="@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID })">View Premises</a></td>
                     </tr>
+                    <tr><td><a href="@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID })">View Information</a></td></tr>
                      }
                 </tbody>
             </table>
