@@ -45,7 +45,7 @@ function createMarker(id, address, lat, lng, type, LinkPropertyDetails, LinkProp
         );
     //for clicking on the marker
     var infowindow = new google.maps.InfoWindow({
-        content: address + '</br><a href="' + LinkPropertyDetails + '"> View property </a></br><a href="' + LinkPropertyInformation + '"> View Information </a>'
+        content: address + '</br><a href="' + LinkPropertyDetails + '"> View Premises </a></br><a href="' + LinkPropertyInformation + '"> View Information </a>'
     });
     google.maps.event.addListener(marker, 'click', function () {
         infowindow.open(map, marker);
