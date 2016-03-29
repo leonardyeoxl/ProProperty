@@ -102,29 +102,17 @@
     </script>
 
     <script type="text/javascript">
-        var map;
-        function InitializeMap() {
-
-            var latlng = new google.maps.LatLng(1.373334, 103.835518);
-            var myOptions = {
-                zoom: 11,
-                center: latlng,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-            //createMarker();
+        $(document).ready(function(){Story.init(); 
             @if (Model != null)
             {
                 foreach (var item in Model)
                 {
                     var location = Html.Raw(Json.Encode(item.property));
                     System.Diagnostics.Debug.WriteLine(location);
-                    <text>Marker.Create(map,@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )", "@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID } )");</text>
-                    @*<text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )", "@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID } )");</text>*@
+                    <text>Marker.Create(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )", "@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID } )");</text>
                  }
              }
-        }
-        window.onload = InitializeMap;
+        });
     </script>
     @if (Model != null)
     {
