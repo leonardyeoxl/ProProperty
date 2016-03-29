@@ -23,7 +23,7 @@ namespace ProProperty.DAL
             return types;
         }
 
-        public List<Property> GetProperties(int townId, int minPrice, int maxPrice, int minBuiltSize, int maxBuiltSize)
+        public List<Property> GetProperties(int townId, int minPrice, int maxPrice, int minBuiltSize, int maxBuiltSize, string propertyType)
         {
             List<Property> properties;
 
@@ -31,7 +31,8 @@ namespace ProProperty.DAL
                 property => property.HDBTown == townId &&
                 (property.valuation >= minPrice && property.valuation <= maxPrice) &&
                 (property.built_size_in_sqft >= minBuiltSize &&
-                property.built_size_in_sqft <= maxBuiltSize)).ToList();
+                property.built_size_in_sqft <= maxBuiltSize) &&
+                property.propertyType == propertyType).ToList();
 
             return properties;
         }
