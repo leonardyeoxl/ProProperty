@@ -16,16 +16,15 @@ namespace ProProperty.Controllers
         private AgentGateway agentGateway = new AgentGateway();
         private static List<PropertyWithPremises> propertyList = new List<PropertyWithPremises>();
 
-        // GET: Property
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         // GET: Property/Details/5
-        public ActionResult PropertyDetails(int id)
+        public ActionResult PropertyDetails(int? id)
         {
-            foreach(PropertyWithPremises p in propertyList)
+            if (id == null || propertyList.Count <= 0 || propertyList == null)
+            {
+                return RedirectToAction("Index", "Search");
+            }
+
+            foreach (PropertyWithPremises p in propertyList)
             {
                 if (p.property.propertyID == id)
                 {
@@ -36,31 +35,26 @@ namespace ProProperty.Controllers
             return RedirectToAction("Index", "Search");
         }
 
-        public ActionResult PropertyInformation(int id)
+        public ActionResult PropertyInformation(int? id)
         {
-            Property propertyObj = propertyDataGateway.SelectById(id);
-            int townID = propertyObj.HDBTown;
-            Town townName = townDataGateway.SelectById(townID);
-            
-            if (propertyObj != null)
-            {
-                Agent agt = agentGateway.SelectById(propertyObj.agent_id);
-                ViewBag.AgentName = agt.agent_name;
-                ViewBag.AgentContactNumber = agt.agent_contact_number;
-                ViewBag.AgentEmail = agt.agent_email;
-                ViewBag.AgentImage = agt.agent_image;
-
-                ViewBag.Town_Name = townName.town_name; //get town name and store in ViewBag
-                ViewBag.Property_Room_Type = propertyObj.GetRoomType().ToString() + "-room"; //get room type and store in ViewBag
-                ViewBag.CurrentPrice = propertyObj.asking;
-
-                return View(propertyObj);
-            }
-            else
+            if(id == null || propertyList.Count <= 0 || propertyList == null)
             {
                 return RedirectToAction("Index", "Search");
             }
-            
+
+            foreach (PropertyWithPremises p in propertyList)
+            {
+                if (p.property.propertyID == id)
+                {
+                    Town townName = townDataGateway.SelectById(p.property.HDBTown);
+                    ViewBag.Town_Name = townName.town_name; //get town name and store in ViewBag
+                    ViewBag.Property_Room_Type = p.property.GetRoomType().ToString() + "-room"; //get room type and store in ViewBag
+                    ViewBag.CurrentPrice = p.property.asking;
+                    return View(p);
+                }
+            }
+
+            return RedirectToAction("Index", "Search");            
         }
 
         // Controller public methods
