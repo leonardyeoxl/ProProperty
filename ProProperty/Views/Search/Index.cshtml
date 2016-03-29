@@ -17,7 +17,6 @@
 <script src="~/Scripts/googleApi.js">
 </script>  
 
-
 <script type="text/javascript">
     $(document).ready(function(){
         $('div.col-md-1.dropdown button').on('click', function (event) {
@@ -70,33 +69,33 @@
 </div>
 
 <div class="row">
-
     @if (Model != null)
     {
-        @Html.Raw("<h2>Result</h2>")
-        @Html.Raw("<div class='col-md-4'>")
-        @Html.Raw("<table class='table table - striped data-link='row''>")
-             @Html.Raw("<thead>")
-                 @Html.Raw("<tr>Block</tr>")
-                 @Html.Raw("<tr>Unit</tr>")
-                 @Html.Raw("<tr>Address</tr>")
-                 @Html.Raw("<tr>Property Type</tr>")
-             @Html.Raw("</thead>")
-             @Html.Raw("<tbody>")
-                foreach (var item in Model)
-                {
-                var location = Html.Raw(Json.Encode(item.property));
-                <tr>
-                    <td><a href="@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID })">@Html.DisplayFor(modelItem => item.property.block)</a></td>
-                    <td>@Html.DisplayFor(modelItem => item.property.unitFloor)-@Html.DisplayFor(modelItem => item.property.unitNo)</td>
-                    <td>@Html.DisplayFor(modelItem => item.property.address)</td>
-                    <td>@Html.DisplayFor(modelItem => item.property.propertyType)</td>
-                </tr>
-                 }
-            @Html.Raw("</tbody>")
-        @Html.Raw("</table>")
-
-    @Html.Raw("</div>")
+        <h2>Result</h2>
+        <div class='col-md-4'>
+            <table class="table table-striped" data-link="row">
+                 <thead>
+                     <tr>
+                         <th>Block</th>
+                         <th>Unit</th>
+                         <th>Address</th>
+                         <th>Property Type</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                    @foreach (var item in Model)
+                    {
+                    var location = Html.Raw(Json.Encode(item.property));
+                    <tr>
+                        <td><a href="@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID })">@Html.DisplayFor(modelItem => item.property.block)</a></td>
+                        <td>@Html.DisplayFor(modelItem => item.property.unitFloor)-@Html.DisplayFor(modelItem => item.property.unitNo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.property.address)</td>
+                        <td>@Html.DisplayFor(modelItem => item.property.propertyType)</td>
+                    </tr>
+                     }
+                </tbody>
+            </table>
+        </div>
     }
     <script src="http://maps.googleapis.com/maps/api/js">
     </script>
