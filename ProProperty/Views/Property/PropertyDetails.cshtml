@@ -15,16 +15,10 @@
 <div class="row">
 
     <div class="col-md-4">
-        <h1>Property Details</h1>
-        <div class="row">
-            <span class="col-md-6">Property Type</span>
-            <span class="col-md-6">@Html.DisplayFor(model=>model.property.propertyType)</span>
-        </div>
-        <div class="row">
-            <span class="col-md-6">Block Number</span>
-            <span class="col-md-6">@Html.DisplayFor(model=>model.property.block)</span>
-        </div>
-        <h1>Premise</h1>
+        <h3>Property Information</h3>
+        <a href="@Url.Action("PropertyInformation", "Property", new { id = Model.property.propertyID })">View</a>
+
+        <h3>Premise</h3>
         <div class="row">
             <table class="table table-striped">
                 <thead>
