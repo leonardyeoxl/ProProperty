@@ -15,67 +15,71 @@ namespace ProProperty.Controllers
         private PremiseTypeGateway premiseTypeGateway = new PremiseTypeGateway();
         private AgentGateway agentGateway = new AgentGateway();
 
-        static List<PremiseType> premisesTypeList = null;
+        private static List<PremiseType> premisesTypeList = null;
+        private static List<SelectListItem> priceRangeList = null;
+        private static List<SelectListItem> propertyTypeList = null;
+        private static List<SelectListItem> roomTypeList = null;
+        private static List<SelectListItem> districtAreaList = null;
+        private static int selectedPriceRange;
+        private static int selectedPropertyType;
+        private static int selectedRoomType;
+        private static int selectedDistrict;
 
         private Boolean anyPremisesChecked = false;
         private Boolean allPremisesChecked = true;
 
         // GET: Property
-        public ActionResult Index()
+        public ActionResult Index(Boolean? redirect)
         {
-            Config();
+            if(redirect == null)
+                Config();
+            else if ((bool)redirect)
+            {
+                setError(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
+                Config(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
+            }
             return View();
         }
 
         [HttpPost]
         public ActionResult SearchProperty(FormCollection formCollection)
         {
-            string priceRangeForm = formCollection["priceRange_DDL"];
-            string propertyTypeForm = formCollection["propertyType_DDL"];
-            string roomTypeForm = formCollection["roomType_DDL"];
-            string districtForm = formCollection["district_DDL"];
+            selectedPriceRange = Int32.Parse(formCollection["priceRange_DDL"]);
+            selectedPropertyType = Int32.Parse(formCollection["propertyType_DDL"]);
+            selectedRoomType = Int32.Parse(formCollection["roomType_DDL"]);
+            selectedDistrict = Int32.Parse(formCollection["district_DDL"]);
+            
+            if(!validateForm(selectedPriceRange,selectedPropertyType,selectedRoomType,selectedDistrict))
+            {
+                return RedirectToAction("Index", new {redirect = true });
+            }
+
+            string priceRangeStr = priceRangeList.Where(price => price.Value == selectedPriceRange.ToString()).First().Text;
+            string propertyTypeStr = propertyTypeList.Where(type => type.Value == selectedPropertyType.ToString()).First().Text;
+            propertyTypeStr = propertyTypeStr.ToLower();
+            string roomTypeStr = roomTypeList.Where(type => type.Value == selectedRoomType.ToString()).First().Text;
+            string districtStr = districtAreaList.Where(district => district.Value == selectedDistrict.ToString()).First().Text;
+
+            Town town = townDataGateway.SelectByTownName(districtStr);
+            if(town == null)
+            {
+                return RedirectToAction("Index");
+            }
 
             foreach (PremiseType type in premisesTypeList)
             {
                 type.isChecked = Convert.ToBoolean(formCollection[type.premises_type_name].Split(',')[0]);
             }
 
-            Town town = townDataGateway.SelectByTownName(districtForm);
-            if(town == null)
-            {
-                return RedirectToAction("Index");
-            }
+            int[] minMaxPrice = getMinMaxPrice(priceRangeStr);
 
-            int minPrice = 0, maxPrice = 0;
-
-            if( priceRangeForm == "< 500k")
-            {
-                minPrice = 0;
-                maxPrice = 500000;
-            }
-            else if (priceRangeForm == "500k - 1m")
-            {
-                minPrice = 500000;
-                maxPrice = 1000000;
-            }
-            else if (priceRangeForm == "1m - 5m")
-            {
-                minPrice = 1000000;
-                maxPrice = 5000000;
-            }
-            else
-            {
-                minPrice = 5000000;
-                maxPrice = 10000000;
-            }
-
-            int minBuiltSize = Convert.ToInt16(Property.GetMinBuiltSize(roomTypeForm)) - 1; // Round down
-            int maxBuiltSize = Convert.ToInt16(Property.GetMaxBuiltSize(roomTypeForm)) + 1; // Round up
+            int minBuiltSize = Convert.ToInt16(Property.GetMinBuiltSize(roomTypeStr)) - 1; // Round down
+            int maxBuiltSize = Convert.ToInt16(Property.GetMaxBuiltSize(roomTypeStr)) + 1; // Round up
 
             PropertyController.clearListProperty();
 
             List<Property> allProperties = propertyGateway.GetProperties
-                (town.town_id, minPrice, maxPrice, minBuiltSize, maxBuiltSize);
+                (town.town_id, minMaxPrice[0], minMaxPrice[1], minBuiltSize, maxBuiltSize, propertyTypeStr);
 
             foreach (Property p in allProperties)
             {
@@ -87,52 +91,65 @@ namespace ProProperty.Controllers
                 }
             }
 
-            Config();
+            Config(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
             return View("Index", PropertyController.getAllProperties());
         }
         
-        public void Config()
+        public void Config(int? selectedPriceRange=0, int? selectedPropertyType=0, int? selectedRoomType=0, int? selectedDistrict=0)
         {
             if(premisesTypeList == null)
                 premisesTypeList = premiseTypeGateway.SelectAll().Cast<PremiseType>().ToList();
 
-            List<SelectListItem> priceRange = new List<SelectListItem>();
-            priceRange.Add(new SelectListItem() { Text = "Select Max Price" });
-            priceRange.Add(new SelectListItem() { Text = "< 500k" });
-            priceRange.Add(new SelectListItem() { Text = "500k - 1m" });
-            priceRange.Add(new SelectListItem() { Text = "1m - 5m" });
-            priceRange.Add(new SelectListItem() { Text = "5m >" });
-
-            ViewBag.priceRange_DDL = priceRange;
-
-            List<string> propType = propertyGateway.GetPropertyTypes();
-            List<SelectListItem> propertyType = new List<SelectListItem>();
-            propertyType.Add(new SelectListItem() { Text = "Select Type of House" });
-            foreach(string type in propType)
+            if (priceRangeList == null)
             {
-                propertyType.Add(new SelectListItem() { Text = type });
+                int i = 0;
+                String[] priceStr = { "Select Max Price", "< 500k", "500k - 1m", "1m - 5m", "5m >" };
+                priceRangeList = new List<SelectListItem>();
+                foreach(String s in priceStr)
+                {
+                    priceRangeList.Add(new SelectListItem() { Text = s, Value = (i++).ToString() });
+                }
             }
+            ViewBag.priceRange_DDL = new SelectList(priceRangeList, "Value", "Text", selectedPriceRange);
 
-            ViewBag.propertyType_DDL = propertyType;
-
-            List<SelectListItem> roomType = new List<SelectListItem>();
-            roomType.Add(new SelectListItem() { Text = "2" });
-            roomType.Add(new SelectListItem() { Text = "3" });
-            roomType.Add(new SelectListItem() { Text = "4" });
-            roomType.Add(new SelectListItem() { Text = "5" });
-            roomType.Add(new SelectListItem() { Text = "Executive Apartment" });
-
-            ViewBag.roomType_DDL = roomType;
-
-            List<Town> towns = townDataGateway.SelectAll().ToList();
-            List<SelectListItem> districtArea = new List<SelectListItem>();
-            districtArea.Add(new SelectListItem() { Text = "Select Area" });
-            foreach(Town t in towns)
+            if (propertyTypeList == null)
             {
-                districtArea.Add(new SelectListItem() { Text = t.town_name });
+                int i = 0;
+                List<string> propType = propertyGateway.GetPropertyTypes();
+                propertyTypeList = new List<SelectListItem>();
+                propertyTypeList.Add(new SelectListItem() { Text = "Select House Type", Value = (i++).ToString() });
+                foreach (string type in propType)
+                {
+                    propertyTypeList.Add(new SelectListItem() { Text = type, Value = (i++).ToString() });
+                }
             }
+            ViewBag.propertyType_DDL = new SelectList(propertyTypeList, "Value", "Text", selectedPropertyType);
 
-            ViewBag.district_DDL = districtArea;
+            if (roomTypeList == null)
+            {
+                int i = 0;
+                String[] roomTypeStr = { "Select Room Type", "2", "3", "4", "5", "Executive Apartment" };
+                roomTypeList = new List<SelectListItem>();
+                foreach(String type in roomTypeStr)
+                {
+                    roomTypeList.Add(new SelectListItem() { Text = type, Value = (i++).ToString() });
+                }
+            }
+            ViewBag.roomType_DDL = new SelectList(roomTypeList, "Value", "Text", selectedRoomType);
+
+            if (districtAreaList == null)
+            {
+                int i = 0;
+                List<Town> towns = townDataGateway.SelectAll().ToList();
+                districtAreaList = new List<SelectListItem>();
+                districtAreaList.Add(new SelectListItem() { Text = "Select Area", Value = (i++).ToString() });
+                foreach (Town t in towns)
+                {
+                    districtAreaList.Add(new SelectListItem() { Text = t.town_name, Value = (i++).ToString() });
+                }
+            }
+            ViewBag.district_DDL = new SelectList(districtAreaList, "Value", "Text", selectedDistrict); ;
+
             ViewBag.PremiseType = premisesTypeList;
         }
 
@@ -147,11 +164,11 @@ namespace ProProperty.Controllers
             double longitude1 = Convert.ToDouble(property.Longitude);
             double longitude2 = Convert.ToDouble(premise.premises_long);
 
-            calculation = R * Math.Acos(Math.Cos(ToRad(latitude1)) * Math.Cos(ToRad(latitude2)) * Math.Cos(ToRad(longitude2) - ToRad(longitude1)) + Math.Sin(ToRad(latitude1)) * Math.Sin(ToRad(latitude2)));
+            calculation = R * Math.Acos(Math.Cos(toRad(latitude1)) * Math.Cos(toRad(latitude2)) * Math.Cos(toRad(longitude2) - toRad(longitude1)) + Math.Sin(toRad(latitude1)) * Math.Sin(toRad(latitude2)));
             return calculation;
         }
 
-        private double ToRad(double degrees)
+        private double toRad(double degrees)
         {
             return degrees * (Math.PI / 180);
         }
@@ -189,6 +206,54 @@ namespace ProProperty.Controllers
                 }
             }
             return filteredPremises;
+        }
+
+        // New methods
+        private int[] getMinMaxPrice(string priceRange)
+        {
+            int[] minMaxPrice = new int[2];
+
+            if (priceRange == "< 500k")
+            {
+                minMaxPrice[0] = 0;
+                minMaxPrice[1] = 500000;
+            }
+            else if (priceRange == "500k - 1m")
+            {
+                minMaxPrice[0] = 500000;
+                minMaxPrice[1] = 1000000;
+            }
+            else if (priceRange == "1m - 5m")
+            {
+                minMaxPrice[0] = 1000000;
+                minMaxPrice[1] = 5000000;
+            }
+            else
+            {
+                minMaxPrice[0] = 5000000;
+                minMaxPrice[1] = 10000000;
+            }
+
+            return minMaxPrice;
+        }
+
+        private Boolean validateForm(int selectedPriceRange, int selectedPropertyType, int selectedRoomType, int selectedDistrict)
+        {
+            if (selectedPriceRange == 0 || selectedPropertyType == 0 || selectedRoomType == 0 || selectedDistrict == 0)
+                return false;
+            return true;
+        }
+
+        private void setError(int selectedPriceRange, int selectedPropertyType, int selectedRoomType, int selectedDistrict)
+        {
+            if (selectedPriceRange == 0)
+                ViewBag.ErrorPriceRange = true;
+            if (selectedPropertyType == 0)
+                ViewBag.ErrorPropertyType = true;
+            if (selectedRoomType == 0)
+                ViewBag.ErrorRoomType = true;
+            if (selectedDistrict == 0)
+                ViewBag.ErrorDistrict = true;
         }
     }
 }
