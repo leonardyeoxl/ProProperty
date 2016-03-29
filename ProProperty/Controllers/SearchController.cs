@@ -38,16 +38,29 @@ namespace ProProperty.Controllers
                 setError(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
                 Config(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
             }
+            PropertyController.clearListProperty();
             return View();
         }
 
-        [HttpPost]
-        public ActionResult SearchProperty(FormCollection formCollection)
+        
+        public ActionResult SearchProperty()
         {
-            selectedPriceRange = Int32.Parse(formCollection["priceRange_DDL"]);
-            selectedPropertyType = Int32.Parse(formCollection["propertyType_DDL"]);
-            selectedRoomType = Int32.Parse(formCollection["roomType_DDL"]);
-            selectedDistrict = Int32.Parse(formCollection["district_DDL"]);
+            try {
+                selectedPriceRange = Int32.Parse(Request.Form["priceRange_DDL"].ToString());
+                selectedPropertyType = Int32.Parse(Request.Form["propertyType_DDL"].ToString());
+                selectedRoomType = Int32.Parse(Request.Form["roomType_DDL"].ToString());
+                selectedDistrict = Int32.Parse(Request.Form["district_DDL"].ToString());
+
+                foreach (PremiseType type in premisesTypeList)
+                {
+                    type.isChecked = Convert.ToBoolean(Request.Form[type.premises_type_name].ToString().Split(',')[0]);
+                }
+            }
+            catch
+            {
+                if (!validateForm(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict))
+                    return RedirectToAction("Index", new { redirect = true });
+            }
             
             if(!validateForm(selectedPriceRange,selectedPropertyType,selectedRoomType,selectedDistrict))
             {
@@ -64,11 +77,6 @@ namespace ProProperty.Controllers
             if(town == null)
             {
                 return RedirectToAction("Index");
-            }
-
-            foreach (PremiseType type in premisesTypeList)
-            {
-                type.isChecked = Convert.ToBoolean(formCollection[type.premises_type_name].Split(',')[0]);
             }
 
             int[] minMaxPrice = getMinMaxPrice(priceRangeStr);
