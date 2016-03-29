@@ -40,10 +40,10 @@
     {
 
         <div class="row">
-            <div class="col-md-2">@Html.DropDownList("priceRange_DDL", null, new { @class = "form-control" })</div>
-            <div class="col-md-3">@Html.DropDownList("propertyType_DDL", null, new { @class = "form-control" })</div>
-            <div class="col-md-1">@Html.DropDownList("roomType_DDL", null, new { @class = "form-control" })</div>
-            <div class="col-md-2">@Html.DropDownList("district_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-2 @{if (ViewBag.ErrorPriceRange != null) {@Html.Raw("has-error")}}">@Html.DropDownList("priceRange_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-2 @{if (ViewBag.ErrorPropertyType != null) {@Html.Raw("has-error")} } ">@Html.DropDownList("propertyType_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-2 @{if (ViewBag.ErrorRoomType != null) {@Html.Raw("has-error")}}">@Html.DropDownList("roomType_DDL", null, new { @class = "form-control" })</div>
+            <div class="col-md-2 @{if (ViewBag.ErrorDistrict != null) {@Html.Raw("has-error")}}">@Html.DropDownList("district_DDL", null, new { @class = "form-control" })</div>
             <div class="col-md-1 dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button">
                     Premises<span class="caret" />
