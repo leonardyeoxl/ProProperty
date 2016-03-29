@@ -12,6 +12,12 @@
 <div class="row">
     <img src="~/Image/header.png" />
 </div>
+
+<!--include to create javascript -->
+<script src="~/Scripts/googleApi.js">
+</script>  
+
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('div.col-md-1.dropdown button').on('click', function (event) {
@@ -95,65 +101,8 @@
     <script src="http://maps.googleapis.com/maps/api/js">
     </script>
 
-    <script>
+    <script type="text/javascript">
         var map;
-        function createMarker(id, address, lat, lng, type, LinkPropertyDetails, LinkPropertyInformation) {
-            console.log(id + lat);
-            console.log(lng);
-            console.log(type);
-            var image = returnIcon(type);
-            console.log(image);
-            var marker = new google.maps.Marker
-                (
-                    {
-                        position: new google.maps.LatLng(lat, lng),
-                        map: map,
-                        icon: image,
-                        title: address
-                    }
-                );
-            //for clicking on the marker
-            var infowindow = new google.maps.InfoWindow({
-                content: address + '</br><a href="' + LinkPropertyDetails + '"> View property </a></br><a href="' + LinkPropertyInformation + '"> View Information </a>'
-            });
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.open(map, marker);
-            });
-        }
-        function returnIcon(type) {
-            if (type == "hdb") {
-                return '/Image/icon/hdb.png';
-            }
-            if (type == "private") {
-                return '/Image/icon/private.png';
-            }
-            if (type == "landed") {
-                return '/Image/icon/landed.png';
-            }
-        }
-        function returnPremises(type) {
-            if (type == "dining") {
-                return 1;
-            }
-            if (type == "train") {
-                return 1;
-            }
-            if (type == "school") {
-                return 1;
-            }
-            if (type == "park") {
-                return 1;
-            }
-            if (type == "highway") {
-                return 1;
-            }
-            if (type = "gym") {
-                return 1;
-            }
-            if (type == "clinic.png") {
-                return 1;
-            }
-        }
         function InitializeMap() {
 
             var latlng = new google.maps.LatLng(1.373334, 103.835518);
@@ -165,12 +114,13 @@
             map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
             //createMarker();
             @if (Model != null)
-             {
+            {
                 foreach (var item in Model)
                 {
                     var location = Html.Raw(Json.Encode(item.property));
                     System.Diagnostics.Debug.WriteLine(location);
-                      <text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )", "@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID } )");</text>
+                    <text>Marker.Create(map,@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )", "@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID } )");</text>
+                    @*<text>createMarker(@Html.DisplayFor(modelItem => item.property.propertyID), "@Html.DisplayFor(modelItem => item.property.address)", @Html.DisplayFor(modelItem => item.property.Latitude), @Html.DisplayFor(modelItem => item.property.Longitude),"@Html.DisplayFor(modelItem => item.property.propertyType)", "@Url.Action("PropertyDetails", "Property", new { id = item.property.propertyID } )", "@Url.Action("PropertyInformation", "Property", new { id = item.property.propertyID } )");</text>*@
                  }
              }
         }
