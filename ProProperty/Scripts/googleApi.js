@@ -1,26 +1,16 @@
-﻿var Story =
+﻿var map;
+var Story =
 {
-    _urlFormat: '',
-    _urlHello: '',
-
-    init: function (urlFormat,urlHello) {
-        Story._urlFormat = urlFormat;
-        window.alert(urlHello);
-        window.alert(urlFormat);
-        function InitializeMap() {
-
+    init: function () {
             var latlng = new google.maps.LatLng(1.373334, 103.835518);
             var myOptions = {
-                zoom: 5,
+                zoom: 11,
                 center: latlng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             map = new google.maps.Map(document.getElementById("map_canvas"), myOptions)
-        }
-        window.onload = InitializeMap;
     }
 }
-
 var Marker =
 {
     _markerId:'',
@@ -30,15 +20,15 @@ var Marker =
     _markerType: '',
     _LinkPropertyDetails:'',
     _LinkPropertyInformation:'',
-    Create: function (map,markerId, markerAddress, markerLat, markerLong, marketType, LinkPropertyDetails, LinkPropertyInformation)
+    Create: function (markerId, markerAddress, markerLat, markerLong, marketType, LinkPropertyDetails, LinkPropertyInformation)
     {
         var image = returnIcon(marketType);
-        createMarker(map,markerId, markerAddress, markerLat, markerLong, marketType, LinkPropertyDetails, LinkPropertyInformation);
+        createMarker(markerId, markerAddress, markerLat, markerLong, marketType, LinkPropertyDetails, LinkPropertyInformation);
     }
 }
 
 //var map;
-function createMarker(map,id, address, lat, lng, type, LinkPropertyDetails, LinkPropertyInformation) {
+function createMarker(id, address, lat, lng, type, LinkPropertyDetails, LinkPropertyInformation) {
     console.log(id + lat);
     console.log(lng);
     console.log(type);
