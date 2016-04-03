@@ -1,31 +1,24 @@
-﻿using System;
+﻿using ProProperty.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ProProperty.DAL;
-using ProProperty.Models;
 using System.IO;
 using System.Net;
 using System.Text;
 
 namespace ProProperty.Services
 {
-    public class HdbPriceRangeService
+    public class HdbPriceRangeService : IHdbPriceRangeService
     {
-
         private const string URL = "https://data.gov.sg/api/action/datastore_search?resource_id=d23b9636-5812-4b33-951e-b209de710dd5";
 
-        public List<Hdb_price_range> GetHdbPriceRange()
+        public List<HdbPriceRange> GetHdbPriceRange()
         {
-            List <Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
+            List <HdbPriceRange> priceRangeList = new List<HdbPriceRange>();
 
             string postData = "";
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
-            //request.Headers.Add("AccountKey", ACCOUNT_KEY);
-            //request.Headers.Add("UniqueUserID", UNIQUE_USER_ID);
-            //request.Headers.Add("accept", "application/json");
             request.Accept = "application/json";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = postData.Length;
@@ -44,7 +37,7 @@ namespace ProProperty.Services
             JsonResult jsonResult = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<JsonResult>(jsonResponse);
             foreach (Record i in jsonResult.result.records)
             {
-                Hdb_price_range hdbRange = new Hdb_price_range();
+                HdbPriceRange hdbRange = new HdbPriceRange();
                 hdbRange.hdb_id = i._id;
                 hdbRange.town = i.town;
                 hdbRange.room_type = i.room_type;

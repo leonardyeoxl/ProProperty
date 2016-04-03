@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Mvc;
 
 namespace ProProperty.Models
 {
     [Table("Hdb_price_range")]
-    public class Hdb_price_range
+    public class HdbPriceRange
     {
         [Key]
         public int hdb_id { get; set; }

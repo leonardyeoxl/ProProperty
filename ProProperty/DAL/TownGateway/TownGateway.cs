@@ -1,12 +1,10 @@
-﻿using System;
+﻿using ProProperty.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ProProperty.Models;
 
 namespace ProProperty.DAL
 {
-    public class TownGateway : DataGateway<Town>
+    public class TownGateway : DataGateway<Town>, ITownGateway
     {
         public Town SelectByTownName(string name)
         {

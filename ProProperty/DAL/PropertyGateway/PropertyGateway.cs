@@ -1,11 +1,10 @@
 ﻿using ProProperty.Models;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 namespace ProProperty.DAL
 {
-    public class PropertyGateway : DataGateway<Property>
+    public class PropertyGateway : DataGateway<Property>, IPropertyGateway
     {
         public List<string> GetPropertyTypes()
         {

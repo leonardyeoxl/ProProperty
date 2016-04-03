@@ -167,23 +167,29 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AveragePropertySellingPriceController.cs" />
+    <Compile Include="Controllers\IPropertyController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="DAL\AgentGateway.cs" />
+    <Compile Include="DAL\AgentGateway\AgentGateway.cs" />
+    <Compile Include="DAL\AgentGateway\IAgentGateway.cs" />
     <Compile Include="DAL\DataGateway.cs" />
-    <Compile Include="DAL\HdbPriceRangeGateway.cs" />
+    <Compile Include="DAL\HdbPriceRangeGateway\HdbPriceRangeGateway.cs" />
     <Compile Include="DAL\IDataGateway.cs" />
-    <Compile Include="DAL\IHdbPriceRangeGateway.cs" />
-    <Compile Include="DAL\PremiseGateway.cs" />
-    <Compile Include="DAL\PremiseTypeGateway.cs" />
-    <Compile Include="DAL\PropertyGateway.cs" />
+    <Compile Include="DAL\HdbPriceRangeGateway\IHdbPriceRangeGateway.cs" />
+    <Compile Include="DAL\PremiseGateway\IPremiseGateway.cs" />
+    <Compile Include="DAL\PremiseTypeGateway\IPremiseTypeGateway.cs" />
+    <Compile Include="DAL\PropertyGateway\IPropertyGateway.cs" />
+    <Compile Include="DAL\TownGateway\ITownGateway.cs" />
+    <Compile Include="DAL\PremiseGateway\PremiseGateway.cs" />
+    <Compile Include="DAL\PremiseTypeGateway\PremiseTypeGateway.cs" />
+    <Compile Include="DAL\PropertyGateway\PropertyGateway.cs" />
     <Compile Include="DAL\ProPropertyContext.cs" />
-    <Compile Include="DAL\TownGateway.cs" />
+    <Compile Include="DAL\TownGateway\TownGateway.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Agent.cs" />
-    <Compile Include="Models\Hdb_price_range.cs" />
+    <Compile Include="Models\HdbPriceRange.cs" />
     <Compile Include="Models\Premise.cs" />
     <Compile Include="Models\PremiseType.cs" />
     <Compile Include="Models\Property.cs" />
@@ -191,11 +197,13 @@
     <Compile Include="Models\Town.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\HdbPriceRangeService.cs" />
+    <Compile Include="Services\IHdbPriceRangeService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chartHelper.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -213,6 +221,9 @@
     <Content Include="Image\icon\train.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\chart" />
+    <Content Include="Content\chart_compare" />
+    <Content Include="Content\chart_efficiency" />
     <None Include="Properties\PublishProfiles\proproperty.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\detailGoogleApi.js" />

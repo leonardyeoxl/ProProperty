@@ -1,10 +1,10 @@
 ﻿using ProProperty.Models;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProProperty.DAL
 {
-    public class PremiseGateway : DataGateway<Premise>
+    public class PremiseGateway : DataGateway<Premise>, IPremiseGateway
     {
         public IEnumerable<Premise> GetPremises(params int[] premise_type_id)
         {

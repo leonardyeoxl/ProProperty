@@ -1,19 +1,15 @@
 ﻿using ProProperty.DAL;
 using ProProperty.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-
 
 namespace ProProperty.Controllers
 {
-    public class PropertyController : Controller
+    public class PropertyController : Controller, IPropertyController
     {
-        private PropertyGateway propertyDataGateway = new PropertyGateway();
-        private TownGateway townDataGateway = new TownGateway();
-        private AgentGateway agentGateway = new AgentGateway();
+        private IPropertyGateway propertyDataGateway = new PropertyGateway();
+        private ITownGateway townDataGateway = new TownGateway();
+        private IAgentGateway agentGateway = new AgentGateway();
         private static List<PropertyWithPremises> propertyList = new List<PropertyWithPremises>();
 
         // GET: Property/Details/5
@@ -58,17 +54,17 @@ namespace ProProperty.Controllers
         }
 
         // Controller public methods
-        public static void addProperty(PropertyWithPremises property)
+        public void addProperty(PropertyWithPremises property)
         {
             propertyList.Add(property);
         }
 
-        public static void clearListProperty()
+        public void clearListProperty()
         {
             propertyList.Clear();
         }
 
-        public static IEnumerable<PropertyWithPremises> getAllProperties()
+        public IEnumerable<PropertyWithPremises> getAllProperties()
         {
             return propertyList;
         }

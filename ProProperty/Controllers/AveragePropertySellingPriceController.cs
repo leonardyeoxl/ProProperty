@@ -1,10 +1,8 @@
 ﻿using ProProperty.DAL;
 using ProProperty.Models;
 using ProProperty.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 
@@ -12,8 +10,13 @@ namespace ProProperty.Controllers
 {
     public class AveragePropertySellingPriceController : Controller
     {
-        public HdbPriceRangeGateway hdbPriceRangeGateway = new HdbPriceRangeGateway();
-        public HdbPriceRangeService HdbPriceRangeService;
+        private IHdbPriceRangeGateway hdbPriceRangeGateway = new HdbPriceRangeGateway();
+        private IHdbPriceRangeService HdbPriceRangeService;
+        private ITownGateway townGateway = new TownGateway();
+
+        private static List<SelectListItem> roomType;
+        private static List<SelectListItem> districtArea;
+
         public AveragePropertySellingPriceController()
         {
             HdbPriceRangeService = new HdbPriceRangeService(); 
@@ -25,31 +28,25 @@ namespace ProProperty.Controllers
             Config(null,null);
 
             doSynchronization();
-            return View(hdbPriceRangeGateway.SelectAll()); 
-
+            return View(hdbPriceRangeGateway.SelectAll());      
         }
 
         [HttpPost]
         public ActionResult Index(FormCollection formCollection)
         {
-
-            //doSynchronization();
-
             string district = formCollection["district_DDL"];
             string room = formCollection["roomType_DDL"];
             ViewBag.viewTown = district;
             ViewBag.viewRoom = room;
 
             Config(district,room);
-            //EfficiencyChart(formCollection);
             return View();
-            //return RedirectToAction("EfficiencyChart", new { town = district, roomType = room });
         }
 
         public void doSynchronization()
         {
             hdbPriceRangeGateway.DeleteAllHdbPriceRange();
-            List<Hdb_price_range> priceRangeList = new List<Hdb_price_range>();
+            List<HdbPriceRange> priceRangeList = new List<HdbPriceRange>();
             priceRangeList = HdbPriceRangeService.GetHdbPriceRange();
             for (int i = 0; i < priceRangeList.Count; i++)
             {
@@ -57,25 +54,37 @@ namespace ProProperty.Controllers
             }
         }
 
+        /// <summary>
+        /// To setup all configuration for the view layout and store into ViewBag
+        /// </summary>
         public void Config(string district,string room)
         {
-            List<SelectListItem> roomType = new List<SelectListItem>();
-            roomType.Add(new SelectListItem() { Text = "2-room" });
-            roomType.Add(new SelectListItem() { Text = "3-room" });
-            roomType.Add(new SelectListItem() { Text = "4-room" });
-            roomType.Add(new SelectListItem() { Text = "5-room" });
+            if (roomType == null)
+            {
+                roomType = new List<SelectListItem>();
+                string[] types = { "2-room", "3-room", "4-room", "5-room" };
+                foreach(string type in types)
+                {
+                    roomType.Add(new SelectListItem() { Text = type });
+                }
+            }
+
             var selectedRoomType = roomType.FirstOrDefault(d => d.Text == room);
             if (selectedRoomType != null)
             {
                 selectedRoomType.Selected = true;
             }
-
             ViewBag.roomType_DDL = roomType;
 
-            List<SelectListItem> districtArea = new List<SelectListItem>();
-            districtArea.Add(new SelectListItem() { Text = "Select Area" });
-            districtArea.Add(new SelectListItem() { Text = "Punggol" });
-            districtArea.Add(new SelectListItem() { Text = "Ang Mo Kio" });
+            if (districtArea == null)
+            {
+                List<Town> towns = townGateway.SelectAll().ToList();
+                districtArea = new List<SelectListItem>();
+                foreach(Town town in towns)
+                {
+                    districtArea.Add(new SelectListItem() { Text = town.town_name });
+                }
+            }
             var selectedDistrict = districtArea.FirstOrDefault(d => d.Text == district);
             if (selectedDistrict != null)
             {
@@ -87,12 +96,10 @@ namespace ProProperty.Controllers
 
         public ActionResult EfficiencyChart(string district, string room)
         {
-
             var data = hdbPriceRangeGateway.hdbPriceRangeQuery(district, room);
 
             var myChart = new Chart(width: 1000, height: 600, themePath: "~/Content/ChartHelper.xml")
             .AddTitle(district)
-            //.DataBindTable(dataSource: data, xField: "financial_year")
             .AddLegend()
             .AddSeries(
                 chartType: "Line",
@@ -106,14 +113,21 @@ namespace ProProperty.Controllers
                 yValues: data.Select(s => s.min_selling_price).ToArray())
             .Write();
 
-            myChart.Save("~/Content/chart" + district + room, "jpeg");
             // Return the contents of the Stream to the client
-            return base.File("~/Content/chart" + district + room, "jpeg");
+            if (district == null || room == null) // if null return null chart
+            {
+                myChart.Save("~/Content/chart", "jpeg");
+                return File("~/Content/chart", "jpeg");
+            }
+            else
+            {
+                myChart.Save("~/Content/chart_efficiency", "jpeg");
+                return File("~/Content/chart_efficiency", "jpeg");
+            }
         }
 
         public ActionResult compareChart(string district, string room,int currentPrice)
         {
-
             var data = hdbPriceRangeGateway.hdbPriceRangeQuery(district, room);
             var count = data.Count();
             int[] currentPriceArray = new int[count];
@@ -123,7 +137,6 @@ namespace ProProperty.Controllers
             }
             var myChart = new Chart(width: 1000, height: 600, themePath: "~/Content/ChartHelper.xml")
             .AddTitle(district)
-            //.DataBindTable(dataSource: data, xField: "financial_year")
             .AddLegend()
             .AddSeries(
                 chartType: "Line",
@@ -142,9 +155,17 @@ namespace ProProperty.Controllers
                 yValues: currentPriceArray)
             .Write();
 
-            myChart.Save("~/Content/chart" + district + room, "jpeg");
             // Return the contents of the Stream to the client
-            return base.File("~/Content/chart" + district + room, "jpeg");
+            if(district == null || room == null || currentPrice == 0)
+            {
+                myChart.Save("~/Content/chart", "jpeg");
+                return File("~/Content/chart", "jpeg");
+            }
+            else
+            {
+                myChart.Save("~/Content/chart_compare", "jpeg");
+                return File("~/Content/chart_compare", "jpeg");
+            }
         }
     }
 }

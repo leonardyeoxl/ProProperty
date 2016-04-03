@@ -20,7 +20,7 @@ namespace ProProperty.DAL
         public DbSet<Property> Properties { get; set; }
         public DbSet<Premise> Premises { get; set; }
         public DbSet<Town> Town { get; set; }
-        public DbSet<Hdb_price_range> Hdb_price_range { get; set; }
+        public DbSet<HdbPriceRange> Hdb_price_range { get; set; }
         public DbSet<PremiseType> Premises_type { get; set; }
         public DbSet<Agent> Agent { get; set; }
     }

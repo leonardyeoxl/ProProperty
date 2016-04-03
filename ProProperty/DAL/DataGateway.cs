@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 
 
 namespace ProProperty.DAL
@@ -12,7 +11,7 @@ namespace ProProperty.DAL
 
         public DataGateway()
         {
-            this.data = db.Set<T>();
+            data = db.Set<T>();
         }
         
         public IEnumerable<T> SelectAll()

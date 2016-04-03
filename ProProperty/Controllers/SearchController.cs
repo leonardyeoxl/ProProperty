@@ -9,11 +9,12 @@ namespace ProProperty.Controllers
 {
     public class SearchController : Controller
     {
-        private PropertyGateway propertyGateway = new PropertyGateway();
-        private PremiseGateway premisesGateway = new PremiseGateway();
-        private TownGateway townDataGateway = new TownGateway();
-        private PremiseTypeGateway premiseTypeGateway = new PremiseTypeGateway();
-        private AgentGateway agentGateway = new AgentGateway();
+        private IPropertyGateway propertyGateway = new PropertyGateway();
+        private IPremiseGateway premisesGateway = new PremiseGateway();
+        private ITownGateway townGateway = new TownGateway();
+        private IPremiseTypeGateway premiseTypeGateway = new PremiseTypeGateway();
+        private IAgentGateway agentGateway = new AgentGateway();
+        private IPropertyController propertyController = new PropertyController();
 
         private static List<PremiseType> premisesTypeList = null;
         private static List<SelectListItem> priceRangeList = null;
@@ -38,7 +39,7 @@ namespace ProProperty.Controllers
                 setError(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
                 Config(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
             }
-            PropertyController.clearListProperty();
+            propertyController.clearListProperty();
             return View();
         }
 
@@ -73,7 +74,7 @@ namespace ProProperty.Controllers
             string roomTypeStr = roomTypeList.Where(type => type.Value == selectedRoomType.ToString()).First().Text;
             string districtStr = districtAreaList.Where(district => district.Value == selectedDistrict.ToString()).First().Text;
 
-            Town town = townDataGateway.SelectByTownName(districtStr);
+            Town town = townGateway.SelectByTownName(districtStr);
             if(town == null)
             {
                 return RedirectToAction("Index");
@@ -84,7 +85,7 @@ namespace ProProperty.Controllers
             int minBuiltSize = Convert.ToInt16(Property.GetMinBuiltSize(roomTypeStr)) - 1; // Round down
             int maxBuiltSize = Convert.ToInt16(Property.GetMaxBuiltSize(roomTypeStr)) + 1; // Round up
 
-            PropertyController.clearListProperty();
+            propertyController.clearListProperty();
 
             List<Property> allProperties = propertyGateway.GetProperties
                 (town.town_id, minMaxPrice[0], minMaxPrice[1], minBuiltSize, maxBuiltSize, propertyTypeStr);
@@ -95,14 +96,17 @@ namespace ProProperty.Controllers
                 PropertyWithPremises pwp = new PropertyWithPremises() { property = p, agent= agt, listOfPremise = findPremises(p) };
                 if (pwp.listOfPremise.Count > 0)
                 {
-                    PropertyController.addProperty(pwp);
+                    propertyController.addProperty(pwp);
                 }
             }
 
             Config(selectedPriceRange, selectedPropertyType, selectedRoomType, selectedDistrict);
-            return View("Index", PropertyController.getAllProperties());
+            return View("Index", propertyController.getAllProperties());
         }
-        
+
+        /// <summary>
+        /// To setup all configuration for the view layout and store into ViewBag
+        /// </summary>
         public void Config(int? selectedPriceRange=0, int? selectedPropertyType=0, int? selectedRoomType=0, int? selectedDistrict=0)
         {
             if(premisesTypeList == null)
@@ -148,7 +152,7 @@ namespace ProProperty.Controllers
             if (districtAreaList == null)
             {
                 int i = 0;
-                List<Town> towns = townDataGateway.SelectAll().ToList();
+                List<Town> towns = townGateway.SelectAll().ToList();
                 districtAreaList = new List<SelectListItem>();
                 districtAreaList.Add(new SelectListItem() { Text = "Select Area", Value = (i++).ToString() });
                 foreach (Town t in towns)

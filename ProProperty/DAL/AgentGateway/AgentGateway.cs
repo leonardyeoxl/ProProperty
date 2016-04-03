@@ -2,7 +2,7 @@
 
 namespace ProProperty.DAL
 {
-    public class PremiseTypeGateway : DataGateway<PremiseType>
+    public class AgentGateway : DataGateway<Agent>, IAgentGateway
     {
     }
 }
