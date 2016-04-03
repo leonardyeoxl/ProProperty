@@ -1,6 +1,6 @@
 ﻿var map;
 var markers = {};
-var Story =
+var googleMap =
 {
     init: function () {
             var latlng = new google.maps.LatLng(1.373334, 103.835518);
